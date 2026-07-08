@@ -33,6 +33,11 @@ Il progetto utilizza i seguenti moduli e librerie principali, configurati nel fi
 * `postgresql`: Driver per la connessione al database di produzione/sviluppo locale PostgreSQL.
 * `h2` & `spring-boot-h2console`: Database in-memory e relativa console web, ideale per prototipazione rapida e test.
 
+### IMPOSTAZIONI Environment
+* db_pwd=(vostra pwd)
+* db_url=jdbc:postgresql://localhost:5432/db_ecommerce_vini
+* db_user=postgres
+
 ### Testing
 Il progetto include i moduli di test specifici per garantire la solidità di ogni livello dell'applicazione:
 * `spring-boot-starter-data-jpa-test` & `spring-boot-starter-data-jdbc-test` (Test del livello di persistenza)
