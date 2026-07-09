@@ -18,6 +18,9 @@ public class AlcolicoReq {
 	// valorizzato solo in update
 	private Integer id_alcolico;
 
+	@NotNull
+	private Integer id_venditore;
+
 	@NotBlank
 	private String nome;
 
@@ -36,4 +39,7 @@ public class AlcolicoReq {
 	private String provenienza;
 
 	private String immagine;
+
+	@NotNull
+	private Double prezzo;
 }

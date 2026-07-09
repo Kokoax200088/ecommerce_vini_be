@@ -11,11 +11,14 @@ import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.models.Alcolico;
 import com.betacom.ec.models.Colore;
 import com.betacom.ec.models.TipologiaAlcolico;
+import com.betacom.ec.models.Venditore;
 import com.betacom.ec.repository.IAlcolicoRepository;
 import com.betacom.ec.repository.IColoreRepository;
 import com.betacom.ec.repository.ITipologiaAlcolicoRepository;
 import com.betacom.ec.services.interfaces.IAlcolicoService;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +30,12 @@ public class AlcolicoImpl implements IAlcolicoService {
 	private final IAlcolicoRepository alcolicoR;
 	private final ITipologiaAlcolicoRepository tipologiaR;
 	private final IColoreRepository coloreR;
+
+	// Venditore appartiene a un altro modulo e non ha un repository dedicato:
+	// aggancio la FK per riferimento (id) senza caricarlo, cosi' non invado
+	// il loro dominio e non dipendo dalla presenza della tabella venditore.
+	@PersistenceContext
+	private EntityManager em;
 
 	@Override
 	public void create(AlcolicoReq req) throws EcommerceVinoException {
@@ -40,12 +49,15 @@ public class AlcolicoImpl implements IAlcolicoService {
 		Alcolico a = new Alcolico();
 		a.setNome(req.getNome());
 		a.setAnnata(req.getAnnata());
+		if (req.getId_venditore() != null)
+			a.setId_venditore(em.getReference(Venditore.class, req.getId_venditore()));
 		a.setTipologia_alcolico(tipologia);
 		a.setColore(colore);
 		a.setGradazione(req.getGradazione());
 		a.setDescrizione(req.getDescrizione());
 		a.setProvenienza(req.getProvenienza());
 		a.setImmagine(req.getImmagine());
+		a.setPrezzo(req.getPrezzo());
 
 		alcolicoR.save(a);
 	}
@@ -70,6 +82,8 @@ public class AlcolicoImpl implements IAlcolicoService {
 					.orElseThrow(() -> new EcommerceVinoException("colore_not_found"));
 			a.setColore(colore);
 		}
+		if (req.getId_venditore() != null)
+			a.setId_venditore(em.getReference(Venditore.class, req.getId_venditore()));
 
 		a.setNome(req.getNome());
 		a.setAnnata(req.getAnnata());
@@ -77,6 +91,7 @@ public class AlcolicoImpl implements IAlcolicoService {
 		a.setDescrizione(req.getDescrizione());
 		a.setProvenienza(req.getProvenienza());
 		a.setImmagine(req.getImmagine());
+		a.setPrezzo(req.getPrezzo());
 
 		alcolicoR.save(a);
 	}
@@ -113,6 +128,7 @@ public class AlcolicoImpl implements IAlcolicoService {
 	private AlcolicoDTO buildDTO(Alcolico a) {
 		return AlcolicoDTO.builder()
 				.id_alcolico(a.getId_alcolico())
+				.id_venditore(a.getId_venditore() != null ? a.getId_venditore().getId() : null)
 				.nome(a.getNome())
 				.annata(a.getAnnata())
 				.id_tipologia_alcolico(a.getTipologia_alcolico() != null
@@ -123,6 +139,7 @@ public class AlcolicoImpl implements IAlcolicoService {
 				.descrizione(a.getDescrizione())
 				.provenienza(a.getProvenienza())
 				.immagine(a.getImmagine())
+				.prezzo(a.getPrezzo())
 				.build();
 	}
 }

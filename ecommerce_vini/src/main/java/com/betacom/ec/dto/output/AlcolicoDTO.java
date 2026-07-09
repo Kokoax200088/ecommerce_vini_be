@@ -15,6 +15,8 @@ public class AlcolicoDTO {
 
 	private Integer id_alcolico;
 
+	private Integer id_venditore;
+
 	private String nome;
 
 	private Integer annata;
@@ -30,4 +32,6 @@ public class AlcolicoDTO {
 	private String provenienza;
 
 	private String immagine;
+
+	private Double prezzo;
 }

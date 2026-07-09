@@ -22,6 +22,10 @@ public class Alcolico {
 	@Column(name = "id")
 	private Integer id_alcolico;
 
+	@ManyToOne
+	@JoinColumn(name = "id_venditore", referencedColumnName = "id")
+	private Venditore id_venditore;
+
 	private String nome;
 
 	private Integer annata;
@@ -41,4 +45,6 @@ public class Alcolico {
 	private String provenienza;
 
 	private String immagine;
+
+	private Double prezzo;
 }
