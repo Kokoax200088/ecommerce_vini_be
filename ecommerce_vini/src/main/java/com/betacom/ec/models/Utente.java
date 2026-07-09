@@ -68,12 +68,12 @@ public class Utente {
 	@OneToOne (fetch = FetchType.LAZY, mappedBy = "utente")
 	private Venditore venditore;
 	
-//	@OneToOne (
-//			name = "id_carrello",
-//			referencedColumnName= "id",
-//			foreignKey = @ForeignKey (name = "fk_utente_carrello")
-//			)	
-//	private Carrello carrello;
+	@OneToOne (
+			name = "id_carrello",
+			referencedColumnName= "id",
+			foreignKey = @ForeignKey (name = "fk_utente_carrello")
+			)	
+	private Carrello carrello;
 	
 //	@OneToMany (
 //			mappedBy = "rating_alcolico",
