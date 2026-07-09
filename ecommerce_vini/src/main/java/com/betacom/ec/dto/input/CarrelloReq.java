@@ -2,9 +2,7 @@ package com.betacom.ec.dto.input;
 
 import java.util.List;
 
-import com.betacom.ec.models.Box;
 import com.betacom.ec.models.Cliente;
-import com.betacom.ec.models.Degustazione;
 import com.betacom.ec.models.Prodotto;
 
 import jakarta.persistence.CascadeType;

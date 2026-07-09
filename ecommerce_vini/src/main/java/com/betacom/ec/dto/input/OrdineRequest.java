@@ -22,11 +22,11 @@ public class OrdineRequest {
 	@NotNull(groups=ValidationGroups.Create.class, message="totale_missing")
 	private Integer totale;
 	@NotNull(groups=ValidationGroups.Create.class, message="utente_missing")
-	private Utente utente;
+	private Integer id_utente;
 	@NotNull(groups=ValidationGroups.Create.class, message="status_missing")
-	private Status status;
+	private Integer id_status;
 	@NotNull(groups=ValidationGroups.Create.class, message="ordine_alcolico_missing")
-	private OrdineAlcolico ordineAlcolico;
+	private Integer idOrdineAlcolico;
 	@NotNull(groups=ValidationGroups.Create.class, message="indirizzo_missing")
 	private String indirizzoDestinazione;
 

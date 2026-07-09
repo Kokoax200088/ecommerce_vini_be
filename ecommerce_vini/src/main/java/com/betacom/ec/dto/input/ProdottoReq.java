@@ -1,7 +1,5 @@
 package com.betacom.ec.dto.input;
 
-import com.betacom.ec.models.Alcolico;
-import com.betacom.ec.models.Cantina;
 import com.betacom.ec.models.Carrello;
 
 import jakarta.persistence.Column;
