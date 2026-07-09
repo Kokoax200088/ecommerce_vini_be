@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -24,6 +25,7 @@ import lombok.ToString;
 @ToString
 public class CarrelloReq {
 	private Integer id;
+	@NotNull(groups=ValidationGroups.Create.class, message="cliente_notFound")
 	private Integer id_cliente;
 	private Long totale;
 	private List<Integer> listaProdotti;
