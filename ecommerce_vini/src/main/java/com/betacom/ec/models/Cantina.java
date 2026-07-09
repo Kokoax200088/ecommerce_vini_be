@@ -53,43 +53,37 @@ public class Cantina {	//le parti commentate sono o da chiarire o mancano le cla
 			)
 	private Integer venditoreId;
 	
-	//collegamento alla posizione
-	/*
+	
 	@ManyToOne
 	@JoinColumn(
 			name = "id_posizione",
 			foreignKey = @ForeignKey(name = "fk_cantina_posizione")
 			)
 	private Posizione posizione;
-	*/
 	
-	//collegamento al venditore
-	/*
+	
+	
 	@ManyToOne
 	@JoinColumn(
 			name = "id_venditore",
 			foreignKey = @ForeignKey(name = "fk_cantina_venditore")
 			)
 	private Venditore venditore;
-	*/
 	
-	//collegamento all'alcolico
-	/*
+	
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable (
 			name = "cantina_alcolico",
 			joinColumns = @JoinColumn (name = "id_cantina"),
 			inverseJoinColumns = @JoinColumn (name = "id_alcolico")
 			)
-	List <Alcolico> alcolici;
-	*/
+	List <Alcolico> listaAlcolici;
 	
-	//collegeamneto al rating
-	/*
+	
+	
 	@OneToMany(
-			mappedBy = "cantina"
+			mappedBy = "cantina",
 			fetch = FetchType.LAZY)
 	private List <RatingCantina> valutazioni;
-	*/
 	
 }
