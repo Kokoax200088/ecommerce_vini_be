@@ -2,6 +2,9 @@ package com.betacom.ec.dto.input;
 
 import java.time.LocalDate;
 
+import com.betacom.ec.models.Status;
+import com.betacom.ec.models.Utente;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
