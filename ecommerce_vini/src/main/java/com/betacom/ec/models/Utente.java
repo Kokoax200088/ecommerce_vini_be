@@ -13,6 +13,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,20 +31,33 @@ public class Utente {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank
 	@Column(
 			length = 100,
 			nullable = false
 			)
 	private String nome;
 	
+	@NotBlank
 	@Column(
 			length = 100,
 			nullable = false
 			)
 	private String cognome;
 
+	@NotBlank
+	@Email (regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+	@Column(
+			name = "email",
+			nullable = false,
+			unique = true
+			)
 	private String email;
 	
+	@NotBlank
+	@Column(
+			nullable = false
+			)
 	private String password; //CHECK il password encryptor a chi è demandato?
 	
 	@Column(
