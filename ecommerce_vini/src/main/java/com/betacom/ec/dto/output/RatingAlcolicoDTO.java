@@ -11,10 +11,11 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProdottoDTO {
+public class RatingAlcolicoDTO {
 	private Integer id;
-	private CarrelloDTO carrello;
 	private AlcolicoDTO alcolico;
 	private CantinaDTO cantina;
-	private Integer quantità;
+	private ClienteDTO cliente;
+	private Integer valutazione;
+	private String commento;
 }
