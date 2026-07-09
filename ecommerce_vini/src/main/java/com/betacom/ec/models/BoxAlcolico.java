@@ -34,13 +34,12 @@ public class BoxAlcolico {
 			)
 	private Integer alcolicoId;
 	
-	//collegamento alcolico
-	/*
+	
 	@ManyToOne
 	@JoinColumn (
 			name="id_alcolico",
 			foreignKey = @ForeignKey(name ="fk_boxAlcolico_alcolico" )	
 			)
 	private Alcolico alcolico;
-	*/
+	
 }
