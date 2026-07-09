@@ -31,9 +31,6 @@ public class AlcolicoImpl implements IAlcolicoService {
 	private final ITipologiaAlcolicoRepository tipologiaR;
 	private final IColoreRepository coloreR;
 
-	// Venditore appartiene a un altro modulo e non ha un repository dedicato:
-	// aggancio la FK per riferimento (id) senza caricarlo, cosi' non invado
-	// il loro dominio e non dipendo dalla presenza della tabella venditore.
 	@PersistenceContext
 	private EntityManager em;
 

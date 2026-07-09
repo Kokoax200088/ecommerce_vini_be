@@ -15,7 +15,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AlcolicoReq {
 
-	// valorizzato solo in update
 	private Integer id_alcolico;
 
 	@NotNull
