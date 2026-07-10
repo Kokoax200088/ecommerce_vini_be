@@ -63,4 +63,10 @@ public class Box {
 			)
 	private List <BoxAlcolico> BoxAlcolico;
 	
+	//collegamento con immagine
+	@OneToMany(
+			mappedBy = "box",
+			fetch = FetchType.LAZY)
+	private List <ImmagineBox> immagini;	
+	
 }
