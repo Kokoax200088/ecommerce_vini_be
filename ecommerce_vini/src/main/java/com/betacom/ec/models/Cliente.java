@@ -1,12 +1,16 @@
 package com.betacom.ec.models;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +26,14 @@ public class Cliente {
 	@GeneratedValue	(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(name="indirizzo",
+			nullable=false)
+	private String indirizzo;
+	
+	@OneToOne(
+			cascade = CascadeType.REMOVE,
+			orphanRemoval = true
+			)
 	@JoinColumn(
 			name = "id_utente",
 			referencedColumnName = "id",
@@ -29,7 +41,26 @@ public class Cliente {
 			)
 	private Utente utente;
 	
-	@Column(name="indirizzo",
-			nullable=false)
-	private String indirizzo;
+	@OneToOne(
+			cascade = CascadeType.REMOVE,
+			orphanRemoval = true
+			)
+	@JoinColumn (
+			name = "id_carrello",
+			referencedColumnName= "id",
+			foreignKey = @ForeignKey (name = "fk_cliente_carrello")
+			)	
+	private Carrello carrello;
+	
+	@OneToMany (
+			mappedBy = "rating_alcolico",
+			fetch = FetchType.LAZY
+			)
+	private RatingAlcolico ratingAlcolico;
+
+	@OneToMany (
+		mappedBy = "rating_cantina",
+		           fetch = FetchType.LAZY
+	)
+	private RatingCantina ratingCantina;
 }
