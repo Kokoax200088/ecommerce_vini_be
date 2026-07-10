@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,16 +17,18 @@ import lombok.ToString;
 @Getter
 @Entity
 @ToString
-@Table(name = "ordine")
+@Table(name = "status")
 public class Status {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank
 	@Column(name="nome", nullable=false)
 	private String nome;
 	
+	@NotBlank
 	@Column(name="descrizione", nullable=false)
 	private String descrizione;
 }

@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -68,22 +69,26 @@ public class Utente {
 	@OneToOne (fetch = FetchType.LAZY, mappedBy = "utente")
 	private Venditore venditore;
 	
-//	@OneToOne (
-//			name = "id_carrello",
-//			referencedColumnName= "id",
-//			foreignKey = @ForeignKey (name = "fk_utente_carrello")
-//			)	
-//	private Carrello carrello;
+	@OneToOne (
+			cascade = CascadeType.REMOVE,
+			orphanRemoval = true
+			)
+	@JoinColumn (
+			name = "id_carrello",
+			referencedColumnName= "id",
+			foreignKey = @ForeignKey (name = "fk_utente_carrello")
+			)	
+	private Carrello carrello;
 	
-//	@OneToMany (
-//			mappedBy = "rating_alcolico",
-//			fetch = FetchType.LAZY
-//			)
-//	private RatingAlcolico ratingAlcolico;
+	@OneToMany (
+			mappedBy = "rating_alcolico",
+			fetch = FetchType.LAZY
+			)
+	private RatingAlcolico ratingAlcolico;
 
-//	@OneToMany (
-//		mappedBy = "rating_cantina",
-//		           fetch = FetchType.LAZY
-//	)
-//	private RatingCantina ratingCantina;
+	@OneToMany (
+		mappedBy = "rating_cantina",
+		           fetch = FetchType.LAZY
+	)
+	private RatingCantina ratingCantina;
 }
