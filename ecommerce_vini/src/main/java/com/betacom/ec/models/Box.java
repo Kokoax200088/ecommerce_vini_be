@@ -37,13 +37,6 @@ public class Box {
 			)
 	private String nome;
 	
-	//cantina a cui appartiene il box
-	@Column(
-			name = "id_cantina",
-			nullable = false
-			)
-	private Integer cantinaId;
-	
 	//il venditore mette uno sconto per incentivare a comprare il box
 	@Column(
 			name = "sconto",
@@ -64,5 +57,10 @@ public class Box {
 			)
 	private Cantina cantina;
 	
+	@OneToMany(
+			mappedBy = "box",
+			fetch = FetchType.LAZY
+			)
+	private List <BoxAlcolico> BoxAlcolico;
 	
 }
