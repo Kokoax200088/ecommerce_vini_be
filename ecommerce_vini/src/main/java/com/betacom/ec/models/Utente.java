@@ -2,7 +2,6 @@ package com.betacom.ec.models;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,9 +10,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,20 +31,33 @@ public class Utente {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@NotBlank
 	@Column(
 			length = 100,
 			nullable = false
 			)
 	private String nome;
 	
+	@NotBlank
 	@Column(
 			length = 100,
 			nullable = false
 			)
 	private String cognome;
 
+	@NotBlank
+	@Email (regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+	@Column(
+			name = "email",
+			nullable = false,
+			unique = true
+			)
 	private String email;
 	
+	@NotBlank
+	@Column(
+			nullable = false
+			)
 	private String password; //CHECK il password encryptor a chi è demandato?
 	
 	@Column(
@@ -52,10 +66,7 @@ public class Utente {
 			)
 	private LocalDate dataNascita;
 
-	@OneToOne (
-			cascade = CascadeType.REMOVE,
-			orphanRemoval = true
-			)
+	@ManyToOne
 	@JoinColumn(
 			name="id_ruolo",
 			referencedColumnName="id",
@@ -68,27 +79,4 @@ public class Utente {
 	
 	@OneToOne (fetch = FetchType.LAZY, mappedBy = "utente")
 	private Venditore venditore;
-	
-	@OneToOne (
-			cascade = CascadeType.REMOVE,
-			orphanRemoval = true
-			)
-	@JoinColumn (
-			name = "id_carrello",
-			referencedColumnName= "id",
-			foreignKey = @ForeignKey (name = "fk_utente_carrello")
-			)	
-	private Carrello carrello;
-	
-	@OneToMany (
-			mappedBy = "rating_alcolico",
-			fetch = FetchType.LAZY
-			)
-	private RatingAlcolico ratingAlcolico;
-
-	@OneToMany (
-		mappedBy = "rating_cantina",
-		           fetch = FetchType.LAZY
-	)
-	private RatingCantina ratingCantina;
 }

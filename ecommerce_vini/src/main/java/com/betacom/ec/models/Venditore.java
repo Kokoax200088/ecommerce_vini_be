@@ -2,6 +2,7 @@ package com.betacom.ec.models;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,8 +11,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,13 +28,23 @@ public class Venditore {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@ManyToOne
-	@JoinColumn(name = "id_utente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_utente_venditore"))
-	private Utente utente;
-
 	@Column(name = "partita_iva", nullable = false)
 	private String partitaIva;
+	
+	@OneToOne(
+			cascade = CascadeType.REMOVE,
+			orphanRemoval = true
+			)
+	@JoinColumn(
+			name = "id_utente", 
+			referencedColumnName = "id", 
+			foreignKey = @ForeignKey(name = "fk_utente_venditore")
+			)
+	private Utente utente;
 
 	@OneToMany(mappedBy = "venditore", fetch = FetchType.LAZY)
 	private List<Cantina> listCantina;
+	
+	@OneToMany(mappedBy = "venditore", fetch = FetchType.LAZY)
+	private List<Alcolico> listAlcolico;
 }
