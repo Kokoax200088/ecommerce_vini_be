@@ -2,8 +2,8 @@ package com.betacom.ec.models;
 
 
 import java.time.LocalDate;
-import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,7 +16,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -39,21 +38,31 @@ public class Ordine {
 	private Integer totale;
 	
 	@ManyToOne
-	@JoinColumn(name = "utente",referencedColumnName="id", foreignKey = @ForeignKey(name="fk_user_order"))
+	@JoinColumn(name = "Utente",referencedColumnName="id", foreignKey = @ForeignKey(name="fk_user_order"))
 	private Utente utente;
 
-	@OneToOne
+	@OneToOne(
+			cascade = CascadeType.REMOVE,
+			orphanRemoval = true			
+			)
 	@JoinColumn(
-			name="status",
+			name="Status",
 			referencedColumnName = "id",
 			foreignKey = @ForeignKey(name ="fk_status_ordine" )
 			)
 	private Status status;
 	
-	@OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
-	private List<OrdineAlcolico> ordineAlcolico;
+	@OneToOne(
+			cascade=CascadeType.REMOVE,
+			orphanRemoval=true
+			)
+	@JoinColumn(
+			name="OrdineAlcolico",
+			referencedColumnName = "id",
+			foreignKey= @ForeignKey(name="fk_ordinealcolico_ordine")
+			)
+	private OrdineAlcolico ordineAlcolico;
 	
-	@NotBlank
 	@Column(name="indirizzo_destinazione",nullable=false)
 	private String indirizzoDestinazione;
 }

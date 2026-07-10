@@ -4,7 +4,7 @@ import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,19 +21,27 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@Table(name = "venditore")
+@Table (name = "venditore")
 public class Venditore {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue	(strategy=GenerationType.IDENTITY)
 	private Integer id;
-
+	
 	@ManyToOne
-	@JoinColumn(name = "id_utente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_utente_venditore"))
+	@JoinColumn(
+			name = "id_utente",
+			referencedColumnName = "id",
+			foreignKey = @ForeignKey (name = "fk_utente_venditore")
+			)
 	private Utente utente;
-
-	@Column(name = "partita_iva", nullable = false)
+	
+	@Column(name="partita_iva",
+			nullable=false)
 	private String partitaIva;
-
-	@OneToMany(mappedBy = "venditore", fetch = FetchType.LAZY)
-	private List<Cantina> listCantina;
+	
+//	@OneToMany (
+//				mappedBy = "venditore",
+//				fetch = FetchType.LAZY
+//			)
+//	private List<Cantina> listCantina;
 }

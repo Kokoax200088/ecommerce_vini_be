@@ -11,7 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,18 +19,16 @@ import lombok.ToString;
 @Getter
 @Entity
 @ToString
-@Table(name = "spedizione")
+@Table(name = "ordine")
 public class Spedizione {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@NotBlank
 	@Column(name="corriere", nullable=false)
 	private String corriere;
 	
-	@NotBlank
 	@Column(name="codice_tracciamento", nullable=false)
 	private String codice_tracciamento;
 	
@@ -43,16 +40,14 @@ public class Spedizione {
 	@JoinColumn(name="id_cliente", referencedColumnName="id")
 	private Cliente cliente;
 	
-	@OneToOne
+	@OneToOne(
+			cascade = CascadeType.REMOVE,
+			orphanRemoval = true			
+			)
 	@JoinColumn(
-			name="status",
+			name="Status",
 			referencedColumnName = "id",
 			foreignKey = @ForeignKey(name ="fk_status_ordine" )
 			)
 	private Status status;
-	
-	@OneToOne
-	@JoinColumn(name = "id_ordine_alcolico", referencedColumnName = "id",
-	    foreignKey = @ForeignKey(name = "fk_spedizione_ordine_alcolico"))
-	private OrdineAlcolico ordineAlcolico;
 }

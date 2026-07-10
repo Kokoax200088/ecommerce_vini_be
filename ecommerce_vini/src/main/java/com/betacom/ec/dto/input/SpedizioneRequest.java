@@ -1,8 +1,6 @@
 package com.betacom.ec.dto.input;
-import java.time.LocalDate;
 
-import com.betacom.ec.models.Cliente;
-import com.betacom.ec.models.Status;
+import java.time.LocalDate;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -23,9 +21,9 @@ public class SpedizioneRequest {
 	@NotNull(groups=ValidationGroups.Create.class, message="codice_traccia_missing")
 	private String codice_tracciamento;
 	@NotNull(groups=ValidationGroups.Create.class, message="cantina_missing")
-	private Integer id_cantina;
+	private Cantina cantina;
 	@NotNull(groups=ValidationGroups.Create.class, message="cliente_missing")
-	private Integer id_cliente;
+	private Cliente cliente;
 	@NotNull(groups=ValidationGroups.Create.class, message="status_missing")
-	private Integer id_status;
+	private Status status;
 }
