@@ -84,12 +84,18 @@ public class Cantina {	//le parti commentate sono o da chiarire o mancano le cla
 			fetch = FetchType.LAZY)
 	private List <OrdineAlcolico> ordineAlcolico;
 	
+	//collegamento al rating alcolico
+		@OneToMany(
+				mappedBy = "cantina",
+				fetch = FetchType.LAZY)
+		private List <RatingAlcolico> ratingAlcolico;
+	
 	//collegamento ad immagine
 
 	@OneToMany(
 			mappedBy = "cantina",
 			fetch = FetchType.LAZY)
-	private List <Immagine> immagini;	
+	private List <ImmagineCantina> immagini;	
 	
 	//collegamento al prodotto
 	@OneToMany(
