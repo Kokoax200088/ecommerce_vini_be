@@ -1,13 +1,9 @@
 package com.betacom.ec.dto.input;
-
-<<<<<<< HEAD
-=======
 import java.time.LocalDate;
 
 import com.betacom.ec.models.Cliente;
 import com.betacom.ec.models.Status;
 
->>>>>>> main
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
