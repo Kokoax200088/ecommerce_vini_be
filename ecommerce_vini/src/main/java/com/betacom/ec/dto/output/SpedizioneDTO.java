@@ -13,8 +13,8 @@ public class SpedizioneDTO {
 	private Integer id;
 	private String corriere;
 	private String codice_tracciamento;
-	private CantinaDTO cantina;
-	private ClienteDTO cliente;
+	//private CantinaDTO cantina;
+	//private ClienteDTO cliente;
 	private StatusDTO status;
 	private OrdineAlcolicoDTO ordine_alcolico;
 }

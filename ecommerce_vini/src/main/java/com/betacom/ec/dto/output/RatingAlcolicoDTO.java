@@ -14,8 +14,8 @@ import lombok.Setter;
 public class RatingAlcolicoDTO {
 	private Integer id;
 	private AlcolicoDTO alcolico;
-	private CantinaDTO cantina;
-	private ClienteDTO cliente;
+	//private CantinaDTO cantina;
+	//private ClienteDTO cliente;
 	private Integer valutazione;
 	private String commento;
 }

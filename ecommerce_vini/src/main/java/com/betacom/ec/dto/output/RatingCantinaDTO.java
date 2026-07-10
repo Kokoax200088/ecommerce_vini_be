@@ -12,8 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RatingCantinaDTO {
-	private CantinaDTO cantina;
-	private ClienteDTO cliente;
+	//private CantinaDTO cantina;
+	//private ClienteDTO cliente;
 	private Integer valutazione;
 	private String commento;
 }

@@ -15,6 +15,6 @@ public class ProdottoDTO {
 	private Integer id;
 	private CarrelloDTO carrello;
 	private AlcolicoDTO alcolico;
-	private CantinaDTO cantina;
+	//private CantinaDTO cantina;
 	private Integer quantità;
 }

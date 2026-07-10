@@ -47,13 +47,13 @@ public class AlcolicoImpl implements IAlcolicoService {
 		a.setNome(req.getNome());
 		a.setAnnata(req.getAnnata());
 		if (req.getId_venditore() != null)
-			a.setId_venditore(em.getReference(Venditore.class, req.getId_venditore()));
+		//	a.setId_venditore(em.getReference(Venditore.class, req.getId_venditore()));
 		a.setTipologia_alcolico(tipologia);
 		a.setColore(colore);
 		a.setGradazione(req.getGradazione());
 		a.setDescrizione(req.getDescrizione());
 		a.setProvenienza(req.getProvenienza());
-		a.setImmagine(req.getImmagine());
+		//a.setImmagine(req.getImmagine());
 		a.setPrezzo(req.getPrezzo());
 
 		alcolicoR.save(a);
@@ -80,14 +80,14 @@ public class AlcolicoImpl implements IAlcolicoService {
 			a.setColore(colore);
 		}
 		if (req.getId_venditore() != null)
-			a.setId_venditore(em.getReference(Venditore.class, req.getId_venditore()));
+		//	a.setId_venditore(em.getReference(Venditore.class, req.getId_venditore()));
 
 		a.setNome(req.getNome());
 		a.setAnnata(req.getAnnata());
 		a.setGradazione(req.getGradazione());
 		a.setDescrizione(req.getDescrizione());
 		a.setProvenienza(req.getProvenienza());
-		a.setImmagine(req.getImmagine());
+		//a.setImmagine(req.getImmagine());
 		a.setPrezzo(req.getPrezzo());
 
 		alcolicoR.save(a);
@@ -124,18 +124,18 @@ public class AlcolicoImpl implements IAlcolicoService {
 
 	private AlcolicoDTO buildDTO(Alcolico a) {
 		return AlcolicoDTO.builder()
-				.id_alcolico(a.getId_alcolico())
-				.id_venditore(a.getId_venditore() != null ? a.getId_venditore().getId() : null)
+			//	.id_alcolico(a.getId_alcolico())
+			//	.id_venditore(a.getId_venditore() != null ? a.getId_venditore().getId() : null)
 				.nome(a.getNome())
 				.annata(a.getAnnata())
-				.id_tipologia_alcolico(a.getTipologia_alcolico() != null
-						? a.getTipologia_alcolico().getId_tipologia_alcolico()
-						: null)
+			//	.id_tipologia_alcolico(a.getTipologia_alcolico() != null
+			//			? a.getTipologia_alcolico().getId_tipologia_alcolico()
+			//			: null)
 				.id_colore(a.getColore() != null ? a.getColore().getId_colore() : null)
 				.gradazione(a.getGradazione())
 				.descrizione(a.getDescrizione())
 				.provenienza(a.getProvenienza())
-				.immagine(a.getImmagine())
+			//	.immagine(a.getImmagine())
 				.prezzo(a.getPrezzo())
 				.build();
 	}

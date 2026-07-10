@@ -48,7 +48,7 @@ public class Box {
 			mappedBy = "box",
 			fetch = FetchType.LAZY
 			)
-	private List <BoxAlcolico> alcolici;
+	private List <BoxAlcolico> listAlcolico;
 	
 	@ManyToOne
 	@JoinColumn (
@@ -61,12 +61,12 @@ public class Box {
 			mappedBy = "box",
 			fetch = FetchType.LAZY
 			)
-	private List <BoxAlcolico> BoxAlcolico;
+	private List <BoxAlcolico> listBoxAlcolico;
 	
 	//collegamento con immagine
 	@OneToMany(
 			mappedBy = "box",
 			fetch = FetchType.LAZY)
-	private List <ImmagineBox> immagini;	
+	private List <Immagine> listImmagine;	
 	
 }

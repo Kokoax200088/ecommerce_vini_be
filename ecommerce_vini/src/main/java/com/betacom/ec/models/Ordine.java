@@ -51,7 +51,7 @@ public class Ordine {
 	private Status status;
 	
 	@OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
-	private List<OrdineAlcolico> ordineAlcolico;
+	private List<OrdineAlcolico> listOrdineAlcolico;
 	
 	@NotBlank
 	@Column(name="indirizzo_destinazione",nullable=false)

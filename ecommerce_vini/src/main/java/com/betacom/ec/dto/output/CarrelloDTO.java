@@ -15,10 +15,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class CarrelloDTO {
 	private Integer id;
-	private ClienteDTO cliente;
+	//private ClienteDTO cliente;
 	private Long totale;
-	private List<ProdottoDTO> listaProdotti;
-	private List<DegustazioneDTO> listaDegustazione;
-	private List<BoxDTO> listaBox;
+//	private List<ProdottoDTO> listaProdotti;
+	//private List<DegustazioneDTO> listaDegustazione;
+	//private List<BoxDTO> listaBox;
 	private Integer quantità;
 }

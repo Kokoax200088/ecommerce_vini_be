@@ -2,8 +2,6 @@ package com.betacom.ec.models;
 
 import java.util.List;
 
-import com.betacom.jpa.models.Certificato;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,56 +56,56 @@ public class Cantina {	//le parti commentate sono o da chiarire o mancano le cla
 			joinColumns = @JoinColumn (name = "id_cantina"),
 			inverseJoinColumns = @JoinColumn (name = "id_alcolico")
 			)
-	List <Alcolico> alcolici;
+	List <Alcolico> listAlcolici;
 	
 	//collegeamneto al rating Cantina
 	@OneToMany(
 			mappedBy = "cantina",
 			fetch = FetchType.LAZY)
-	private List <RatingCantina> valutazioni;
+	private List <RatingCantina> listValutazioni;
 	
 	//collegeamneto al box
 	@OneToMany(
 			mappedBy = "cantina",
 			fetch = FetchType.LAZY)
-	private List <Box> box;
+	private List <Box> listBox;
 	
 	//collegamento alla degustazione
 	@OneToMany(
 			mappedBy = "cantina",
 			fetch = FetchType.LAZY)
-	private List <Degustazione> degustazioni;
+	private List <Degustazione> listDegustazione;
 	
 	//collegamento all'ordine alcolico
 	@OneToMany(
 			mappedBy = "cantina",
 			fetch = FetchType.LAZY)
-	private List <OrdineAlcolico> ordineAlcolico;
+	private List <OrdineAlcolico> listOrdineAlcolico;
 	
 	//collegamento al rating alcolico
 		@OneToMany(
 				mappedBy = "cantina",
 				fetch = FetchType.LAZY)
-		private List <RatingAlcolico> ratingAlcolico;
+		private List <RatingAlcolico> listRatingAlcolico;
 	
 	//collegamento ad immagine
 
 	@OneToMany(
 			mappedBy = "cantina",
 			fetch = FetchType.LAZY)
-	private List <ImmagineCantina> immagini;	
+	private List <Immagine> listImmagine;	
 	
 	//collegamento al prodotto
 	@OneToMany(
 			mappedBy = "cantina",
 			fetch = FetchType.LAZY)
-	private List <Prodotto> prodotti;
+	private List <Prodotto> listProdotto;
 	
 	//collegamento a spedizione
 	@OneToMany(
 			mappedBy = "cantina",
 			fetch = FetchType.LAZY)
-	private List <Spedizione> spedizioni;
+	private List <Spedizione> listSpedizione;
 	
 	//collegamento alla posizione
 	@OneToOne(

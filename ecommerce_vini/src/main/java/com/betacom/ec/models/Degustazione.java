@@ -79,13 +79,13 @@ public class Degustazione {
 			joinColumns = @JoinColumn(name = "id_degustazione"),
 			inverseJoinColumns = @JoinColumn (name = "id_alcolico")
 			)
-	List <Alcolico> alcolici;
+	List <Alcolico> listAlcolico;
 	
 	//collegamento con immagini
 	@OneToMany(
 			mappedBy = "degustazione",
 			fetch = FetchType.LAZY)
-	private List <ImmagineDegustazione> immagini;	
+	private List <Immagine> listImmagine;	
 	
 	
 }

@@ -18,5 +18,5 @@ public class OrdineAlcolicoDTO {
 	private OrdineDTO ordine;
 	private List<AlcolicoDTO> listAlcolico;
 	private StatusDTO status;
-	private CantinaDTO cantina;
+	//private CantinaDTO cantina;
 }

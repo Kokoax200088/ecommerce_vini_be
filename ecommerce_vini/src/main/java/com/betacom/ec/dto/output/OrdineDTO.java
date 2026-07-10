@@ -17,7 +17,7 @@ public class OrdineDTO {
 	private Integer id;
 	private LocalDate data_ordine;
 	private Integer totale;
-	private UtenteDTO utente;
+	//private UtenteDTO utente;
 	private StatusDTO status;
 	private List<OrdineAlcolicoDTO> ordineAlcolico;
 	private String indirizzoDestinazione;
