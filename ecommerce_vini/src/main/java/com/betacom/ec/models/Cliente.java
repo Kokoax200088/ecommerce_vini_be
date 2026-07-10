@@ -22,6 +22,8 @@ import lombok.ToString;
 @Entity
 @Table (name = "cliente")
 public class Cliente {
+	
+	//POST MERGE
 	@Id
 	@GeneratedValue	(strategy=GenerationType.IDENTITY)
 	private Integer id;
