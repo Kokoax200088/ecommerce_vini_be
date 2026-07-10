@@ -1,6 +1,5 @@
 package com.betacom.ec.models;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -31,29 +30,24 @@ public class Ordine {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@Column(name="data_ordine", nullable=false)
+
+	@Column(name = "data_ordine", nullable = false)
 	private LocalDate data_ordine;
-	
-	@Column(name="totale", nullable=false)
-	private Integer totale;
-	
+
+	@Column(name = "totale", nullable = false)
+	private Double totale;
+
 	@ManyToOne
-	@JoinColumn(name = "utente",referencedColumnName="id", foreignKey = @ForeignKey(name="fk_user_order"))
+	@JoinColumn(name = "utente", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ordine_utente"))
 	private Utente utente;
 
-	@OneToOne
-	@JoinColumn(
-			name="status",
-			referencedColumnName = "id",
-			foreignKey = @ForeignKey(name ="fk_status_ordine" )
-			)
+	@ManyToOne
+	@JoinColumn(name = "status", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_ordine_status"))
 	private Status status;
-	
+
 	@OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
 	private List<OrdineAlcolico> listOrdineAlcolico;
-	
-	@NotBlank
-	@Column(name="indirizzo_destinazione",nullable=false)
+
+	@Column(name = "indirizzo_destinazione", nullable = false)
 	private String indirizzoDestinazione;
 }

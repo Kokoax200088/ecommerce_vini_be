@@ -39,7 +39,7 @@ public class RatingCantina {
 			name="valutazione",
 			nullable = false
 			)
-	private Integer valutazione;
+	private Double valutazione;
 	
 	@Column (
 			name="commento",

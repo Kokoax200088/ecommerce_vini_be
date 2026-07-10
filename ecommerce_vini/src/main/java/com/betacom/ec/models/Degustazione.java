@@ -85,7 +85,7 @@ public class Degustazione {
 	@OneToMany(
 			mappedBy = "degustazione",
 			fetch = FetchType.LAZY)
-	private List <Immagine> listImmagine;	
+	private List <ImmagineDegustazione> listImmagine;	
 	
 	
 }

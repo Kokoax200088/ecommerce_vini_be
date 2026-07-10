@@ -79,12 +79,13 @@ public class Alcolico {
 			)
 	private String provenienza;
 
-	@OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@JoinColumn(name = "id_immagine", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_immagine_alcolico"))
-	private Immagine immagine;
+	@OneToMany(
+			mappedBy = "alcolico",
+			fetch = FetchType.LAZY)
+	private List<ImmagineAlcolico> listImmagine;
 
 	@Column(
-			name = "sconto",
+			name = "prezzo",
 			nullable = true
 			)
 	private Double prezzo;
@@ -94,29 +95,20 @@ public class Alcolico {
 			fetch = FetchType.LAZY)
 	private List <BoxAlcolico> listBoxAlcolico;	
 	
-	@ManyToMany (
-            mappedBy = "cantina",
-            fetch = FetchType.LAZY
-            )
-	private List<Cantina> listCantina;
-	
-	@ManyToOne
-	@JoinColumn (
-			name="id_cantina_alcolico",
-			foreignKey = @ForeignKey(name ="fk_alcolico_cantina_alcolico" )	
-			)
-	private CantinaAlcolico cantinaAlcolico;
+	@OneToMany(
+			mappedBy = "alcolico",
+			fetch = FetchType.LAZY)
+	private List<CantinaAlcolico> listCantinaAlcolico;
 	
 	@ManyToMany (
-            mappedBy = "degustazione",
+            mappedBy = "alcolico",
             fetch = FetchType.LAZY
             )
 	private List<Degustazione> listDegustazione;
 	
-	@ManyToMany (
-            mappedBy = "ordine_alcolico",
-            fetch = FetchType.LAZY
-            )
+	@OneToMany(
+			mappedBy = "alcolico",
+			fetch = FetchType.LAZY)
 	private List<OrdineAlcolico> listOrdineAlcolico;
 	
 	@OneToMany(

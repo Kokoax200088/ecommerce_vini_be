@@ -30,7 +30,6 @@ public class Box {
 	private Integer id;
 	
 	//nome della cantina non opzionale
-	@NotBlank(message = "il nome puo' essere vuoto")
 	@Column(
 			name = "nome",
 			nullable = false
@@ -43,12 +42,6 @@ public class Box {
 			nullable = true
 			)
 	private Double sconto;
-	
-	@OneToMany(
-			mappedBy = "box",
-			fetch = FetchType.LAZY
-			)
-	private List <BoxAlcolico> listAlcolico;
 	
 	@ManyToOne
 	@JoinColumn (
@@ -67,6 +60,6 @@ public class Box {
 	@OneToMany(
 			mappedBy = "box",
 			fetch = FetchType.LAZY)
-	private List <Immagine> listImmagine;	
+	private List <ImmagineBox> listImmagine;	
 	
 }

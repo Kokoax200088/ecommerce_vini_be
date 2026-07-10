@@ -41,13 +41,13 @@ public class Carrello {
 			name="totale",
 			nullable = false			
 			)	
-	private Long totale;
+	private Double totale;
 	
 	@OneToMany(
 			mappedBy = "carrello",
 			fetch = FetchType.EAGER
 			)
-	private List<Prodotto> listaProdotti;
+	private List<Prodotto> listaProdotto;
 	
 	@OneToMany(
 			mappedBy = "carrello",

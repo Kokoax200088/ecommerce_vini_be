@@ -30,16 +30,18 @@ public class CantinaAlcolico {
 		@ManyToOne
 		@JoinColumn (
 				name="id_cantina",
-				foreignKey = @ForeignKey(name ="fk_boxAlcolico_cantina" )	
+				foreignKey = @ForeignKey(name ="fk_cantina_alcolico" )	
 				)
 		private Cantina cantina;
 		
 		//collegamento alcolico
 		
-		@OneToMany(
-				mappedBy = "alcolico",
-				fetch = FetchType.LAZY)
-		private List<Alcolico> listAlcolico;
+		@ManyToOne
+		@JoinColumn (
+				name="id_alcolico",
+				foreignKey = @ForeignKey(name ="fk_cantina_alcolico_bottiglia" )	
+				)
+		private Alcolico alcolico;
 		
 		@Column(
 				name = "quantita",

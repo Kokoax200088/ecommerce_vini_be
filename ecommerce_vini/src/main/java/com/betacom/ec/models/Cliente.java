@@ -1,5 +1,7 @@
 package com.betacom.ec.models;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,11 +60,11 @@ public class Cliente {
 			mappedBy = "rating_alcolico",
 			fetch = FetchType.LAZY
 			)
-	private RatingAlcolico ratingAlcolico;
+	private List<RatingAlcolico> listRatingAlcolico;
 
 	@OneToMany (
 		mappedBy = "rating_cantina",
 		           fetch = FetchType.LAZY
 	)
-	private RatingCantina ratingCantina;
+	private List<RatingCantina> listRatingCantina;
 }
