@@ -90,7 +90,7 @@ public class Alcolico {
 	private Double prezzo;
 	
 	@OneToMany(
-			mappedBy = "box_alcolico",
+			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
 	private List <BoxAlcolico> listBoxAlcolico;	
 	
@@ -120,12 +120,12 @@ public class Alcolico {
 	private List<OrdineAlcolico> listOrdineAlcolico;
 	
 	@OneToMany(
-			mappedBy = "prodotto",
+			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
 	private List <Prodotto> listProdotto;	
 	
 	@OneToMany(
-			mappedBy = "rating_alcolico",
+			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
 	private List <RatingAlcolico> listRatingAlcolico;
 }
