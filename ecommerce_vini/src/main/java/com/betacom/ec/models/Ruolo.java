@@ -50,6 +50,6 @@ public class Ruolo {
 			)
 	private Boolean canBuy;
 	
-	@OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "ruolo", fetch = FetchType.LAZY)
 	private List<Utente> listUtente;
 }

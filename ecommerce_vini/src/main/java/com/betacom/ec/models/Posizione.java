@@ -43,7 +43,7 @@ public class Posizione {
 
 	//collegamento a cantina
 	@OneToOne(
-			mappedBy = "cantina"
+			mappedBy = "posizione"
 			)
 	private Cantina cantina;
 	

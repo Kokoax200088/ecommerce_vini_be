@@ -62,4 +62,11 @@ public class Box {
 			fetch = FetchType.LAZY)
 	private List <ImmagineBox> listImmagine;	
 	
+	@ManyToOne
+	@JoinColumn (
+			name="id_carrello",
+			foreignKey = @ForeignKey(name ="fk_box_carrello" )	
+			)
+	private Carrello carrello;
+	
 }

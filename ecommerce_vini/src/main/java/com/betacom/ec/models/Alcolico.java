@@ -101,7 +101,7 @@ public class Alcolico {
 	private List<CantinaAlcolico> listCantinaAlcolico;
 	
 	@ManyToMany (
-            mappedBy = "alcolico",
+            mappedBy = "listAlcolico",
             fetch = FetchType.LAZY
             )
 	private List<Degustazione> listDegustazione;

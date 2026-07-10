@@ -131,7 +131,7 @@ public class AlcolicoImpl implements IAlcolicoService {
 			//	.id_tipologia_alcolico(a.getTipologia_alcolico() != null
 			//			? a.getTipologia_alcolico().getId_tipologia_alcolico()
 			//			: null)
-				.id_colore(a.getColore() != null ? a.getColore().getId_colore() : null)
+			//	.id_colore(a.getColore() != null ? a.getColore().getId_colore() : null)
 				.gradazione(a.getGradazione())
 				.descrizione(a.getDescrizione())
 				.provenienza(a.getProvenienza())

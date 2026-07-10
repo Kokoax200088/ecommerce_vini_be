@@ -57,13 +57,13 @@ public class Cliente {
 	private Carrello carrello;
 	
 	@OneToMany (
-			mappedBy = "rating_alcolico",
+			mappedBy = "cliente",
 			fetch = FetchType.LAZY
 			)
 	private List<RatingAlcolico> listRatingAlcolico;
 
 	@OneToMany (
-		mappedBy = "rating_cantina",
+		mappedBy = "cliente",
 		           fetch = FetchType.LAZY
 	)
 	private List<RatingCantina> listRatingCantina;
