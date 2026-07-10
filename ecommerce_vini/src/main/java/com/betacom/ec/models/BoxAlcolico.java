@@ -14,33 +14,25 @@ public class BoxAlcolico {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(
-			name = "id_cantina",
-			nullable = false
-			)
-	private Integer cantinaId;
-	
-	//collegamento cantina
+	//collegamento box
 	@ManyToOne
 	@JoinColumn (
-			name="id_cantina",
-			foreignKey = @ForeignKey(name ="fk_boxAlcolico_cantina" )	
+			name="id_box",
+			foreignKey = @ForeignKey(name ="fk_boxAlcolico_box" )	
 			)
-	private Cantina cantina;
-	
-	@Column(
-			name = "id_alcolico",
-			nullable = false
-			)
-	private Integer alcolicoId;
+	private Box box;
 	
 	//collegamento alcolico
-	/*
 	@ManyToOne
 	@JoinColumn (
 			name="id_alcolico",
 			foreignKey = @ForeignKey(name ="fk_boxAlcolico_alcolico" )	
 			)
 	private Alcolico alcolico;
-	*/
+	
+	@Column(
+			name = "quantita",
+			nullable = false
+			)
+	private Integer quantita;
 }
