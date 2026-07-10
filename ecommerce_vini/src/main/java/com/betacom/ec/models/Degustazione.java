@@ -38,13 +38,6 @@ public class Degustazione {
 	)
 	private String descrizione;
 	
-	//id cantina associata alla degustazione non opzionale
-	@Column(
-			name = "id_cantina",
-			nullable = false
-			)
-	private Integer cantinaId;
-	
 	//prezzo degustazione non opzionale
 	@Column(
 			name = "prezzo",
