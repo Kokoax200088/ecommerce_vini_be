@@ -1,21 +1,26 @@
 package com.betacom.ec.dto.output;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import com.betacom.ec.dto.input.ValidationGroups;
+import com.betacom.ec.models.Alcolico;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.ToString;
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RatingAlcolicoDTO {
+@ToString
+public class ImmagineAlcolicoDTO {
 	private Integer id;
+	private String url;
 	private AlcolicoDTO alcolico;
-	private CantinaDTO cantina;
-	private ClienteDTO cliente;
-	private Double valutazione;
-	private String commento;
 }
