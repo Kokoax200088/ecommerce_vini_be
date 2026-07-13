@@ -1,0 +1,23 @@
+package com.betacom.ec.dto.output;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import lombok.*;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class DegustazioneDTO {
+    private Integer id;
+    private String nome;
+    private String descrizione;
+    private Double prezzo;
+    private LocalDateTime dataInizio;
+    private LocalDateTime dataFine;
+    private CantinaDTO cantina;
+    private List<AlcolicoDTO> alcolici;
+    private List<ImmagineDegustazioneDTO> immagini;
+}
