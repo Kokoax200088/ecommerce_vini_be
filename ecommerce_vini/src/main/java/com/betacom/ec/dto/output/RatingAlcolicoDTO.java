@@ -16,6 +16,6 @@ public class RatingAlcolicoDTO {
 	private AlcolicoDTO alcolico;
 	//private CantinaDTO cantina;
 	//private ClienteDTO cliente;
-	private Integer valutazione;
+	private Double valutazione;
 	private String commento;
 }

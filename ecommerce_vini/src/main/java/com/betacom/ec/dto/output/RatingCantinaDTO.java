@@ -14,6 +14,6 @@ import lombok.Setter;
 public class RatingCantinaDTO {
 	//private CantinaDTO cantina;
 	//private ClienteDTO cliente;
-	private Integer valutazione;
+	private Double valutazione;
 	private String commento;
 }

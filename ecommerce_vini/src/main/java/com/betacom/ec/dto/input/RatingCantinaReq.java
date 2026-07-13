@@ -24,6 +24,6 @@ private Integer id;
 	private Integer id_cliente;
 
 @NotNull(groups=ValidationGroups.Create.class, message="validazione_missing")
-	private Integer valutazione;
+	private Double valutazione;
 	private String commento;
 }

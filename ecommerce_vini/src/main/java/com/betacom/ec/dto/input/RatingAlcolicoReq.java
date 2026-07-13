@@ -30,6 +30,6 @@ public class RatingAlcolicoReq {
 	private Integer id_cliente;
 
 	@NotNull(groups=ValidationGroups.Create.class, message="valutazione_missing")
-	private Integer valutazione;
+	private Double valutazione;
 	private String commento;
 }
