@@ -1,7 +1,10 @@
 package com.betacom.ec.dto.output;
 
-import java.time.LocalDate;
 import java.util.List;
+
+import com.betacom.ec.models.Alcolico;
+import com.betacom.ec.models.Ordine;
+import com.betacom.ec.models.Status;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +17,8 @@ import lombok.ToString;
 @ToString
 public class OrdineAlcolicoDTO {
 	private Integer id;
-	private LocalDate data_ordine;
-	private OrdineDTO ordine;
-	private List<AlcolicoDTO> listAlcolico;
+	//private OrdineDTO ordine;
 	private StatusDTO status;
+	private List<AlcolicoDTO> listAlcolico;
 	//private CantinaDTO cantina;
 }

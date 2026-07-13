@@ -1,5 +1,8 @@
 package com.betacom.ec.dto.output;
 
+import com.betacom.ec.models.OrdineAlcolico;
+import com.betacom.ec.models.Status;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
