@@ -16,7 +16,7 @@ import lombok.Setter;
 public class CarrelloDTO {
 	private Integer id;
 	//private ClienteDTO cliente;
-	private Long totale;
+	private Double totale;
 //	private List<ProdottoDTO> listaProdotti;
 	//private List<DegustazioneDTO> listaDegustazione;
 	//private List<BoxDTO> listaBox;
