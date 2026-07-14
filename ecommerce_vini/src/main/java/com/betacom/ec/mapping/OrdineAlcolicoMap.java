@@ -3,7 +3,6 @@ package com.betacom.ec.mapping;
 import java.util.List;
 
 import com.betacom.ec.dto.output.OrdineAlcolicoDTO;
-import com.betacom.ec.dto.output.StatusDTO;
 import com.betacom.ec.models.OrdineAlcolico;
 
 public class OrdineAlcolicoMap {
@@ -14,15 +13,12 @@ public class OrdineAlcolicoMap {
 		
 	}
 	public static OrdineAlcolicoDTO buildOrdineAlcolicoDTO(OrdineAlcolico o) {
-		StatusDTO sDTO = StatusDTO.builder()
-				.id(o.getId())
-				.descrizione(o.getStatus().getDescrizione())
-				.nome(o.getStatus().getNome())
-				.build();
 		return OrdineAlcolicoDTO.builder()
 				.id(o.getId())
-				.status(sDTO)
-				//.listAlcolico(AlcolicoMap.buildAlcolicoDTOList(o.getAlcolico()) CHIEDERE A DANI ALCOLICOMAP 
+				.id_status(o.getStatus().getId())
+				.id_alcolico(o.getAlcolico().getId())
+				.id_cantina(o.getCantina().getId())
+				.id_ordine(o.getOrdine().getId())
 				.build();
 	}
 }
