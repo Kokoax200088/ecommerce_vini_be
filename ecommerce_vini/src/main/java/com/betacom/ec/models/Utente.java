@@ -46,7 +46,7 @@ public class Utente {
 	private String cognome;
 
 	@NotBlank
-	@Email (regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+	@Email (regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$") //TODO passa nel validator della request
 	@Column(
 			name = "email",
 			nullable = false,

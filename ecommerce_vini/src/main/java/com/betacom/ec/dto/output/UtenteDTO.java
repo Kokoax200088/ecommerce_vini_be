@@ -1,7 +1,5 @@
 package com.betacom.ec.dto.output;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,12 +16,9 @@ public class UtenteDTO {
 	private String nome;
 	private String cognome;
 	private String dataNascita;
-	private String Role;
+	private String ruolo;
 	
 	//attributi opzionali (si può mettere come generic Object)
 	private ClienteDTO clienteDTO;
 	private VenditoreDTO venditoreDTO;
-	
-
-	
 }
