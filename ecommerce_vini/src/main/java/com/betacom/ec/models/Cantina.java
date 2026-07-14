@@ -15,7 +15,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,6 +53,10 @@ public class Cantina {
 	// collegamento all'ordine alcolico
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<OrdineAlcolico> listOrdineAlcolico;
+	
+	// collegamento all'ordine alcolico
+	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
+	private List<OrdineBox> listOrdineBox;
 
 	// collegamento al rating alcolico
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
@@ -66,12 +69,13 @@ public class Cantina {
 
 	// collegamento al prodotto
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<Prodotto> listProdotto;
+	private List<ProdottoAlcolico> listProdotto;
 
 	// collegamento a spedizione
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<Spedizione> listSpedizione;
 
+	
 	// collegamento cantina alcolico
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<CantinaAlcolico> listCantinaAlcolico;
