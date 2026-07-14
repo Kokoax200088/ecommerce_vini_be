@@ -14,9 +14,9 @@ public class CarrelloMap {
 	public static CarrelloDTO buildCarrelloDTO(Carrello c) { // TODO: aggiungere
 		return CarrelloDTO.builder()
 				.id(c.getId())
-				.listaBox(c.getListaBox())
-				.listaDegustazione(c.getListaDegustazione())
-				.listaProdotti(c.getListaProdotto())
+				.listaBox(c.getListaProdottoBox())
+				.listaDegustazione(c.getListaProdottoDegustazione())
+				.listaProdotti(c.getListaProdottoAlcolico())
 				.cliente(null) // ClienteMap.buildClienteDTO(c.getCliente())
 				.totale(c.getTotale())
 				.quantità(c.getQuantità())
