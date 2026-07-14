@@ -8,6 +8,17 @@ import com.betacom.ec.dto.input.CantinaReq;
 import com.betacom.ec.dto.input.RatingCantinaReq;
 import com.betacom.ec.dto.input.UtenteRequest;
 import com.betacom.ec.dto.output.RatingAlcolicoDTO;
+import com.betacom.ec.dto.output.RatingCantinaDTO;
+import com.betacom.ec.exception.EcommerceVinoException;
+import com.betacom.ec.mapping.RatingCantinaMap;
+import com.betacom.ec.models.Cantina;
+import com.betacom.ec.models.Cliente;
+import com.betacom.ec.models.RatingAlcolico;
+import com.betacom.ec.models.RatingCantina;
+import com.betacom.ec.repository.IAlcolicoRepository;
+import com.betacom.ec.repository.ICantinaRepository;
+import com.betacom.ec.repository.IRatingAlcolicoRepository;
+import com.betacom.ec.repository.IRatingCantinaRepository;
 import com.betacom.ec.services.interfaces.IRatingCantinaService;
 
 import jakarta.transaction.Transactional;
@@ -17,34 +28,54 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class RatingCantinaImpl implements IRatingCantinaService{
+public class RatingCantinaImpl implements IRatingCantinaService {
+	private final IRatingCantinaRepository rcR;
+	private final ICantinaRepository cR;
 
 	@Transactional
 	@Override
 	public void create(RatingCantinaReq req) throws Exception {
-		// TODO Auto-generated method stub
-		
+		log.debug("create rating alcolico{}", req);
+
+		RatingCantina ratCant = new RatingCantina();
+		Cantina cantina = cR.findById(req.getId_cantina())
+				.orElseThrow(() -> new EcommerceVinoException("cantina.notFnd"));
+
+		Cliente cli = new Cliente();// cliR.findById(req.getId_cliente())
+		// .orElseThrow(() -> new EcommerceVinoException("cliente.notFnd"));
+
+		ratCant.setCantina(cantina);
+		ratCant.setCliente(cli);
+		ratCant.setValutazione(req.getValutazione());
+		ratCant.setCommento(req.getCommento());
+
+		rcR.save(ratCant);
+
 	}
 
 	@Transactional
 	@Override
 	public void delete(Integer id) throws Exception {
-		// TODO Auto-generated method stub
-		
+		log.debug("delete rating alcolico{}", id);
+
+		RatingCantina ratCant = rcR.findById(id).orElseThrow(() -> new EcommerceVinoException("rat_cant.notFnd"));
+
+		rcR.delete(ratCant);
 	}
 
 	@Transactional
 	@Override
-	public List<RatingAlcolicoDTO> list(CantinaReq alcReq, UtenteRequest utReq, Integer valutazione) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<RatingCantinaDTO> list(CantinaReq cantReq, UtenteRequest utReq, Integer valutazione) throws Exception {
+		log.debug("list rating alcolico: {} {} {}", cantReq, utReq, valutazione);
+		List<RatingCantina> listRatingCantina = rcR.searchByFilter(cantReq.getId(), utReq.getId(), valutazione);
+		return RatingCantinaMap.buildRatingCantinaDTOList(listRatingCantina);
 	}
 
 	@Transactional
 	@Override
-	public RatingAlcolicoDTO getById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public RatingCantinaDTO getById(Integer id) throws Exception {
+		RatingCantina ratCant = rcR.findById(id).orElseThrow(() -> new EcommerceVinoException("rat_cant.notFnd"));
+		return RatingCantinaMap.buildRatingCantinaDTO(ratCant);
 	}
 
 }
