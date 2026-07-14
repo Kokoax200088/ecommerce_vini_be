@@ -14,6 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClienteDTO {
+	private Integer id;
 	private String indirizzo;
 	
 	//attributi in join

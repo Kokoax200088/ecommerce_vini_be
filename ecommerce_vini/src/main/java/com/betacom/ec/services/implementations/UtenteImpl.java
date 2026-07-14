@@ -28,7 +28,7 @@ public class UtenteImpl implements IUtenteService {
 	
 	@Transactional
 	@Override
-	public void create(UtenteRequest utenteRequest) throws Exception {
+	public Utente create(UtenteRequest utenteRequest) throws Exception {
 		log.debug("create: {}", utenteRequest);
 		
 		Utente utente = new Utente();
@@ -37,10 +37,10 @@ public class UtenteImpl implements IUtenteService {
 		utente.setDataNascita(Utilities.stringToDate(utenteRequest.getDataNascita()));
 		utente.setEmail(utenteRequest.getEmail());
 		utente.setPassword(utenteRequest.getPassword());
+		utente.setRuolo(ruoloRepository.findById(utenteRequest.getIdRuolo()).orElseThrow(() -> new EcommerceVinoException("ruolo.id_not_found")));
 		//CHECK non salviamo qui le info su cliente e venditore giusto?
 		
-		
-		utenteRepository.save(utente);
+		return utenteRepository.save(utente);
 	}
 	
 	@Transactional
@@ -56,7 +56,7 @@ public class UtenteImpl implements IUtenteService {
 	
 	@Transactional
 	@Override
-	public void update(UtenteRequest utenteRequest) throws Exception {
+	public Utente update(UtenteRequest utenteRequest) throws Exception {
 		log.debug("Update user {}", utenteRequest);
 		
 		Utente utente = utenteRepository.findById(utenteRequest.getId())
@@ -70,14 +70,19 @@ public class UtenteImpl implements IUtenteService {
 		if (utenteRequest.getIdRuolo() != null)
 			utente.setRuolo(ruoloRepository.findById(utenteRequest.getIdRuolo()).orElseThrow(() -> new EcommerceVinoException("ruolo.id_not_found")));
 		
+		return utente;
 	}
 	
 	@Transactional
 	@Override
-	public List<UtenteDTO> listBySearchString(String nomeSearch, String cognomeSearch, String emailSearch,
-			String password, String dataNascitaSearch, String ruolo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<UtenteDTO> listBySearchString(String nomeSearch, 
+								String cognomeSearch, 
+								String emailSearch, 
+								String dataNascitaSearch, 
+								String ruoloSearch) throws Exception {
+		
+		List<Utente> listUtente = utenteRepository.searchByFilter(nomeSearch, cognomeSearch, emailSearch, dataNascitaSearch, ruoloSearch); 
+		return UtenteMap.buildUtenteDTOList(listUtente); 
 	}
 	
 	@Transactional
