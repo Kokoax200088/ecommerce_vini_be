@@ -1,5 +1,7 @@
 package com.betacom.ec.dto.output;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,5 +14,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VenditoreDTO{
+	private Integer id;
 	private String partitaIva;
+	
+	//attributi in join
+	private List<CantinaDTO> listCantina;
+	private List<AlcolicoDTO> listAlcolico;
 }

@@ -1,12 +1,18 @@
 package com.betacom.ec.services.implementations;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.betacom.ec.dto.input.ClienteRequest;
+import com.betacom.ec.dto.input.UtenteRequest;
 import com.betacom.ec.dto.output.ClienteDTO;
+import com.betacom.ec.exception.EcommerceVinoException;
+import com.betacom.ec.mapping.ClienteMap;
 import com.betacom.ec.models.Cliente;
+import com.betacom.ec.models.Utente;
+import com.betacom.ec.repository.IClienteRepository;
 import com.betacom.ec.repository.IUtenteRepository;
 import com.betacom.ec.services.interfaces.IClienteService;
 import com.betacom.ec.services.interfaces.IUtenteService;
@@ -21,6 +27,11 @@ import lombok.extern.slf4j.Slf4j;
 public class ClienteImpl implements IClienteService{
 	private final IUtenteService utenteService;
 	
+	private final IClienteRepository clienteRepository;
+//	private final ICarrelloRepository carrelloRepository;
+//	private final IRatingAlcolicoRepository ratingAlcolicoRepository;
+//	private final IRatingCantinaRepository ratingCantinaRepository;
+//	private final IRuoloRepository ruoloRepository;
 	private final IUtenteRepository utenteRepository;
 	
 	@Transactional
@@ -30,30 +41,62 @@ public class ClienteImpl implements IClienteService{
 		
 		Cliente cliente = new Cliente();
 		
+		Utente utente = utenteService.create((UtenteRequest) clienteRequest);
+		cliente.setIndirizzo(clienteRequest.getIndirizzo());
 		
+		//in teoria in fase di creazione del cliente non ha ratings nè carrello
+		//cliente.setCarrello(carrelloRepository.findById(clienteRequest.getIdCarrello())
+		//		.orElseThrow(() -> new EcommerceVinoException("carrello.not_found")));
+		//cliente.setListRatingAlcolico(ratingAlcolicoRepository.searchByFilter(null, cliente.getUtente().getId(), null));
+		//cliente.setListRatingCantina(ratingCantinaRepository.searchByFilter(null, cliente.getUtente().getId(), null));
+		cliente.setUtente(utente);
+		
+		clienteRepository.save(cliente);
 	}
 	
+	@Transactional
 	@Override
 	public void delete(Integer id) throws Exception {
-		// TODO Auto-generated method stub
+		log.debug("Delete {}", id);
 		
+		Cliente cliente = clienteRepository.findById(id)
+							.orElseThrow(() -> new EcommerceVinoException("cliente.id_not_found"));
+		
+		utenteRepository.delete(cliente.getUtente());
+		clienteRepository.delete(cliente);
 	}
 	
+	@Transactional
 	@Override
 	public void update(ClienteRequest clienteRequest) throws Exception {
-		// TODO Auto-generated method stub
+		log.debug("Update {}", clienteRequest);
+		
+		Cliente cliente = clienteRepository.findById(clienteRequest.getId())
+								.orElseThrow(() -> new EcommerceVinoException("cliente.id_not_found"));
+		
+		Optional.ofNullable(clienteRequest.getIndirizzo()).ifPresent(cliente::setIndirizzo);
+		// il carrello non si modifica da qui
+		// stesso discorso per rating alcolico e rating cantina
 		
 	}
 	
+	@Transactional
 	@Override
 	public ClienteDTO getById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		log.debug("Cliente getByID {}", id);
+		
+		Cliente cliente = clienteRepository.findById(id)
+							.orElseThrow(() -> new EcommerceVinoException("cliente.id_not_found"));
+		return ClienteMap.buildClienteDTO(cliente);
 	}
 	
+	@Transactional
 	@Override
 	public List<ClienteDTO> listBySearchString(String indirizzoSearch) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		log.debug("Cliente listBySearchString [indirizzo = {}]", indirizzoSearch);
+		
+		List<Cliente> listCliente = clienteRepository.searchByFilter(indirizzoSearch);
+		
+		return ClienteMap.buildClienteDTOList(listCliente);
 	}
 }
