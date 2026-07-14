@@ -45,6 +45,12 @@ public class Ordine {
 
 	@OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
 	private List<OrdineAlcolico> listOrdineAlcolico;
+	
+	@OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
+	private List<OrdineBox> listOrdineBox;
+	
+	@OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
+	private List<PrenotazioneDegustazione> listPrenotazioneDeguestazione;
 
 	@Column(name = "indirizzo_destinazione", nullable = false)
 	private String indirizzoDestinazione;

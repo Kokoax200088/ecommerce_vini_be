@@ -15,7 +15,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -61,6 +60,16 @@ public class Box {
 			mappedBy = "box",
 			fetch = FetchType.LAZY)
 	private List <ImmagineBox> listImmagine;	
+	
+	@OneToMany(
+			mappedBy = "alcolico",
+			fetch = FetchType.LAZY)
+	private List<OrdineBox> listOrdineBox;
+	
+	@OneToMany(
+			mappedBy = "alcolico",
+			fetch = FetchType.LAZY)
+	private List <ProdottoBox> listProdottoBox;	
 	
 	@ManyToOne
 	@JoinColumn (

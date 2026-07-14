@@ -1,11 +1,5 @@
 package com.betacom.ec.dto.input;
 
-import com.betacom.ec.models.Cliente;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.ForeignKey;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

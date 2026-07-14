@@ -12,7 +12,7 @@ public interface IRatingAlcolicoRepository extends JpaRepository<RatingAlcolico,
 
 	@Query (name="ratingAlc.searchByFilter")
 	List<RatingAlcolico> searchByFilter(
-			@Param("alcolico") Integer alcolico,
+			@Param("alcolico") String alcolico,
 			@Param("utente") Integer utente,
 			@Param("valutazione") Integer valutazione
 			);
