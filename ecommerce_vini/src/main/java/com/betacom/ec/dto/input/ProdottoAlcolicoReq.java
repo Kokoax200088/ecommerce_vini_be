@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class ProdottoReq {
+public class ProdottoAlcolicoReq {
 	private Integer id;
 	@NotNull(groups=ValidationGroups.Create.class, message="carrello_notFound")
 	private Integer id_carrello;
