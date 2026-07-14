@@ -31,7 +31,7 @@ public class AlcolicoController extends ExceptionManager {
 	private final IMessaggioService msgS;
 
 	@PostMapping("/create")
-	public ResponseEntity<ResponseDTO> create(@Valid @RequestBody AlcolicoReq req) {
+	public ResponseEntity<ResponseDTO> create(@Valid @RequestBody AlcolicoReq req) throws Exception {
 		alcolicoS.create(req);
 		return new ResponseEntity<>(
 				ResponseDTO.builder().msg(msgS.get("alcolico_create_ok")).build(),
@@ -39,14 +39,14 @@ public class AlcolicoController extends ExceptionManager {
 	}
 
 	@PutMapping("/update")
-	public ResponseEntity<ResponseDTO> update(@Valid @RequestBody AlcolicoReq req) {
+	public ResponseEntity<ResponseDTO> update(@Valid @RequestBody AlcolicoReq req) throws Exception {
 		alcolicoS.update(req);
 		return ResponseEntity.ok(
 				ResponseDTO.builder().msg(msgS.get("alcolico_update_ok")).build());
 	}
 
 	@DeleteMapping("/remove/{id}")
-	public ResponseEntity<ResponseDTO> remove(@PathVariable("id") Integer id) {
+	public ResponseEntity<ResponseDTO> remove(@PathVariable("id") Integer id) throws Exception {
 		alcolicoS.remove(id);
 		return ResponseEntity.ok(
 				ResponseDTO.builder().msg(msgS.get("alcolico_remove_ok")).build());
@@ -58,7 +58,7 @@ public class AlcolicoController extends ExceptionManager {
 	}
 
 	@GetMapping("/get/{id}")
-	public ResponseEntity<AlcolicoDTO> get(@PathVariable("id") Integer id) {
+	public ResponseEntity<AlcolicoDTO> get(@PathVariable("id") Integer id) throws Exception {
 		return ResponseEntity.ok(alcolicoS.getById(id));
 	}
 }

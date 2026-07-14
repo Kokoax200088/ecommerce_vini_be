@@ -4,17 +4,16 @@ import java.util.List;
 
 import com.betacom.ec.dto.input.AlcolicoReq;
 import com.betacom.ec.dto.output.AlcolicoDTO;
-import com.betacom.ec.exception.EcommerceVinoException;
 
 public interface IAlcolicoService {
 
-	void create(AlcolicoReq req) throws EcommerceVinoException;
+	void create(AlcolicoReq req) throws Exception;
 
-	void update(AlcolicoReq req) throws EcommerceVinoException;
+	void update(AlcolicoReq req) throws Exception;
 
-	void remove(Integer id_alcolico) throws EcommerceVinoException;
+	void remove(Integer id_alcolico) throws Exception;
 
 	List<AlcolicoDTO> listAll();
 
-	AlcolicoDTO getById(Integer id_alcolico) throws EcommerceVinoException;
+	AlcolicoDTO getById(Integer id_alcolico) throws Exception;
 }

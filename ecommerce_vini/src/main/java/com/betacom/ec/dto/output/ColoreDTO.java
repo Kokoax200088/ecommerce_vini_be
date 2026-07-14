@@ -11,25 +11,8 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class AlcolicoDTO {
-
+public class ColoreDTO {
 	private Integer id;
-
-	private Integer id_venditore;
-
 	private String nome;
-
-	private Integer annata;
-
-	private TipologiaAlcolicoDTO tipologiaAlcolico;
-
-	private ColoreDTO colore;
-
-	private Integer gradazione;
-
 	private String descrizione;
-
-	private String provenienza;
-
-	private Double prezzo;
 }
