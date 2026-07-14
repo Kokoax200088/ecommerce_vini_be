@@ -11,7 +11,7 @@ import com.betacom.ec.models.RatingCantina;
 public interface IRatingCantinaRepository extends JpaRepository<RatingCantina, Integer> {
 	@Query (name="ratingCant.searchByFilter")
 	List<RatingCantina> searchByFilter(
-			@Param("cantina") Integer cantina,
+			@Param("cantina") String cantina,
 			@Param("utente") Integer utente,
 			@Param("valutazione") Integer valutazione
 			);

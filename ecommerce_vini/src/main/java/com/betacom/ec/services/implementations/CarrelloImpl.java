@@ -31,8 +31,6 @@ public class CarrelloImpl implements ICarrelloService{
 	@Override
 	public void create(CarrelloReq req) throws Exception {
 		log.debug("create Cart: {}", req);
-		
-		// TODO: implementare
 		Carrello cart = new Carrello();
 		Cliente cli =   new Cliente();//cliR.findById(req.getId_cliente())..orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
 		cart.setCliente(cli);

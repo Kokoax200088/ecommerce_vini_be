@@ -16,6 +16,7 @@ import com.betacom.ec.models.Cliente;
 import com.betacom.ec.models.RatingAlcolico;
 import com.betacom.ec.repository.IAlcolicoRepository;
 import com.betacom.ec.repository.ICantinaRepository;
+import com.betacom.ec.repository.IClienteRepository;
 import com.betacom.ec.repository.IRatingAlcolicoRepository;
 import com.betacom.ec.services.interfaces.IRatingAlcolicoService;
 
@@ -31,7 +32,7 @@ public class RatingAlcolicoImpl implements IRatingAlcolicoService{
 	private final IRatingAlcolicoRepository rAR;
 	private final IAlcolicoRepository aR;
 	 private final ICantinaRepository cR;
-	// private final IClienteRepository cliR;
+	 private final IClienteRepository cliR;
 	
 	@Transactional
 	@Override
@@ -45,8 +46,8 @@ public class RatingAlcolicoImpl implements IRatingAlcolicoService{
 		Cantina cantina = cR.findById(req.getId_cantina())
 				.orElseThrow(() -> new EcommerceVinoException("cantina.notFnd"));
 		
-		Cliente cli =  new Cliente();//cliR.findById(req.getId_cliente())
-		//.orElseThrow(() -> new EcommerceVinoException("cliente.notFnd"));
+		Cliente cli =  cliR.findById(req.getId_cliente())
+				.orElseThrow(() -> new EcommerceVinoException("cliente.notFnd"));
 		ratAlc.setAlcolico(alcolico);
 		ratAlc.setCantina(cantina);
 		ratAlc.setCliente(cli);
@@ -74,7 +75,7 @@ public class RatingAlcolicoImpl implements IRatingAlcolicoService{
 	@Override
 	public List<RatingAlcolicoDTO> list(AlcolicoReq alcReq, UtenteRequest utReq, Integer valutazione) throws Exception {
 		log.debug("list rating alcolico: {} {} {}", alcReq, utReq, valutazione);
-		List<RatingAlcolico> listRatingAlc = rAR.searchByFilter(alcReq.getAnnata(), utReq.getId(), valutazione);
+		List<RatingAlcolico> listRatingAlc = rAR.searchByFilter(alcReq.getNome(), utReq.getId(), valutazione);
 		return RatingAlcolicoMap.buildRatingAlcolicoDTOList(listRatingAlc);
 	}
 
