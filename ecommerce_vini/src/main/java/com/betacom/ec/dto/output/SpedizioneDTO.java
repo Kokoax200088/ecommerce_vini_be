@@ -1,8 +1,5 @@
 package com.betacom.ec.dto.output;
 
-import com.betacom.ec.models.OrdineAlcolico;
-import com.betacom.ec.models.Status;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,8 +13,8 @@ public class SpedizioneDTO {
 	private Integer id;
 	private String corriere;
 	private String codice_tracciamento;
-	//private CantinaDTO cantina;
-	//private ClienteDTO cliente;
-	private StatusDTO status;
-	private OrdineAlcolicoDTO ordine_alcolico;
+	private Integer id_cantina;
+	private Integer id_cliente;
+	private Integer id_status;
+	private Integer id_ordine_alcolico;
 }
