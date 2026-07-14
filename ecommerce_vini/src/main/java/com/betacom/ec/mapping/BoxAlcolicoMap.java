@@ -3,8 +3,6 @@ package com.betacom.ec.mapping;
 import java.util.List;
 
 import com.betacom.ec.dto.output.BoxAlcolicoDTO;
-import com.betacom.ec.dto.output.BoxDTO;
-import com.betacom.ec.models.Box;
 import com.betacom.ec.models.BoxAlcolico;
 
 public class BoxAlcolicoMap {

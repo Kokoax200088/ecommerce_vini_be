@@ -17,7 +17,7 @@ import jakarta.persistence.JoinColumn;
 @Entity
 @ToString
 @Table(name = "ordine_alcolico")
-public class OrdineAlcolico {
+public class PrenotazioneDegustazione {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -30,10 +30,10 @@ public class OrdineAlcolico {
 	
 	@ManyToOne
 	@JoinColumn (
-			name="id_alcolico",
-			foreignKey = @ForeignKey(name ="fk_ordine_alcolico" )	
+			name="id_box",
+			foreignKey = @ForeignKey(name ="fk_ordine_box" )	
 			)
-	private Alcolico alcolico;
+	private Box box;
 	
 	@ManyToOne
 	@JoinColumn(

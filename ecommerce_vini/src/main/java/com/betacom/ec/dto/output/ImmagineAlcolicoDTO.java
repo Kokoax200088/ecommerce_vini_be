@@ -1,12 +1,5 @@
 package com.betacom.ec.dto.output;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import com.betacom.ec.dto.input.ValidationGroups;
-import com.betacom.ec.models.Alcolico;
-
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

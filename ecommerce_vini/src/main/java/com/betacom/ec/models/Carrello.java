@@ -47,19 +47,19 @@ public class Carrello {
 			mappedBy = "carrello",
 			fetch = FetchType.EAGER
 			)
-	private List<Prodotto> listaProdotto;
+	private List<ProdottoAlcolico> listaProdottoAlcolico;
 	
 	@OneToMany(
 			mappedBy = "carrello",
 			fetch = FetchType.EAGER
 			)
-	private List<Degustazione> listaDegustazione;
+	private List<ProdottoBox> listaProdottoBox;
 	
 	@OneToMany(
 			mappedBy = "carrello",
 			fetch = FetchType.EAGER
 			)
-	private List<Box> listaBox;
+	private List<ProdottoDegustazione> listaProdottoDegustazione;
 	
 	@Column (
 			name="quantita",

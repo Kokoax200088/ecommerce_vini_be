@@ -2,7 +2,6 @@ package com.betacom.ec.models;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,7 +13,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -114,7 +112,7 @@ public class Alcolico {
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
-	private List <Prodotto> listProdotto;	
+	private List <ProdottoAlcolico> listProdottoAlcolico;	
 	
 	@OneToMany(
 			mappedBy = "alcolico",

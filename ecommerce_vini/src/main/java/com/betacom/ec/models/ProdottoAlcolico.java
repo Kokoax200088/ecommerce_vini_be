@@ -12,35 +12,40 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @Entity
-@Table(name = "box_alcolico")
-public class BoxAlcolico {
-	//id generato automaticamente per la quantità di un certo vino in una cantina
+@Table ( name = "prodotto_alcolico")
+public class ProdottoAlcolico { // PRODOTTO id alcolico e alcolico con quantità x carello e ordine
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	//collegamento box
 	@ManyToOne
 	@JoinColumn (
-			name="id_box",
-			foreignKey = @ForeignKey(name ="fk_boxAlcolico_box" )	
+			name="id_carrello",
+			foreignKey = @ForeignKey(name ="fk_prodotto_carrello" )	
 			)
-	private Box box;
+	private Carrello carrello;
 	
-	//collegamento alcolico
 	@ManyToOne
 	@JoinColumn (
 			name="id_alcolico",
-			foreignKey = @ForeignKey(name ="fk_boxAlcolico_alcolico" )	
+			foreignKey = @ForeignKey(name ="fk_prodotto_alcolico" )	
 			)
 	private Alcolico alcolico;
 	
-	@Column(
-			name = "quantita",
+	@ManyToOne
+	@JoinColumn (
+			name="id_cantina",
+			foreignKey = @ForeignKey(name ="fk_prodotto_cantina" )	
+			)
+	private Cantina cantina;
+
+	@Column (
+			name="quantita",
 			nullable = false
 			)
-	private Integer quantita;
+	private Integer quantità;
+	
 }
