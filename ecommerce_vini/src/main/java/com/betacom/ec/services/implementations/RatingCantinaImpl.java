@@ -69,7 +69,7 @@ public class RatingCantinaImpl implements IRatingCantinaService {
 	@Override
 	public List<RatingCantinaDTO> list(CantinaReq cantReq, UtenteRequest utReq, Integer valutazione) throws Exception {
 		log.debug("list rating alcolico: {} {} {}", cantReq, utReq, valutazione);
-		List<RatingCantina> listRatingCantina = rcR.searchByFilter(cantReq.getId(), utReq.getId(), valutazione);
+		List<RatingCantina> listRatingCantina = rcR.searchByFilter(cantReq.getNome(), utReq.getId(), valutazione);
 		return RatingCantinaMap.buildRatingCantinaDTOList(listRatingCantina);
 	}
 

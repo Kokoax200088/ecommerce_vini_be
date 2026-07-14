@@ -5,6 +5,9 @@ import java.util.List;
 import com.betacom.ec.models.Box;
 import com.betacom.ec.models.Degustazione;
 import com.betacom.ec.models.ProdottoAlcolico;
+import com.betacom.ec.models.ProdottoBox;
+import com.betacom.ec.models.ProdottoDegustazione;
+
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +22,7 @@ public class CarrelloReq {
 	private Integer id_cliente;
 	private Double totale;
 	private List<ProdottoAlcolico> listaProdotti;
-	private List<Degustazione> listaDegustazione;
-	private List<Box> listaBox;
+	private List<ProdottoDegustazione> listaDegustazione;
+	private List<ProdottoBox> listaBox;
 	private Integer quantità;
 }
