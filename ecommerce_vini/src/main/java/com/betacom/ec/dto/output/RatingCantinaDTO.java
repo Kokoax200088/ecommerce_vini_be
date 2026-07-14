@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RatingCantinaDTO {
+	private Integer id;
 	private CantinaDTO cantina;
 	private ClienteDTO cliente;
 	private Double valutazione;

@@ -2,7 +2,9 @@ package com.betacom.ec.dto.input;
 
 import java.util.List;
 
+import com.betacom.ec.models.Box;
 import com.betacom.ec.models.Cliente;
+import com.betacom.ec.models.Degustazione;
 import com.betacom.ec.models.Prodotto;
 
 import jakarta.persistence.CascadeType;
@@ -28,8 +30,8 @@ public class CarrelloReq {
 	@NotNull(groups=ValidationGroups.Create.class, message="cliente_notFound")
 	private Integer id_cliente;
 	private Double totale;
-	private List<Integer> listaProdotti;
-	private List<Integer> listaDegustazione;
-	private List<Integer> listaBox;
+	private List<Prodotto> listaProdotti;
+	private List<Degustazione> listaDegustazione;
+	private List<Box> listaBox;
 	private Integer quantità;
 }

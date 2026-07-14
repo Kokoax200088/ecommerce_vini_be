@@ -9,11 +9,13 @@ import com.betacom.ec.dto.input.RatingAlcolicoReq;
 import com.betacom.ec.dto.input.UtenteRequest;
 import com.betacom.ec.dto.output.RatingAlcolicoDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
+import com.betacom.ec.mapping.RatingAlcolicoMap;
 import com.betacom.ec.models.Alcolico;
 import com.betacom.ec.models.Cantina;
 import com.betacom.ec.models.Cliente;
 import com.betacom.ec.models.RatingAlcolico;
 import com.betacom.ec.repository.IAlcolicoRepository;
+import com.betacom.ec.repository.ICantinaRepository;
 import com.betacom.ec.repository.IRatingAlcolicoRepository;
 import com.betacom.ec.services.interfaces.IRatingAlcolicoService;
 
@@ -28,7 +30,7 @@ public class RatingAlcolicoImpl implements IRatingAlcolicoService{
 	
 	private final IRatingAlcolicoRepository rAR;
 	private final IAlcolicoRepository aR;
-	// private final ICantinaRepository cR;
+	 private final ICantinaRepository cR;
 	// private final IClienteRepository cliR;
 	
 	@Transactional
@@ -40,8 +42,8 @@ public class RatingAlcolicoImpl implements IRatingAlcolicoService{
 		Alcolico alcolico = aR.findById(req.getId_alcolico())
 				.orElseThrow(() -> new EcommerceVinoException("alcolico.notFnd"));
 		
-		Cantina cantina =  new Cantina();//cR.findById(req.getId_cantina())
-				//.orElseThrow(() -> new EcommerceVinoException("cantina.notFnd"));
+		Cantina cantina = cR.findById(req.getId_cantina())
+				.orElseThrow(() -> new EcommerceVinoException("cantina.notFnd"));
 		
 		Cliente cli =  new Cliente();//cliR.findById(req.getId_cliente())
 		//.orElseThrow(() -> new EcommerceVinoException("cliente.notFnd"));
@@ -73,14 +75,15 @@ public class RatingAlcolicoImpl implements IRatingAlcolicoService{
 	public List<RatingAlcolicoDTO> list(AlcolicoReq alcReq, UtenteRequest utReq, Integer valutazione) throws Exception {
 		log.debug("list rating alcolico: {} {} {}", alcReq, utReq, valutazione);
 		List<RatingAlcolico> listRatingAlc = rAR.searchByFilter(alcReq.getAnnata(), utReq.getId(), valutazione);
-		return null;
+		return RatingAlcolicoMap.buildRatingAlcolicoDTOList(listRatingAlc);
 	}
 
 	@Transactional
 	@Override
 	public RatingAlcolicoDTO getById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		RatingAlcolico ratAlc = rAR.findById(id)
+				.orElseThrow(() -> new EcommerceVinoException("rat_alc.notFnd"));
+		return RatingAlcolicoMap.buildRatingAlcolicoDTO(ratAlc);
 	}
 
 }

@@ -11,7 +11,9 @@ import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.CarrelloMap;
 import com.betacom.ec.models.Carrello;
 import com.betacom.ec.models.Cliente;
+import com.betacom.ec.repository.IBoxRepository;
 import com.betacom.ec.repository.ICarrelloRepository;
+import com.betacom.ec.repository.IDegustazioneRepository;
 import com.betacom.ec.services.interfaces.ICarrelloService;
 
 import jakarta.transaction.Transactional;
@@ -34,9 +36,9 @@ public class CarrelloImpl implements ICarrelloService{
 		Carrello cart = new Carrello();
 		Cliente cli =   new Cliente();//cliR.findById(req.getId_cliente())..orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
 		cart.setCliente(cli);
-		cart.setListaBox(null);
-		cart.setListaDegustazione(null);
-		cart.setListaProdotto(null);
+		cart.setListaBox(req.getListaBox()); 
+		cart.setListaDegustazione(req.getListaDegustazione()); 
+		cart.setListaProdotto(req.getListaProdotti()); 
 		cart.setQuantità(req.getQuantità());
 		cart.setTotale(req.getTotale());
 		
@@ -53,9 +55,9 @@ public class CarrelloImpl implements ICarrelloService{
 		Cliente cli =   new Cliente();//cliR.findById(req.getId_cliente())..orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
 		
 		Optional.ofNullable(cli).ifPresent(cart::setCliente);
-		//Optional.ofNullable(req.getListaBox()).ifPresent(cart::setListaBox);
-		//Optional.ofNullable(req.getListaDegustazione()).ifPresent(cart::setListaDegustazione);
-		//Optional.ofNullable(req.getListaProdotti()).ifPresent(cart::setListaProdotto);
+		Optional.ofNullable(req.getListaBox()).ifPresent(cart::setListaBox);
+		Optional.ofNullable(req.getListaDegustazione()).ifPresent(cart::setListaDegustazione);
+		Optional.ofNullable(req.getListaProdotti()).ifPresent(cart::setListaProdotto);
 		Optional.ofNullable(req.getQuantità()).ifPresent(cart::setQuantità);
 		Optional.ofNullable(req.getTotale()).ifPresent(cart::setTotale);
 		
