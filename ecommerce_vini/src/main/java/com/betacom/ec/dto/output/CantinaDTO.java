@@ -12,8 +12,8 @@ import lombok.*;
 public class CantinaDTO {
     private Integer id;
     private String nome;
-    private VenditoreDTO venditore;
-    private PosizioneDTO posizione;
+    private Integer id_venditore;
+    private Integer id_posizione;
     private List<CantinaAlcolicoDTO> listCantinaAlcolico;
     private List<RatingCantinaDTO> listRatingCantina;
     private List<BoxDTO>listBox;

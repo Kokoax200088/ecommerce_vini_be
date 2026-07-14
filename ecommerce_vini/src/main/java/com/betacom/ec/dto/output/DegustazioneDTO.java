@@ -17,7 +17,7 @@ public class DegustazioneDTO {
     private Double prezzo;
     private LocalDateTime dataInizio;
     private LocalDateTime dataFine;
-    private CantinaDTO cantina;
+    private Integer id_cantina;
     private List<AlcolicoDTO> alcolici;
     private List<ImmagineDegustazioneDTO> immagini;
 }

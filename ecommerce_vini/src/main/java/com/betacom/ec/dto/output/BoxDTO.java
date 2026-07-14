@@ -13,7 +13,7 @@ public class BoxDTO {
     private Integer id;
     private String nome;
     private Double sconto;
-    private CantinaDTO cantina;
+    private Integer id_cantina;
     private List<BoxAlcolicoDTO> listBoxAlcolico;
     private List<ImmagineBoxDTO> listImmagineBox;
 }
