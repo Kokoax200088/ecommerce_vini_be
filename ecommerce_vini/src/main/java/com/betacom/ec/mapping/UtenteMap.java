@@ -20,8 +20,8 @@ public class UtenteMap {
 				.cognome(utente.getCognome())
 				.dataNascita(Utilities.dateToString(utente.getDataNascita()))
 				.ruolo(utente.getRuolo().getNome())
-//				.clienteDTO(utente.getCliente()) //TODO MAPPING
-//				.venditoreDTO(utente.getVenditore()) //TODO MAPPING
+				.clienteDTO(ClienteMap.buildClienteDTO(utente.getCliente()))
+				.venditoreDTO(VenditoreMap.buildVenditoreDTO(utente.getVenditore()))
 				.build();
 	}
 }
