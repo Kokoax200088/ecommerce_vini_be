@@ -13,6 +13,7 @@ import com.betacom.ec.models.Carrello;
 import com.betacom.ec.models.Cliente;
 import com.betacom.ec.repository.IBoxRepository;
 import com.betacom.ec.repository.ICarrelloRepository;
+import com.betacom.ec.repository.IClienteRepository;
 import com.betacom.ec.repository.IDegustazioneRepository;
 import com.betacom.ec.services.interfaces.ICarrelloService;
 
@@ -26,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CarrelloImpl implements ICarrelloService{
 	
 	private final ICarrelloRepository carR;
+	private final IClienteRepository cliR;
 	
 	@Transactional
 	@Override
@@ -34,7 +36,7 @@ public class CarrelloImpl implements ICarrelloService{
 		
 		// TODO: implementare
 		Carrello cart = new Carrello();
-		Cliente cli =   new Cliente();//cliR.findById(req.getId_cliente())..orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
+		Cliente cli =   cliR.findById(req.getId_cliente()).orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
 		cart.setCliente(cli);
 		cart.setListaBox(req.getListaBox()); 
 		cart.setListaDegustazione(req.getListaDegustazione()); 
@@ -52,7 +54,7 @@ public class CarrelloImpl implements ICarrelloService{
 		log.debug("update Cart: {}", req);
 		Carrello cart = carR.findById(req.getId())
 				.orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
-		Cliente cli =   new Cliente();//cliR.findById(req.getId_cliente())..orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
+		Cliente cli =   cliR.findById(req.getId_cliente()).orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
 		
 		Optional.ofNullable(cli).ifPresent(cart::setCliente);
 		Optional.ofNullable(req.getListaBox()).ifPresent(cart::setListaBox);

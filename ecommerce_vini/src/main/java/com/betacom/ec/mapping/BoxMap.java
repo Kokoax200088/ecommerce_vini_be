@@ -6,7 +6,7 @@ import com.betacom.ec.dto.output.BoxDTO;
 import com.betacom.ec.models.Box;
 
 public class BoxMap {
-	public static List <BoxDTO> buildBoxDTOList(List <Box> listBox) {
+	public static List<BoxDTO> buildBoxDTOList(List <Box> listBox) {
 		List <BoxDTO> listBoxDTO = listBox.stream()
 				.map(b -> buildBoxDTO(b)).toList();
 		

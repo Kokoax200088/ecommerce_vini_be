@@ -17,6 +17,7 @@ import com.betacom.ec.models.RatingAlcolico;
 import com.betacom.ec.models.RatingCantina;
 import com.betacom.ec.repository.IAlcolicoRepository;
 import com.betacom.ec.repository.ICantinaRepository;
+import com.betacom.ec.repository.IClienteRepository;
 import com.betacom.ec.repository.IRatingAlcolicoRepository;
 import com.betacom.ec.repository.IRatingCantinaRepository;
 import com.betacom.ec.services.interfaces.IRatingCantinaService;
@@ -31,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RatingCantinaImpl implements IRatingCantinaService {
 	private final IRatingCantinaRepository rcR;
 	private final ICantinaRepository cR;
+	private final IClienteRepository cliR;
 
 	@Transactional
 	@Override
@@ -41,8 +43,8 @@ public class RatingCantinaImpl implements IRatingCantinaService {
 		Cantina cantina = cR.findById(req.getId_cantina())
 				.orElseThrow(() -> new EcommerceVinoException("cantina.notFnd"));
 
-		Cliente cli = new Cliente();// cliR.findById(req.getId_cliente())
-		// .orElseThrow(() -> new EcommerceVinoException("cliente.notFnd"));
+		Cliente cli = cliR.findById(req.getId_cliente())
+			.orElseThrow(() -> new EcommerceVinoException("cliente.notFnd"));
 
 		ratCant.setCantina(cantina);
 		ratCant.setCliente(cli);
