@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betacom.ec.dto.input.CarrelloReq;
 import com.betacom.ec.dto.input.RatingAlcolicoReq;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ResponseDTO;
-import com.betacom.ec.services.interfaces.ICarrelloService;
 import com.betacom.ec.services.interfaces.IRatingAlcolicoService;
 
 import lombok.RequiredArgsConstructor;
