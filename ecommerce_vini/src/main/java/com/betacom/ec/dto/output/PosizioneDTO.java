@@ -13,5 +13,5 @@ public class PosizioneDTO {
     private Double latitudine;
     private Double longitudine;
     private String descrizione;
-    private CantinaDTO cantina;
+    private Integer id_cantina;
 }

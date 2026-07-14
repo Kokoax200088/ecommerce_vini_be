@@ -21,5 +21,5 @@ import lombok.ToString;
 public class ImmagineCantinaDTO {
 	private Integer id;
 	private String url;
-	private CantinaDTO cantina;
+	private Integer id_cantina;
 }
