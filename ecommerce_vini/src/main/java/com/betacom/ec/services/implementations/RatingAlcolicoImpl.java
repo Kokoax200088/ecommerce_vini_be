@@ -74,7 +74,7 @@ public class RatingAlcolicoImpl implements IRatingAlcolicoService{
 	@Override
 	public List<RatingAlcolicoDTO> list(AlcolicoReq alcReq, UtenteRequest utReq, Integer valutazione) throws Exception {
 		log.debug("list rating alcolico: {} {} {}", alcReq, utReq, valutazione);
-		List<RatingAlcolico> listRatingAlc = rAR.searchByFilter(alcReq.getAnnata(), utReq.getId(), valutazione);
+		List<RatingAlcolico> listRatingAlc = rAR.searchByFilter(alcReq.getId_alcolico(), utReq.getId(), valutazione);
 		return RatingAlcolicoMap.buildRatingAlcolicoDTOList(listRatingAlc);
 	}
 
