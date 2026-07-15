@@ -16,10 +16,10 @@ public class SpedizioneAlcolicoMap {
 				.id(o.getId())
 				.corriere(o.getCorriere())
 				.codice_tracciamento(o.getCodice_tracciamento())
-				.id_status(o.getStatus().getId())
-				.id_ordine_alcolico(o.getOrdineAlcolico().getId())
-				.id_cliente(o.getCliente().getId())
-				.id_cantina(o.getCantina().getId())
+				.status(StatusMap.buildStatusDTO(o.getStatus()))
+				.ordine_alcolico(OrdineAlcolicoMap.buildOrdineAlcolicoDTO(o.getOrdineAlcolico()))
+				.cliente(ClienteMap.buildClienteDTO(o.getCliente()))
+//				.cantina(CantinaMap.buildCantinaDTO(o.getCantina()))
 				.build();
 	}
 }

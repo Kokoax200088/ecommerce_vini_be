@@ -50,7 +50,7 @@ public class Ordine {
 	private List<OrdineBox> listOrdineBox;
 	
 	@OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
-	private List<PrenotazioneDegustazione> listPrenotazioneDeguestazione;
+	private List<PrenotazioneDegustazione> listPrenotazioneDegustazione;
 
 	@Column(name = "indirizzo_destinazione", nullable = false)
 	private String indirizzoDestinazione;

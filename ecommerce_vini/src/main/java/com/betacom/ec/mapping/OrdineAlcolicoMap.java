@@ -10,15 +10,15 @@ public class OrdineAlcolicoMap {
 		return lO.stream()
 				.map (a -> buildOrdineAlcolicoDTO(a)
 						).toList();
-		
 	}
+	
 	public static OrdineAlcolicoDTO buildOrdineAlcolicoDTO(OrdineAlcolico o) {
 		return OrdineAlcolicoDTO.builder()
 				.id(o.getId())
-				.id_status(o.getStatus().getId())
-				.id_alcolico(o.getAlcolico().getId())
-				.id_cantina(o.getCantina().getId())
-				.id_ordine(o.getOrdine().getId())
+				.status(StatusMap.buildStatusDTO(o.getStatus()))
+				.alcolico(AlcolicoMap.buildAlcolicoDTO(o.getAlcolico()))
+//				.cantina(CantinaMap.buildCantinaDTO(o.getCantina()))
+				.ordine(OrdineMap.buildOrdineDTO(o.getOrdine()))
 				.build();
 	}
 }
