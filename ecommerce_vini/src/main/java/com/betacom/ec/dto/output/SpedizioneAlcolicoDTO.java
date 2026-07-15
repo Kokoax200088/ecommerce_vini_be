@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class SpedizioneDTO {
+public class SpedizioneAlcolicoDTO {
 	private Integer id;
 	private String corriere;
 	private String codice_tracciamento;

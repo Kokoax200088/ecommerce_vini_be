@@ -20,5 +20,5 @@ public class OrdineDTO {
 	private Integer id_status;
 	private Integer id_utente;
 	private List<OrdineAlcolicoDTO> ordineAlcolico;
-	private String indirizzoDestinazione;
+	private String indirizzo_destinazione;
 }

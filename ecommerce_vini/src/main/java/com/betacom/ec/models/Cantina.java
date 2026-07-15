@@ -77,7 +77,7 @@ public class Cantina {
 	
 	// collegamento a spedizione
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<Spedizione> listSpedizione;
+	private List<SpedizioneAlcolico> listSpedizione;
 
 	
 	// collegamento cantina alcolico
