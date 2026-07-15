@@ -11,10 +11,20 @@ import com.betacom.ec.dto.output.OrdineDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.OrdineMap;
 import com.betacom.ec.models.Ordine;
+import com.betacom.ec.models.OrdineAlcolico;
+import com.betacom.ec.models.OrdineBox;
+import com.betacom.ec.models.PrenotazioneDegustazione;
 import com.betacom.ec.models.Status;
+import com.betacom.ec.models.Utente;
+import com.betacom.ec.repository.IOrdineAlcolicoRepository;
+import com.betacom.ec.repository.IOrdineBoxRepository;
 import com.betacom.ec.repository.IOrdineRepository;
+import com.betacom.ec.repository.IPrenotazioneDegustazioneRepository;
 import com.betacom.ec.repository.IStatusRepository;
+import com.betacom.ec.repository.IUtenteRepository;
 import com.betacom.ec.services.interfaces.IOrdineService;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,59 +33,86 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class OrdineImpl implements IOrdineService{
 	private final IOrdineRepository oR;
-	//private final IUtenteRepository uR;
+	private final IUtenteRepository uR;
 	private final IStatusRepository sR;
+	private final IOrdineAlcolicoRepository oaR;
+	private final IOrdineBoxRepository obR;
+	private final IPrenotazioneDegustazioneRepository pdR;
 	
+	@Transactional
 	public void create(OrdineReq req) throws Exception {
 		Ordine o = new Ordine();
-		o.setId(req.getId());
 		o.setData_ordine(req.getData_ordine());
 		o.setTotale(req.getTotale());
 		
-		//Utente u = uR.findById(req.getId_utente()).orElseTHrow(() -> new EcommerceVinoException("utente.ntfnd"));
-		//o.setUtente(u);
-		//manca utente repository
+		Utente u = uR.findById(req.getId_utente()).orElseThrow(() -> new EcommerceVinoException("utente.ntfnd"));
+		o.setUtente(u);
+		
 		Status s = sR.findById(req.getId_status()).orElseThrow(() -> new EcommerceVinoException("status.ntfnd"));
 		o.setStatus(s);
 		
 		o.setIndirizzoDestinazione(req.getIndirizzoDestinazione());
 		
-		req.getListOrdineAlcolico().forEach(ordAlc -> o.getListOrdineAlcolico().add(ordAlc));
-		
 		oR.save(o);
 	}
 	
-	
+	@Transactional
 	public void delete(Integer id) throws Exception {
 		Ordine o= oR.findById(id)
 				.orElseThrow(() -> new EcommerceVinoException("ordine.ntfnd"));
 		oR.delete(o);
 	}
 	
+	@Transactional
 	public void update(OrdineReq req) throws Exception {
 		Ordine o = oR.findById(req.getId()).orElseThrow( ()-> new EcommerceVinoException("ordine.ntfnd"));
 		Optional.ofNullable(req.getData_ordine()).ifPresent(o::setData_ordine);;
 		Optional.ofNullable(req.getTotale()).ifPresent(o::setTotale);
 		
-		//Utente u = uR.findById(req.getId_utente()).orElseTHrow(() -> new EcommerceVinoException("utente.ntfnd"));
-		//o.setUtente(u);
-		//Manca utenteRepository
+		Utente u = uR.findById(req.getId_utente()).orElseThrow(() -> new EcommerceVinoException("utente.ntfnd"));
+		o.setUtente(u);
+		
 		Status s = sR.findById(req.getId_status()).orElseThrow(() -> new EcommerceVinoException("status.ntfnd"));
 		o.setStatus(s);
 		
 		Optional.ofNullable(req.getIndirizzoDestinazione()).ifPresent(o::setIndirizzoDestinazione);
-		req.getListOrdineAlcolico().forEach(ordAlc -> o.getListOrdineAlcolico().add(ordAlc));
 		
 		oR.save(o);
 	}
+	
+	@Transactional
 	public List<OrdineDTO> listWithParameters(LocalDate data,Double totale,Integer id_status,Integer id_utente,String indirizzo_destinazione){
 		List<Ordine> lO = oR.searchWithParameters(data,totale,id_status,id_utente,indirizzo_destinazione);
 		return OrdineMap.buildOrdineDTOList(lO);
 	}
 
+	@Transactional
 	public OrdineDTO getById(Integer id_ordine) throws Exception{
 		Ordine o = oR.findById(id_ordine)
 				.orElseThrow(()-> new EcommerceVinoException("ordine.ntfnd"));
 		return OrdineMap.buildOrdineDTO(o);
 	}	
+	
+	@Transactional
+	public void addListOrdineAlcolico(Integer id_ordine_alcolico,Integer id_ordine) throws Exception{
+		OrdineAlcolico oa = oaR.findById(id_ordine_alcolico).orElseThrow( () -> new EcommerceVinoException("ordalc.ntfnd"));
+		Ordine o = oR.findById(id_ordine).orElseThrow( () -> new EcommerceVinoException("ordine.ntfnd"));
+		o.getListOrdineAlcolico().add(oa);
+		oR.save(o);
+	}
+	@Transactional
+	public void addListOrdineBox(Integer id_box,Integer id_ordine) throws Exception{
+		OrdineBox b = obR.findById(id_box).orElseThrow( () -> new EcommerceVinoException("ordbox.ntfnd"));
+		Ordine o = oR.findById(id_ordine).orElseThrow( () -> new EcommerceVinoException("ordine.ntfnd"));
+		o.getListOrdineBox().add(b);
+		oR.save(o);
+	}
+	
+	@Transactional
+	public void addPrenotazioneDegustazione(Integer id_prenot, Integer id_ordine) throws Exception{
+		PrenotazioneDegustazione pd = pdR.findById(id_prenot).orElseThrow( () -> new EcommerceVinoException("prendeg.ntfnd"));
+		Ordine o = oR.findById(id_ordine).orElseThrow( () -> new EcommerceVinoException("ordine.ntfnd"));
+		o.getListPrenotazioneDegustazione().add(pd);
+		oR.save(o);
+	}
 }

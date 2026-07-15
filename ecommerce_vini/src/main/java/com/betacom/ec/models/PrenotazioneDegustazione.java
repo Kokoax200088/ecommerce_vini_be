@@ -30,10 +30,10 @@ public class PrenotazioneDegustazione {
 	
 	@ManyToOne
 	@JoinColumn (
-			name="id_box",
-			foreignKey = @ForeignKey(name ="fk_ordine_box" )	
+			name="id_degustazione",
+			foreignKey = @ForeignKey(name ="fk_ordine_degustazione" )	
 			)
-	private Box box;
+	private Degustazione degustazione;
 	
 	@ManyToOne
 	@JoinColumn(

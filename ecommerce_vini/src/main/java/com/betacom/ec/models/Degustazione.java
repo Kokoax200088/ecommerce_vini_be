@@ -79,20 +79,11 @@ public class Degustazione {
 			joinColumns = @JoinColumn(name = "id_degustazione"),
 			inverseJoinColumns = @JoinColumn (name = "id_alcolico")
 			)
-	List <Alcolico> listAlcolico;
+	private List <Alcolico> listAlcolico;
 	
 	//collegamento con immagini
 	@OneToMany(
 			mappedBy = "degustazione",
 			fetch = FetchType.LAZY)
 	private List <ImmagineDegustazione> listImmagine;	
-	
-	@ManyToOne
-	@JoinColumn (
-			name="id_carrello",
-			foreignKey = @ForeignKey(name ="fk_degustazione_carrello" )	
-			)
-	private Carrello carrello;
-	
-	
 }
