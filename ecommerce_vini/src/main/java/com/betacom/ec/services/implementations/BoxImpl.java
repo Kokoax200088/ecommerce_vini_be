@@ -17,6 +17,7 @@ import com.betacom.ec.repository.IBoxRepository;
 import com.betacom.ec.repository.ICantinaRepository;
 import com.betacom.ec.services.interfaces.IBoxService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +29,7 @@ public class BoxImpl implements IBoxService{
 	private final IBoxRepository boxR;
 	private final ICantinaRepository cR;
 
+	@Transactional
 	@Override
 	public void create(BoxReq req) throws Exception {
 		log.debug("create box{}", req);
@@ -49,6 +51,7 @@ public class BoxImpl implements IBoxService{
 		
 	}
 
+	@Transactional
 	@Override
 	public void update(BoxReq req) throws Exception {
 		log.debug("update box: {}", req);
@@ -70,6 +73,7 @@ public class BoxImpl implements IBoxService{
 		
 	}
 
+	@Transactional
 	@Override
 	public void delete(Integer id) throws Exception {
 		log.debug("delete box: {}", id);
@@ -80,13 +84,15 @@ public class BoxImpl implements IBoxService{
 		
 	}
 
+	@Transactional
 	@Override
-	public List<BoxDTO> list() throws Exception {
+	public List<BoxDTO> list(String nome, Integer id_cantina) throws Exception {
 		log.debug("list box");
-		List<Box> listBox = boxR.findAll();
+		List<Box> listBox = boxR.searchByFilter(nome, id_cantina);
 		return BoxMap.buildBoxDTOList(listBox);
 	}
 
+	@Transactional
 	@Override
 	public BoxDTO getById(Integer id) throws Exception {
 		Box box = boxR.findById(id)

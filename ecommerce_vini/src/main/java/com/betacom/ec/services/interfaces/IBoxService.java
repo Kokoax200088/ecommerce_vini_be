@@ -10,6 +10,6 @@ public interface IBoxService {
 	void update(BoxReq req) throws Exception;
 	void delete(Integer id) throws Exception;
 	
-	List<BoxDTO> list() throws Exception;
+	List<BoxDTO> list(String nome, Integer id_cantina) throws Exception;
 	BoxDTO getById(Integer id) throws Exception;
 }

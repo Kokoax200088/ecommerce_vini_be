@@ -9,10 +9,10 @@ import lombok.ToString;
 @Setter
 @Builder
 @ToString
-public class OrdineBoxDTO {
+public class OrdineDegustazioneDTO {
 	private Integer id;
-	private OrdineDTO ordine;
-	private StatusDTO status;
-	private BoxDTO box;
-	private CantinaDTO cantina;
+	private Integer id_ordine;
+	private Integer id_status;
+	private Integer id_degustazione;
+	private Integer id_cantina;
 }

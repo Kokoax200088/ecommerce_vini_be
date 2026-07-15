@@ -35,7 +35,7 @@ public class OrdineAlcolicoImpl implements IOrdineAlcolicoService{
 	private final IStatusRepository sR;
 	public void create(OrdineAlcolicoReq req) throws Exception{
 		OrdineAlcolico oa = new OrdineAlcolico();
-		oa.setId(req.getId());
+		Optional.ofNullable(req.getId()).ifPresent(oa::setId);
 		Alcolico a = aR.findById(req.getAlcolicoId()).orElseThrow( () -> new EcommerceVinoException("alcolico.ntfnd"));
 		oa.setAlcolico(a);
 		Cantina c = cR.findById(req.getCantinaId()).orElseThrow(() -> new EcommerceVinoException("cantina.ntfnd"));
