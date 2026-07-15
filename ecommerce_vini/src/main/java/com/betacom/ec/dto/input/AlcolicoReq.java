@@ -1,5 +1,7 @@
 package com.betacom.ec.dto.input;
 
+import java.util.List;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -41,4 +43,6 @@ public class AlcolicoReq {
 
 	@NotNull
 	private Double prezzo;
+
+	private List<Integer> id_caratteristiche;
 }
