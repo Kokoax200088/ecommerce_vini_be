@@ -24,7 +24,7 @@ public class PosizioneReq {
 	private Double longitudine;
 	
 	@NotNull(groups = {ValidationGroups.Update.class}, message ="posizione_id_cantina_missing")
-	private Integer posizioneId;
+	private Integer cantinaId;
 	
 	private String descrizione;
 }

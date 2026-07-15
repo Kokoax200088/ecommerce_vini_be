@@ -15,7 +15,8 @@ public class VenditoreMap {
 		return VenditoreDTO.builder()
 				.id(venditore.getId())
 				.listAlcolico(AlcolicoMap.buildAlcolicoDTOList(venditore.getListAlcolico()))
-//				.listCantina(CantinaMap.buildCantinaDTOList(venditore.getListCantina()))
+				.listCantina(CantinaMap.buildCantinaDTOList(venditore.getListCantina()))
+				.partitaIva(venditore.getPartitaIva())
 				.build();
 	}
 }

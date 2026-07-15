@@ -1,5 +1,6 @@
 package com.betacom.ec.dto.output;
 
+
 import lombok.*;
 
 @Getter
@@ -10,7 +11,7 @@ import lombok.*;
 @ToString
 public class CantinaAlcolicoDTO {
     private Integer id;
-    private Integer id_cantina;
-    private Integer id_alcolico;
+    private Integer idCantina; //id solo per evitare casini
+    private AlcolicoDTO alcolico; //in teoria qui può andare l'info completa
     private Integer quantita;
 }
