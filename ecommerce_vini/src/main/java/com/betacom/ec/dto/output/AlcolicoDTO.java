@@ -1,5 +1,7 @@
 package com.betacom.ec.dto.output;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,4 +34,6 @@ public class AlcolicoDTO {
 	private String provenienza;
 
 	private Double prezzo;
+
+	private List<CaratteristicaDTO> caratteristiche;
 }

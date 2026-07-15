@@ -16,7 +16,7 @@ import jakarta.persistence.JoinColumn;
 @Getter
 @Entity
 @ToString
-@Table(name = "ordine_alcolico")
+@Table(name = "prenotazione_degustazione")
 public class PrenotazioneDegustazione {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

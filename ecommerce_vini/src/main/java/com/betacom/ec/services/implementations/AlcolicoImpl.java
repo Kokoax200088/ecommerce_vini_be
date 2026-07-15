@@ -13,6 +13,7 @@ import com.betacom.ec.models.Colore;
 import com.betacom.ec.models.TipologiaAlcolico;
 import com.betacom.ec.models.Venditore;
 import com.betacom.ec.repository.IAlcolicoRepository;
+import com.betacom.ec.repository.ICaratteristicaRepository;
 import com.betacom.ec.repository.IColoreRepository;
 import com.betacom.ec.repository.ITipologiaAlcolicoRepository;
 import com.betacom.ec.services.interfaces.IAlcolicoService;
@@ -31,6 +32,7 @@ public class AlcolicoImpl implements IAlcolicoService {
 	private final IAlcolicoRepository alcolicoR;
 	private final ITipologiaAlcolicoRepository tipologiaR;
 	private final IColoreRepository coloreR;
+	private final ICaratteristicaRepository caratteristicaR;
 
 	@PersistenceContext
 	private EntityManager em;
@@ -56,6 +58,8 @@ public class AlcolicoImpl implements IAlcolicoService {
 		a.setDescrizione(req.getDescrizione());
 		a.setProvenienza(req.getProvenienza());
 		a.setPrezzo(req.getPrezzo());
+		if (req.getId_caratteristiche() != null)
+			a.setListCaratteristica(caratteristicaR.findAllById(req.getId_caratteristiche()));
 
 		alcolicoR.save(a);
 	}
@@ -90,6 +94,8 @@ public class AlcolicoImpl implements IAlcolicoService {
 		a.setDescrizione(req.getDescrizione());
 		a.setProvenienza(req.getProvenienza());
 		a.setPrezzo(req.getPrezzo());
+		if (req.getId_caratteristiche() != null)
+			a.setListCaratteristica(caratteristicaR.findAllById(req.getId_caratteristiche()));
 
 		alcolicoR.save(a);
 	}
@@ -110,6 +116,13 @@ public class AlcolicoImpl implements IAlcolicoService {
 		log.debug("listAll");
 
 		return AlcolicoMap.buildAlcolicoDTOList(alcolicoR.findAll());
+	}
+
+	@Override
+	public List<AlcolicoDTO> listBySearchString(Integer idColore, Integer idTipologia, String nome, Integer gradazione, Integer annata) throws Exception {
+		log.debug("listBySearchString {} {} {} {} {}", idColore, idTipologia, nome, gradazione, annata);
+
+		return AlcolicoMap.buildAlcolicoDTOList(alcolicoR.searchByFilter(idColore, idTipologia, nome, gradazione, annata));
 	}
 
 	@Override

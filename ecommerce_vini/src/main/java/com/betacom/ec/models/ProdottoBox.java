@@ -28,6 +28,7 @@ public class ProdottoBox {
 			)
 	private Carrello carrello;
 	
+	//collegamento con Box
 	@ManyToOne
 	@JoinColumn (
 			name="id_box",

@@ -30,8 +30,7 @@ public class CantinaAlcolico {
 				)
 		private Cantina cantina;
 		
-		//collegamento alcolico
-		
+		//collegato con Alcolico
 		@ManyToOne
 		@JoinColumn (
 				name="id_alcolico",

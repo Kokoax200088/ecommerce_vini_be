@@ -8,7 +8,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,8 +16,8 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "colore")
-public class Colore {
+@Table(name = "caratteristica")
+public class Caratteristica {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,8 +34,7 @@ public class Colore {
 			nullable = true
 			)
 	private String descrizione;
-	
-	//collegamento con Alcolico
-	@OneToMany(mappedBy = "colore", fetch = FetchType.LAZY)
+
+	@ManyToMany(mappedBy = "listCaratteristica", fetch = FetchType.LAZY)
 	private List<Alcolico> listAlcolico;
 }

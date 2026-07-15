@@ -23,25 +23,23 @@ import lombok.Setter;
 @Entity
 @Table(name = "box")
 public class Box {	
-	//id Box generato automaticamente
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	//nome della cantina non opzionale
 	@Column(
 			name = "nome",
 			nullable = false
 			)
 	private String nome;
-	
-	//il venditore mette uno sconto per incentivare a comprare il box
+
 	@Column(
 			name = "sconto",
 			nullable = true
 			)
 	private Double sconto;
 	
+	//collegamento con Cantina
 	@ManyToOne
 	@JoinColumn (
 			name="id_cantina",
@@ -49,6 +47,7 @@ public class Box {
 			)
 	private Cantina cantina;
 	
+	//collegamento con BoxAlcolico
 	@OneToMany(
 			mappedBy = "box",
 			fetch = FetchType.LAZY
@@ -61,21 +60,17 @@ public class Box {
 			fetch = FetchType.LAZY)
 	private List <ImmagineBox> listImmagine;	
 	
+	//collegamento con OrdineBox
 	@OneToMany(
-			mappedBy = "alcolico",
+			mappedBy = "box",
 			fetch = FetchType.LAZY)
 	private List<OrdineBox> listOrdineBox;
 	
+	//collegamento con ProdottoBox
 	@OneToMany(
-			mappedBy = "alcolico",
+			mappedBy = "box",
 			fetch = FetchType.LAZY)
 	private List <ProdottoBox> listProdottoBox;	
 	
-	@ManyToOne
-	@JoinColumn (
-			name="id_carrello",
-			foreignKey = @ForeignKey(name ="fk_box_carrello" )	
-			)
-	private Carrello carrello;
 	
 }
