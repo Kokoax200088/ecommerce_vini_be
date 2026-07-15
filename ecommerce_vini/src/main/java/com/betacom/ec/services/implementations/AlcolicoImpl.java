@@ -112,13 +112,6 @@ public class AlcolicoImpl implements IAlcolicoService {
 	}
 
 	@Override
-	public List<AlcolicoDTO> listAll() {
-		log.debug("listAll");
-
-		return AlcolicoMap.buildAlcolicoDTOList(alcolicoR.findAll());
-	}
-
-	@Override
 	public List<AlcolicoDTO> listBySearchString(Integer idColore, Integer idTipologia, String nome, Integer gradazione, Integer annata) throws Exception {
 		log.debug("listBySearchString {} {} {} {} {}", idColore, idTipologia, nome, gradazione, annata);
 
