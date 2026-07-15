@@ -1,5 +1,6 @@
 package com.betacom.ec.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
@@ -49,5 +50,8 @@ public class OrdineBox {
 			foreignKey = @ForeignKey(name="fk_ordine_alcolico_cantina")
 			)
 	private Cantina cantina;
+
+	@Column(name="quantita", nullable = false)
+	private Integer quantita;
 	
 }

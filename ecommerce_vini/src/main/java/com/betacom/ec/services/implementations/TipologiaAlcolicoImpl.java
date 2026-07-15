@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.betacom.ec.dto.input.TipologiaAlcolicoReq;
 import com.betacom.ec.dto.output.TipologiaAlcolicoDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.TipologiaAlcolicoMap;
@@ -11,6 +12,7 @@ import com.betacom.ec.models.TipologiaAlcolico;
 import com.betacom.ec.repository.ITipologiaAlcolicoRepository;
 import com.betacom.ec.services.interfaces.ITipologiaAlcolicoService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +22,29 @@ import lombok.extern.slf4j.Slf4j;
 public class TipologiaAlcolicoImpl implements ITipologiaAlcolicoService {
 
 	private final ITipologiaAlcolicoRepository tipologiaR;
+
+	@Transactional
+	@Override
+	public void create(TipologiaAlcolicoReq req) throws Exception {
+		log.debug("create {}", req);
+
+		TipologiaAlcolico t = new TipologiaAlcolico();
+		t.setNome(req.getNome());
+		t.setDescrizione(req.getDescrizione());
+
+		tipologiaR.save(t);
+	}
+
+	@Transactional
+	@Override
+	public void remove(Integer id) throws Exception {
+		log.debug("remove {}", id);
+
+		TipologiaAlcolico t = tipologiaR.findById(id)
+				.orElseThrow(() -> new EcommerceVinoException("tipologia.notFnd"));
+
+		tipologiaR.delete(t);
+	}
 
 	@Override
 	public List<TipologiaAlcolicoDTO> listAll() {
