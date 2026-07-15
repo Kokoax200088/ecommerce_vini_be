@@ -24,6 +24,7 @@ public class ImmagineAlcolico {
 	@Column(name = "url", nullable = false)
 	private String url;
 
+	//collegato con Alcolico
 	@ManyToOne
 	@JoinColumn(name = "id_alcolico", foreignKey = @ForeignKey(name = "fk_immagine_alcolico"))
 	private Alcolico alcolico;

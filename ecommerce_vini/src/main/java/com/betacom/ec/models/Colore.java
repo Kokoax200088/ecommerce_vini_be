@@ -35,6 +35,7 @@ public class Colore {
 			)
 	private String descrizione;
 	
+	//collegamento con Alcolico
 	@OneToMany(mappedBy = "colore", fetch = FetchType.LAZY)
 	private List<Alcolico> listAlcolico;
 }

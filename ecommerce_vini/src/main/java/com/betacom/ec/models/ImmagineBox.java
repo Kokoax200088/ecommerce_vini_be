@@ -24,6 +24,7 @@ public class ImmagineBox {
 	@Column(name = "url", nullable = false)
 	private String url;
 
+	//collegamento ocn Immagine
 	@ManyToOne
 	@JoinColumn(name = "id_box", foreignKey = @ForeignKey(name = "fk_immagine_box"))
 	private Box box;

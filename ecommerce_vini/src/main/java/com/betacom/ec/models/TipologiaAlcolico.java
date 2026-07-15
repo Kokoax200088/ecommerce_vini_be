@@ -35,6 +35,7 @@ public class TipologiaAlcolico {
 			)
 	private String descrizione;
 	
+	//collegato con Alcolico
 	@OneToMany(mappedBy = "tipologia_alcolico", fetch = FetchType.LAZY)
 	private List<Alcolico> listAlcolico;
 }

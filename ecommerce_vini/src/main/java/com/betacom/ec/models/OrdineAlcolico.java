@@ -28,6 +28,7 @@ public class OrdineAlcolico {
 			)
 	private Ordine ordine;
 	
+	//collegamento con Alcolico
 	@ManyToOne
 	@JoinColumn (
 			name="id_alcolico",
@@ -42,6 +43,7 @@ public class OrdineAlcolico {
 			)
 	private Status status;
 	
+	//collegato con Cantina
 	@ManyToOne
 	@JoinColumn(
 			name="cantina",

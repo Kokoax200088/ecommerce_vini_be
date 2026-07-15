@@ -21,6 +21,7 @@ public class RatingAlcolico {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	//collegato con Alcolico
 	@ManyToOne
 	@JoinColumn (
 			name="id_alcolico",

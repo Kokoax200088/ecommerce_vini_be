@@ -22,7 +22,7 @@ public class BoxAlcolico {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	//collegamento box
+	//collegamento con Box
 	@ManyToOne
 	@JoinColumn (
 			name="id_box",
@@ -30,7 +30,7 @@ public class BoxAlcolico {
 			)
 	private Box box;
 	
-	//collegamento alcolico
+	//collegato con Alcolico
 	@ManyToOne
 	@JoinColumn (
 			name="id_alcolico",

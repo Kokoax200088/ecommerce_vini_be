@@ -42,7 +42,7 @@ public class Cantina {
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<RatingCantina> listRatingCantina;
 
-	// collegeamneto al box
+	// collegamento con Box
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<Box> listBox;
 
@@ -50,11 +50,11 @@ public class Cantina {
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<Degustazione> listDegustazione;
 
-	// collegamento all'ordine alcolico
+	// collegamento con OrdineAlcolico
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<OrdineAlcolico> listOrdineAlcolico;
 	
-	// collegamento all'ordine alcolico
+	// collegamento
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<OrdineBox> listOrdineBox;
 
@@ -67,10 +67,14 @@ public class Cantina {
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<ImmagineCantina> listImmagine;
 
-	// collegamento al prodotto
+	// collegamento con ProdottoAlcolico
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<ProdottoAlcolico> listProdotto;
+	private List<ProdottoAlcolico> listProdottoAlcolico;
 
+	// collegamento con ProdottoBox
+		@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
+		private List<ProdottoBox> listProdottoBox;
+	
 	// collegamento a spedizione
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<Spedizione> listSpedizione;
@@ -80,7 +84,7 @@ public class Cantina {
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<CantinaAlcolico> listCantinaAlcolico;
 
-	// collegamento alla posizione
+	// collegamento con Posizione
 	@OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
 	@JoinColumn(name = "id_posizione", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_cantina_posizione"))
 	private Posizione posizione;

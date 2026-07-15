@@ -28,6 +28,7 @@ public class ProdottoAlcolico { // PRODOTTO id alcolico e alcolico con quantità
 			)
 	private Carrello carrello;
 	
+	//collegamento con Alcolico
 	@ManyToOne
 	@JoinColumn (
 			name="id_alcolico",

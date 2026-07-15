@@ -28,6 +28,7 @@ public class OrdineBox {
 			)
 	private Ordine ordine;
 	
+	//collegamento con Box
 	@ManyToOne
 	@JoinColumn (
 			name="id_box",

@@ -26,6 +26,7 @@ public class Alcolico {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	//collegato con Venditore
 	@ManyToOne
 	@JoinColumn (
 			name="id_venditore",
@@ -45,6 +46,7 @@ public class Alcolico {
 			)
 	private Integer annata;
 
+	//collegato con tipologiaAlcolico
 	@ManyToOne
 	@JoinColumn (
 			name="id_tipologia_alcolico",
@@ -52,6 +54,7 @@ public class Alcolico {
 			)
 	private TipologiaAlcolico tipologia_alcolico;
 
+	//collegamento con Colore
 	@ManyToOne
 	@JoinColumn (
 			name="id_colore",
@@ -77,10 +80,11 @@ public class Alcolico {
 			)
 	private String provenienza;
 
+	//collegato con immagineAlcolico
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
-	private List<ImmagineAlcolico> listImmagine;
+	private List<ImmagineAlcolico> listImmagine;	
 
 	@Column(
 			name = "prezzo",
@@ -88,34 +92,48 @@ public class Alcolico {
 			)
 	private Double prezzo;
 	
+	//collegato con boxAlcolico
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
 	private List <BoxAlcolico> listBoxAlcolico;	
 	
+	//collegato con cantinaAlcolico
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
 	private List<CantinaAlcolico> listCantinaAlcolico;
 	
+	//collegamento con Degustazione 
 	@ManyToMany (
             mappedBy = "listAlcolico",
             fetch = FetchType.LAZY
             )
 	private List<Degustazione> listDegustazione;
 	
+	//collegamento con ordineAlcolico
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
 	private List<OrdineAlcolico> listOrdineAlcolico;
 	
+	//collega,ento con ProdottoAlcolico
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
 	private List <ProdottoAlcolico> listProdottoAlcolico;	
 	
+	//collegato ocn RatingAlcolico
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
 	private List <RatingAlcolico> listRatingAlcolico;
+	
+	//da collegare con Caratteristica
+	/* @ManyToMany(
+			mappedby = "listAlcolico",
+			fetch = FetchType.LAZY
+			)
+	private List <Caratteristica> listCaratteristica;
+	*/
 }
