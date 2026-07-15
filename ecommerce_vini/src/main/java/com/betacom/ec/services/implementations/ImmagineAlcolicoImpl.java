@@ -64,7 +64,7 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 		ImmagineAlcolico immagineAlcolico = immagineAlcolicoRepository.findById(id)
 				.orElseThrow(() -> new EcommerceVinoException("immagine_Alcolico.id_not_found"));
 		
-		//CHECK DELETE ON CASCADE? (e update?)
+		//CHECK DELETE ON CASCADE? (e update?) vedi con i test
 		immagineAlcolicoRepository.delete(immagineAlcolico);
 		
 	}
