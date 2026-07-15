@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.betacom.ec.dto.input.ClienteRequest;
+import com.betacom.ec.dto.input.RatingAlcolicoReq;
+import com.betacom.ec.dto.input.RatingCantinaReq;
 import com.betacom.ec.dto.input.UtenteRequest;
 import com.betacom.ec.dto.output.ClienteDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
@@ -69,7 +71,7 @@ public class ClienteImpl implements IClienteService{
 	@Transactional
 	@Override
 	public void update(ClienteRequest clienteRequest) throws Exception {
-		log.debug("Update {}", clienteRequest);
+		log.debug("Update Cliente {}", clienteRequest);
 		
 		Cliente cliente = clienteRepository.findById(clienteRequest.getId())
 								.orElseThrow(() -> new EcommerceVinoException("cliente.id_not_found"));
@@ -77,6 +79,18 @@ public class ClienteImpl implements IClienteService{
 		Optional.ofNullable(clienteRequest.getIndirizzo()).ifPresent(cliente::setIndirizzo);
 		// il carrello non si modifica da qui
 		// stesso discorso per rating alcolico e rating cantina
+		
+	}
+	
+	@Override
+	public void addRatingAlcolico(RatingAlcolicoReq req) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void addRatingCantina(RatingCantinaReq req) throws Exception {
+		// TODO Auto-generated method stub
 		
 	}
 	
