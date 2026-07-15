@@ -20,6 +20,7 @@ import com.betacom.ec.repository.ICarrelloRepository;
 import com.betacom.ec.repository.IProdottoBoxRepository;
 import com.betacom.ec.services.interfaces.IProdottoBoxService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +34,7 @@ public class ProdottoBoxImpl implements IProdottoBoxService{
 	private final ICarrelloRepository cartR;
 	private final IBoxRepository boxR;
 	
+	@Transactional
 	@Override
 	public void create(ProdottoBoxReq req) throws Exception {
 		log.debug("create prod box{}", req);
@@ -54,6 +56,7 @@ public class ProdottoBoxImpl implements IProdottoBoxService{
 		
 	}
 
+	@Transactional
 	@Override
 	public void delete(Integer id) throws Exception {
 		log.debug("delete prodotto box{}", id);
@@ -61,12 +64,14 @@ public class ProdottoBoxImpl implements IProdottoBoxService{
 		pR.delete(pA);
 	}
 
+	@Transactional
 	@Override
 	public List<ProdottoBoxDTO> list() {
 		List<ProdottoBox> listProdottoBox = pR.findAll();
 		return ProdottoBoxMap.buildProdottoBoxDTOList(listProdottoBox);
 	}
 
+	@Transactional
 	@Override
 	public ProdottoBoxDTO getById(Integer id) throws Exception {
 		ProdottoBox pA = pR.findById(id).orElseThrow(() -> new EcommerceVinoException("prod_box.notFnd"));
