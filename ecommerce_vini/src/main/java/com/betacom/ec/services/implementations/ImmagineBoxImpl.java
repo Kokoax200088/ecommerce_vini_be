@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.betacom.ec.dto.input.ImmagineBoxReq;
 import com.betacom.ec.dto.output.ImmagineBoxDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
+import com.betacom.ec.mapping.ImmagineBoxMap;
 import com.betacom.ec.models.Box;
 import com.betacom.ec.models.ImmagineBox;
 import com.betacom.ec.repository.IBoxRepository;
@@ -62,13 +63,15 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 	@Override
 	public List<ImmagineBoxDTO> list() {
 		log.debug("list imm alcolico");
-		return null;
+		List<ImmagineBox> listImmBox = immBR.findAll();
+		return ImmagineBoxMap.buildImmagineBoxDTOList(listImmBox);
 	}
 
 	@Override
 	public ImmagineBoxDTO getById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		log.debug("getbyId imm box {}", id);
+		ImmagineBox immB = immBR.findById(id).orElseThrow(() -> new EcommerceVinoException("imm_box.notFnd"));
+		return ImmagineBoxMap.buildImmagineBoxDTO(immB);
 	}
 
 }
