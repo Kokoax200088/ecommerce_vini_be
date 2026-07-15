@@ -3,9 +3,7 @@ package com.betacom.ec.mapping;
 import java.util.List;
 
 import com.betacom.ec.dto.output.ProdottoAlcolicoDTO;
-import com.betacom.ec.dto.output.RatingAlcolicoDTO;
 import com.betacom.ec.models.ProdottoAlcolico;
-import com.betacom.ec.models.RatingAlcolico;
 
 public class ProdottoAlcolicoMap {
 	public static List<ProdottoAlcolicoDTO> buildProdottoAlcolicoDTOList(List<ProdottoAlcolico> lPA) {

@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.betacom.ec.dto.input.ProdottoAlcolicoReq;
+import com.betacom.ec.dto.output.ProdottoAlcolicoDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
+import com.betacom.ec.mapping.ProdottoAlcolicoMap;
 import com.betacom.ec.models.Alcolico;
 import com.betacom.ec.models.Cantina;
 import com.betacom.ec.models.Carrello;
@@ -31,7 +33,7 @@ public class ProdottoAlcolicoImpl implements IProdottoAlcolicoService{
 	
 	@Override
 	public void create(ProdottoAlcolicoReq req) throws Exception {
-		log.debug("create rating alcolico{}", req);
+		log.debug("create prodotto alcolico{}", req);
 		
 		ProdottoAlcolico pA = new ProdottoAlcolico();
 		Alcolico alc = alcR.findById(req.getId_alcolico()).orElseThrow(() -> new EcommerceVinoException("alcolico.notFnd"));
@@ -61,15 +63,18 @@ public class ProdottoAlcolicoImpl implements IProdottoAlcolicoService{
 	}
 
 	@Override
-	public void list() {
+	public List<ProdottoAlcolicoDTO> list() {
 		log.debug("list prodotto alcolico");
 		List<ProdottoAlcolico> listPA = pR.findAll();
+		return ProdottoAlcolicoMap.buildProdottoAlcolicoDTOList(listPA);
 		
 	}
 
 	@Override
-	public void getById(Integer id) throws Exception {
+	public ProdottoAlcolicoDTO getById(Integer id) throws Exception {
 		ProdottoAlcolico pA = pR.findById(id).orElseThrow(() -> new EcommerceVinoException("prod_alc.notFnd"));
+		
+		return ProdottoAlcolicoMap.buildProdottoAlcolicoDTO(pA);
 		
 	}
 

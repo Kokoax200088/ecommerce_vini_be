@@ -2,6 +2,10 @@ package com.betacom.ec.dto.output;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import com.betacom.ec.models.Alcolico;
+import com.betacom.ec.models.ImmagineDegustazione;
+
 import lombok.*;
 
 @Getter
@@ -17,7 +21,7 @@ public class DegustazioneDTO {
     private Double prezzo;
     private LocalDateTime dataInizio;
     private LocalDateTime dataFine;
-    private Integer id_cantina;
-    private List<AlcolicoDTO> alcolici;
-    private List<ImmagineDegustazioneDTO> immagini;
+    private CantinaDTO cantina;
+    private List<Alcolico> alcolici;
+    private List<ImmagineDegustazione> immagini;
 }
