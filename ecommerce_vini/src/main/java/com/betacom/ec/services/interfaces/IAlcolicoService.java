@@ -13,8 +13,6 @@ public interface IAlcolicoService {
 
 	void remove(Integer id_alcolico) throws Exception;
 
-	List<AlcolicoDTO> listAll();
-
 	List<AlcolicoDTO> listBySearchString(Integer idColore, Integer idTipologia, String nome, Integer gradazione, Integer annata) throws Exception;
 
 	AlcolicoDTO getById(Integer id_alcolico) throws Exception;
