@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.betacom.ec.dto.input.OrdineAlcolicoRequest;
+import com.betacom.ec.dto.input.OrdineAlcolicoReq;
 import com.betacom.ec.dto.output.OrdineAlcolicoDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.OrdineAlcolicoMap;
@@ -33,7 +33,7 @@ public class OrdineAlcolicoImpl implements IOrdineAlcolicoService{
 	private final ICantinaRepository cR;
 	private final IOrdineRepository oR;
 	private final IStatusRepository sR;
-	public void create(OrdineAlcolicoRequest req) throws Exception{
+	public void create(OrdineAlcolicoReq req) throws Exception{
 		OrdineAlcolico oa = new OrdineAlcolico();
 		oa.setId(req.getId());
 		Alcolico a = aR.findById(req.getAlcolicoId()).orElseThrow( () -> new EcommerceVinoException("alcolico.ntfnd"));
@@ -50,7 +50,7 @@ public class OrdineAlcolicoImpl implements IOrdineAlcolicoService{
 		oaR.save(oa);
 	}
 
-	public void update(OrdineAlcolicoRequest req) throws Exception{
+	public void update(OrdineAlcolicoReq req) throws Exception{
 		OrdineAlcolico oa = oaR.findById(req.getId()).orElseThrow( () -> new EcommerceVinoException("ordinealc.ntfnd"));
 		Optional.ofNullable(req.getId()).ifPresent(oa::setId);
 		Alcolico a = aR.findById(req.getAlcolicoId()).orElseThrow( () -> new EcommerceVinoException("alcolico.ntfnd"));
@@ -66,7 +66,7 @@ public class OrdineAlcolicoImpl implements IOrdineAlcolicoService{
 		oaR.save(oa);
 	}
 
-	public void remove(Integer id_ordine_alcolico) throws Exception{
+	public void delete(Integer id_ordine_alcolico) throws Exception{
 		OrdineAlcolico o= oaR.findById(id_ordine_alcolico)
 				.orElseThrow(() -> new EcommerceVinoException("ordinealc.notFnd"));
 		oaR.delete(o);

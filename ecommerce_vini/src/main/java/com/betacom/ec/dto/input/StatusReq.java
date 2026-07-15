@@ -18,7 +18,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class StatusRequest {
+public class StatusReq {
 	
 	private Integer id;
 	@NotNull(groups=ValidationGroups.Create.class, message="nome_missing")

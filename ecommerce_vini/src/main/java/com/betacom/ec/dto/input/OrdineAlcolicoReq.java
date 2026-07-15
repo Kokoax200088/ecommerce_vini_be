@@ -12,7 +12,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrdineAlcolicoRequest {
+public class OrdineAlcolicoReq {
 	private Integer id;
 	private LocalDate data_ordine;
 	private Integer ordineId;

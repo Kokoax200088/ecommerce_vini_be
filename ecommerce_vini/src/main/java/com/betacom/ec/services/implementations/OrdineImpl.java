@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.betacom.ec.dto.input.OrdineRequest;
+import com.betacom.ec.dto.input.OrdineReq;
 import com.betacom.ec.dto.output.OrdineDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.OrdineMap;
@@ -26,7 +26,7 @@ public class OrdineImpl implements IOrdineService{
 	//private final IUtenteRepository uR;
 	private final IStatusRepository sR;
 	
-	public void create(OrdineRequest req) throws Exception {
+	public void create(OrdineReq req) throws Exception {
 		Ordine o = new Ordine();
 		o.setId(req.getId());
 		o.setData_ordine(req.getData_ordine());
@@ -52,7 +52,7 @@ public class OrdineImpl implements IOrdineService{
 		oR.delete(o);
 	}
 	
-	public void update(OrdineRequest req) throws Exception {
+	public void update(OrdineReq req) throws Exception {
 		Ordine o = oR.findById(req.getId()).orElseThrow( ()-> new EcommerceVinoException("ordine.ntfnd"));
 		Optional.ofNullable(req.getData_ordine()).ifPresent(o::setData_ordine);;
 		Optional.ofNullable(req.getTotale()).ifPresent(o::setTotale);

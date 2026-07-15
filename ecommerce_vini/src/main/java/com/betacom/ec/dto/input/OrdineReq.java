@@ -16,7 +16,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrdineRequest {
+public class OrdineReq {
 	
 	private Integer id;
 	@NotNull(groups=ValidationGroups.Create.class, message="data_missing")

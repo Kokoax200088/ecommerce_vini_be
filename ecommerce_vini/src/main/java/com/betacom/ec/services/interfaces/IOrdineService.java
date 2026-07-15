@@ -3,13 +3,13 @@ package com.betacom.ec.services.interfaces;
 import java.time.LocalDate;
 import java.util.List;
 
-import com.betacom.ec.dto.input.OrdineRequest;
+import com.betacom.ec.dto.input.OrdineReq;
 import com.betacom.ec.dto.output.OrdineDTO;
 
 public interface IOrdineService {
-	void create(OrdineRequest req) throws Exception;
+	void create(OrdineReq req) throws Exception;
 
-	void update(OrdineRequest req) throws Exception;
+	void update(OrdineReq req) throws Exception;
 
 	void delete(Integer id_ordine) throws Exception;
 

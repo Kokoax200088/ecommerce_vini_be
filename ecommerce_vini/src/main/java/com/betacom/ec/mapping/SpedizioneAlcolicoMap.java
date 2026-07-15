@@ -5,14 +5,13 @@ import java.util.List;
 import com.betacom.ec.dto.output.SpedizioneAlcolicoDTO;
 import com.betacom.ec.models.SpedizioneAlcolico;
 
-public class SpedizioneMap {
-	public static List<SpedizioneAlcolicoDTO> buildSpedizioneDTOList(List<SpedizioneAlcolico> lS){
+public class SpedizioneAlcolicoMap {
+	public static List<SpedizioneAlcolicoDTO> buildSpedizioneAlcolicoDTOList(List<SpedizioneAlcolico> lS){
 		return lS.stream()
-				.map (a -> buildSpedizioneDTO(a)
+				.map (a -> buildSpedizioneAlcolicoDTO(a)
 						).toList();
-		
 	}
-	public static SpedizioneAlcolicoDTO buildSpedizioneDTO(SpedizioneAlcolico o) {
+	public static SpedizioneAlcolicoDTO buildSpedizioneAlcolicoDTO(SpedizioneAlcolico o) {
 		return SpedizioneAlcolicoDTO.builder()
 				.id(o.getId())
 				.corriere(o.getCorriere())

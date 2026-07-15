@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class SpedizioneAlcolicoRequest {
+public class SpedizioneAlcolicoReq {
 	private Integer id;
 	@NotNull(groups=ValidationGroups.Create.class, message="corriere_missing")
 	private String corriere;
@@ -23,4 +23,6 @@ public class SpedizioneAlcolicoRequest {
 	private Integer id_cliente;
 	@NotNull(groups=ValidationGroups.Create.class, message="status_missing")
 	private Integer id_status;
+	@NotNull(groups=ValidationGroups.Create.class, message="ordine_alcolico_missing")
+	private Integer id_ordine_alcolico;
 }
