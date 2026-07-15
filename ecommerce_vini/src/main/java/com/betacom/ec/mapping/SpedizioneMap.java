@@ -2,18 +2,18 @@ package com.betacom.ec.mapping;
 
 import java.util.List;
 
-import com.betacom.ec.dto.output.SpedizioneDTO;
-import com.betacom.ec.models.Spedizione;
+import com.betacom.ec.dto.output.SpedizioneAlcolicoDTO;
+import com.betacom.ec.models.SpedizioneAlcolico;
 
 public class SpedizioneMap {
-	public static List<SpedizioneDTO> buildSpedizioneDTOList(List<Spedizione> lS){
+	public static List<SpedizioneAlcolicoDTO> buildSpedizioneDTOList(List<SpedizioneAlcolico> lS){
 		return lS.stream()
 				.map (a -> buildSpedizioneDTO(a)
 						).toList();
 		
 	}
-	public static SpedizioneDTO buildSpedizioneDTO(Spedizione o) {
-		return SpedizioneDTO.builder()
+	public static SpedizioneAlcolicoDTO buildSpedizioneDTO(SpedizioneAlcolico o) {
+		return SpedizioneAlcolicoDTO.builder()
 				.id(o.getId())
 				.corriere(o.getCorriere())
 				.codice_tracciamento(o.getCodice_tracciamento())

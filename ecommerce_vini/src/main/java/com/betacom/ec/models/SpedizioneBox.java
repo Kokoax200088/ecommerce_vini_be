@@ -19,9 +19,8 @@ import lombok.ToString;
 @Getter
 @Entity
 @ToString
-@Table(name = "spedizione")
-public class Spedizione {
-	
+@Table(name = "spedizione_box")
+public class SpedizioneBox {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -50,8 +49,8 @@ public class Spedizione {
 			)
 	private Status status;
 	
-	@OneToOne
-	@JoinColumn(name = "id_ordine_alcolico", referencedColumnName = "id",
-	    foreignKey = @ForeignKey(name = "fk_spedizione_ordine_alcolico"))
-	private OrdineAlcolico ordineAlcolico;
+/*	@OneToOne
+	@JoinColumn(name = "id_ordine_box", referencedColumnName = "id",
+	    foreignKey = @ForeignKey(name = "fk_spedizione_ordine_box"))
+	private OrdineBox ordineBox; */
 }

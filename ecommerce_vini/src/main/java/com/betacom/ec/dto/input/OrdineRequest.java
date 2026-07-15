@@ -1,7 +1,9 @@
 package com.betacom.ec.dto.input;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import com.betacom.ec.models.OrdineAlcolico;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,13 +22,13 @@ public class OrdineRequest {
 	@NotNull(groups=ValidationGroups.Create.class, message="data_missing")
 	private LocalDate data_ordine;
 	@NotNull(groups=ValidationGroups.Create.class, message="totale_missing")
-	private Integer totale;
+	private Double totale;
 	@NotNull(groups=ValidationGroups.Create.class, message="utente_missing")
 	private Integer id_utente;
 	@NotNull(groups=ValidationGroups.Create.class, message="status_missing")
 	private Integer id_status;
 	@NotNull(groups=ValidationGroups.Create.class, message="ordine_alcolico_missing")
-	private Integer idOrdineAlcolico;
+	private List<OrdineAlcolico> listOrdineAlcolico;
 	@NotNull(groups=ValidationGroups.Create.class, message="indirizzo_missing")
 	private String indirizzoDestinazione;
 

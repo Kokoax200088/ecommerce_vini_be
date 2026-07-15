@@ -17,7 +17,6 @@ public class OrdineMap {
 				.id(o.getId())
 				.data_ordine(o.getData_ordine())
 				.totale(o.getTotale())
-				.indirizzoDestinazione(o.getIndirizzoDestinazione())
 				.id_status(o.getStatus().getId())
 				.id_utente(o.getUtente().getId())
 				.ordineAlcolico(OrdineAlcolicoMap.buildOrdineAlcolicoDTOList(o.getListOrdineAlcolico()))

@@ -4,16 +4,15 @@ import java.util.List;
 
 import com.betacom.ec.dto.input.StatusRequest;
 import com.betacom.ec.dto.output.StatusDTO;
-import com.betacom.ec.exception.EcommerceVinoException;
 
 public interface IStatusService {
-	void create(StatusRequest req) throws EcommerceVinoException;
+	void create(StatusRequest req) throws Exception;
 
-	void update(StatusRequest req) throws EcommerceVinoException;
+	void update(StatusRequest req) throws Exception;
 
-	void remove(Integer id_status) throws EcommerceVinoException;
+	void remove(Integer id_status) throws Exception;
 	
-	List<StatusRequest> listWithParameters();
+	List<StatusDTO> listWithParameters(String nome, String descrizione);
 
-	StatusDTO getById(Integer id_status) throws EcommerceVinoException;
+	StatusDTO getById(Integer id_status) throws Exception;
 }

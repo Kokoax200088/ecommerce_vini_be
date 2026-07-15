@@ -19,4 +19,5 @@ public class OrdineAlcolicoRequest {
 	private Integer alcolicoId;
 	private Integer statusId;
 	private Integer cantinaId;
+	private Integer quantita;
 }

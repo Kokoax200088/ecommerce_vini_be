@@ -1,19 +1,19 @@
 package com.betacom.ec.services.interfaces;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.betacom.ec.dto.input.OrdineRequest;
 import com.betacom.ec.dto.output.OrdineDTO;
-import com.betacom.ec.exception.EcommerceVinoException;
 
 public interface IOrdineService {
-	void create(OrdineRequest req) throws EcommerceVinoException;
+	void create(OrdineRequest req) throws Exception;
 
-	void update(OrdineRequest req) throws EcommerceVinoException;
+	void update(OrdineRequest req) throws Exception;
 
-	void remove(Integer id_ordine) throws EcommerceVinoException;
+	void delete(Integer id_ordine) throws Exception;
+
+	OrdineDTO getById(Integer id_ordine) throws Exception;
 	
-	List<OrdineRequest> listWithParameters();
-
-	OrdineDTO getById(Integer id_ordine) throws EcommerceVinoException;
+	List<OrdineDTO> listWithParameters(LocalDate data, Double totale, Integer id_status, Integer id_utente, String indirizzo_destinazione);
 }
