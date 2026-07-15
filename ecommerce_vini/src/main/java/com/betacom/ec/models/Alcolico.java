@@ -129,16 +129,6 @@ public class Alcolico {
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
 	private List <RatingAlcolico> listRatingAlcolico;
-<<<<<<< HEAD
-	
-	//da collegare con Caratteristica
-	/* @ManyToMany(
-			mappedby = "listAlcolico",
-			fetch = FetchType.LAZY
-			)
-	private List <Caratteristica> listCaratteristica;
-	*/
-=======
 
 	@ManyToMany
 	@JoinTable(
@@ -146,5 +136,4 @@ public class Alcolico {
 			joinColumns = @JoinColumn(name = "id_alcolico"),
 			inverseJoinColumns = @JoinColumn(name = "id_caratteristica"))
 	private List<Caratteristica> listCaratteristica;
->>>>>>> da66f3fc69e6ec5f8f80af26085419c7caa0583d
 }
