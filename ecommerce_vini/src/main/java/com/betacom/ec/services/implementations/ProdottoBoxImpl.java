@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.betacom.ec.dto.input.ProdottoBoxReq;
 import com.betacom.ec.dto.output.ProdottoBoxDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
+import com.betacom.ec.mapping.ProdottoBoxMap;
 import com.betacom.ec.models.Box;
 import com.betacom.ec.models.Cantina;
 import com.betacom.ec.models.Carrello;
@@ -62,14 +63,14 @@ public class ProdottoBoxImpl implements IProdottoBoxService{
 
 	@Override
 	public List<ProdottoBoxDTO> list() {
-		// TODO Auto-generated method stub
-		return null;
+		List<ProdottoBox> listProdottoBox = pR.findAll();
+		return ProdottoBoxMap.buildProdottoBoxDTOList(listProdottoBox);
 	}
 
 	@Override
 	public ProdottoBoxDTO getById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		ProdottoBox pA = pR.findById(id).orElseThrow(() -> new EcommerceVinoException("prod_box.notFnd"));
+		return ProdottoBoxMap.buildProdottoBoxDTO(pA);
 	}
 
 }

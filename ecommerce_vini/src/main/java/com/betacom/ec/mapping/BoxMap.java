@@ -18,9 +18,11 @@ public class BoxMap {
 				.id(box.getId())
 				.nome(box.getNome())
 				.sconto(box.getSconto())
-				//.cantina(CantinaMap.buildCantinaDTO(box.getCantina()))
-				.listBoxAlcolico(BoxAlcolicoMap.buildBoxAlcolicoDTOList(box.getListBoxAlcolico()))
-				//.listImmagineBox(ImmagineBoxMap.buildImmagineBoxDTOList(box.getListImmagineBox()))
+				.id_cantina(box.getCantina().getId())
+				.listBoxAlcolico(box.getListBoxAlcolico())
+				.listImmagine(box.getListImmagine())
+				.listOrdineBox(box.getListOrdineBox())
+				.listProdottoBox(box.getListProdottoBox())
 				.build();
 	}
 }
