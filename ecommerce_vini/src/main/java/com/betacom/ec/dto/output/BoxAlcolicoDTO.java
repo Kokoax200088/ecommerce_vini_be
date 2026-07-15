@@ -10,7 +10,7 @@ import lombok.*;
 @ToString
 public class BoxAlcolicoDTO {
     private Integer id;
-    private Integer id_box;
-    private Integer id_alcolico;
+    private BoxDTO box;
+    private AlcolicoDTO alcolico;
     private Integer quantita;
 }

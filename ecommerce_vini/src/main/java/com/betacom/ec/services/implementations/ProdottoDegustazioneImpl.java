@@ -18,6 +18,7 @@ import com.betacom.ec.repository.IDegustazioneRepository;
 import com.betacom.ec.repository.IProdottoDegustazioneRepository;
 import com.betacom.ec.services.interfaces.IProdottoDegustazioneService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +32,7 @@ public class ProdottoDegustazioneImpl implements IProdottoDegustazioneService{
 	private final ICarrelloRepository cartR;
 	private final IDegustazioneRepository degR;
 
+	@Transactional
 	@Override
 	public void create(ProdottoDegustazioneReq req) throws Exception {
 		log.debug("create prod deg{}", req);
@@ -52,6 +54,7 @@ public class ProdottoDegustazioneImpl implements IProdottoDegustazioneService{
 		
 	}
 
+	@Transactional
 	@Override
 	public void delete(Integer id) throws Exception {
 		log.debug("delete prodotto deg{}", id);
@@ -62,6 +65,7 @@ public class ProdottoDegustazioneImpl implements IProdottoDegustazioneService{
 		
 	}
 
+	@Transactional
 	@Override
 	public List<ProdottoDegustazioneDTO> list() {
 		log.debug("list prodotto deg");
@@ -71,6 +75,7 @@ public class ProdottoDegustazioneImpl implements IProdottoDegustazioneService{
 		
 	}
 
+	@Transactional
 	@Override
 	public ProdottoDegustazioneDTO getById(Integer id) throws Exception {
 		ProdottoDegustazione pA= pD.findById(id).orElseThrow(() -> new EcommerceVinoException("prod_deg.notFnd"));

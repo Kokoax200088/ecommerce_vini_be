@@ -17,8 +17,8 @@ public class BoxAlcolicoMap {
 	public static BoxAlcolicoDTO buildBoxAlcolicoDTO(BoxAlcolico boxAlcolico) {
 		BoxAlcolicoDTO boxAlcolicoDTO = BoxAlcolicoDTO.builder()
 				.id(boxAlcolico.getId())
-				//.box(BoxMap.buildBoxDTO(boxAlcolico.getBox()))
-				//.alcolico(AlcolicoMap.buildAlcolicoDTO(boxAlcolico.getAlcolico()))
+				.box(BoxMap.buildBoxDTO(boxAlcolico.getBox()))
+				.alcolico(AlcolicoMap.buildAlcolicoDTO(boxAlcolico.getAlcolico()))
 				.quantita(boxAlcolico.getQuantita())
 				.build();
 		

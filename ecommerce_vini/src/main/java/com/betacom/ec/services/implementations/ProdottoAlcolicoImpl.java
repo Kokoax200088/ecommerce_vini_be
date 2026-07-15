@@ -18,6 +18,7 @@ import com.betacom.ec.repository.ICarrelloRepository;
 import com.betacom.ec.repository.IProdottoAlcolicoRepository;
 import com.betacom.ec.services.interfaces.IProdottoAlcolicoService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,6 +32,7 @@ public class ProdottoAlcolicoImpl implements IProdottoAlcolicoService{
 	private final ICantinaRepository cantR;
 	private final ICarrelloRepository cartR;
 	
+	@Transactional
 	@Override
 	public void create(ProdottoAlcolicoReq req) throws Exception {
 		log.debug("create prodotto alcolico{}", req);
@@ -52,6 +54,7 @@ public class ProdottoAlcolicoImpl implements IProdottoAlcolicoService{
 		
 	}
 
+	@Transactional
 	@Override
 	public void delete(Integer id) throws Exception {
 		log.debug("delete prodotto alcolico{}", id);
@@ -62,6 +65,7 @@ public class ProdottoAlcolicoImpl implements IProdottoAlcolicoService{
 		
 	}
 
+	@Transactional
 	@Override
 	public List<ProdottoAlcolicoDTO> list() {
 		log.debug("list prodotto alcolico");
@@ -70,6 +74,7 @@ public class ProdottoAlcolicoImpl implements IProdottoAlcolicoService{
 		
 	}
 
+	@Transactional
 	@Override
 	public ProdottoAlcolicoDTO getById(Integer id) throws Exception {
 		ProdottoAlcolico pA = pR.findById(id).orElseThrow(() -> new EcommerceVinoException("prod_alc.notFnd"));
