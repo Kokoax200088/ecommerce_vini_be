@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.betacom.ec.dto.input.CaratteristicaReq;
 import com.betacom.ec.dto.output.CaratteristicaDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.CaratteristicaMap;
@@ -11,6 +12,7 @@ import com.betacom.ec.models.Caratteristica;
 import com.betacom.ec.repository.ICaratteristicaRepository;
 import com.betacom.ec.services.interfaces.ICaratteristicaService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,6 +22,29 @@ import lombok.extern.slf4j.Slf4j;
 public class CaratteristicaImpl implements ICaratteristicaService {
 
 	private final ICaratteristicaRepository caratteristicaR;
+
+	@Transactional
+	@Override
+	public void create(CaratteristicaReq req) throws Exception {
+		log.debug("create {}", req);
+
+		Caratteristica c = new Caratteristica();
+		c.setNome(req.getNome());
+		c.setDescrizione(req.getDescrizione());
+
+		caratteristicaR.save(c);
+	}
+
+	@Transactional
+	@Override
+	public void remove(Integer id) throws Exception {
+		log.debug("remove {}", id);
+
+		Caratteristica c = caratteristicaR.findById(id)
+				.orElseThrow(() -> new EcommerceVinoException("caratteristica.notFnd"));
+
+		caratteristicaR.delete(c);
+	}
 
 	@Override
 	public List<CaratteristicaDTO> listAll() {
