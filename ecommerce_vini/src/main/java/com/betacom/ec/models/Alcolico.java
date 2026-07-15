@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -128,6 +129,7 @@ public class Alcolico {
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
 	private List <RatingAlcolico> listRatingAlcolico;
+<<<<<<< HEAD
 	
 	//da collegare con Caratteristica
 	/* @ManyToMany(
@@ -136,4 +138,13 @@ public class Alcolico {
 			)
 	private List <Caratteristica> listCaratteristica;
 	*/
+=======
+
+	@ManyToMany
+	@JoinTable(
+			name = "alcolico_caratteristica",
+			joinColumns = @JoinColumn(name = "id_alcolico"),
+			inverseJoinColumns = @JoinColumn(name = "id_caratteristica"))
+	private List<Caratteristica> listCaratteristica;
+>>>>>>> da66f3fc69e6ec5f8f80af26085419c7caa0583d
 }

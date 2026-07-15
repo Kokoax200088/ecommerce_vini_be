@@ -2,6 +2,7 @@ package com.betacom.ec.controllers;
 
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.ec.dto.input.AlcolicoReq;
@@ -22,8 +24,9 @@ import com.betacom.ec.services.interfaces.IMessaggioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+@Slf4j
 @RestController
-@RequestMapping("/api/alcolico")
+@RequestMapping("/rest/api/alcolico")
 @RequiredArgsConstructor
 public class AlcolicoController extends ExceptionManager {
 
@@ -53,8 +56,13 @@ public class AlcolicoController extends ExceptionManager {
 	}
 
 	@GetMapping("/list")
-	public ResponseEntity<List<AlcolicoDTO>> list() {
-		return ResponseEntity.ok(alcolicoS.listAll());
+	public ResponseEntity<List<AlcolicoDTO>> list(
+			@RequestParam(required = false) Integer idColore,
+			@RequestParam(required = false) Integer idTipologia,
+			@RequestParam(required = false) String nome,
+			@RequestParam(required = false) Integer gradazione,
+			@RequestParam(required = false) Integer annata) throws Exception {
+		return ResponseEntity.ok(alcolicoS.listBySearchString(idColore, idTipologia, nome, gradazione, annata));
 	}
 
 	@GetMapping("/get/{id}")
