@@ -21,7 +21,5 @@ public class BoxDTO {
     private Double sconto;
     private Integer id_cantina;
     private List <BoxAlcolico> listBoxAlcolico;
-	private List <ImmagineBox> listImmagine;	
-	private List<OrdineBox> listOrdineBox;
-	private List <ProdottoBox> listProdottoBox;	
+	private List <ImmagineBox> listImmagine;
 }
