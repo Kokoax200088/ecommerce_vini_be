@@ -60,13 +60,13 @@ private final IDegustazioneService dS;
 	}
 	
 	@GetMapping("list")
-	public ResponseEntity<List<DegustazioneDTO>> list(String nome,
-			String descrizione,
-			Double prezzo,
-			LocalDateTime dataInizio,
-			LocalDateTime dataFine,
-			Integer id_cantina,
-			Integer id_carrello) {
+	public ResponseEntity<List<DegustazioneDTO>> list(@RequestParam(required = false)String nome,
+			@RequestParam(required = false)String descrizione,
+			@RequestParam(required = false)Double prezzo,
+			@RequestParam(required = false)LocalDateTime dataInizio,
+			@RequestParam(required = false)LocalDateTime dataFine,
+			@RequestParam(required = false)Integer id_cantina,
+			@RequestParam(required = false)Integer id_carrello) {
 		return ResponseEntity.ok(dS.listWithParameters(nome,descrizione,prezzo,dataInizio,dataFine,id_cantina,id_carrello));
 	}
 	

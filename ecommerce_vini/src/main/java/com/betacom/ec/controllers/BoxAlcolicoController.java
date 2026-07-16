@@ -57,10 +57,16 @@ private final IBoxAlcolicoService baS;
 					.msg("deleted...")
 					.build());
 	}
+	
 	@GetMapping("list")
-	public ResponseEntity<List<BoxAlcolicoDTO>> list(Integer quantita,Integer id_ordine,Integer id_status,Integer id_alcolico,Integer id_cantina) {
+	public ResponseEntity<List<BoxAlcolicoDTO>> list(@RequestParam(required = false)Integer quantita, 
+			@RequestParam(required = false) Integer id_ordine,
+			@RequestParam(required = false)Integer id_status,
+			@RequestParam(required = false)Integer id_alcolico,
+			@RequestParam(required = false)Integer id_cantina) {
 		return ResponseEntity.ok(baS.listWithParameters(quantita,id_ordine,id_status,id_alcolico,id_cantina));
 	}
+	
 	@GetMapping("getBoxAlcolicoById")
 	public ResponseEntity<Object> getBoxAlcolicoById(@RequestParam (required = true) Integer id) throws Exception{
 		return ResponseEntity.ok(baS.getById(id)) ;

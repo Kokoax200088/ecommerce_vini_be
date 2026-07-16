@@ -51,7 +51,7 @@ public class StatusImpl implements IStatusService{
 	}
 	
 	public List<StatusDTO> listWithParameters(String nome, String descrizione){
-		List<Status> lS= sR.searchWithParameters(nome,descrizione);
+		List<Status> lS= sR.listWithParameters(nome,descrizione);
 		return StatusMap.buildStatusDTOList(lS);
 	}
 

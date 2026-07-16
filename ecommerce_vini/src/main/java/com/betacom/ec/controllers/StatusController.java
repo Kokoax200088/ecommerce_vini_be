@@ -59,7 +59,8 @@ public class StatusController {
 					.build());
 	}
 	@GetMapping("list")
-	public ResponseEntity<List<StatusDTO>> list(String nome, String descrizione) {
+	public ResponseEntity<List<StatusDTO>> list(@RequestParam(required = false)String nome, 
+			@RequestParam(required = false)String descrizione) {
 		return ResponseEntity.ok(sS.listWithParameters(nome, descrizione));
 	}
 	

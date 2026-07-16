@@ -61,7 +61,11 @@ private final IOrdineService oS;
 	}
 	
 	@GetMapping("list")
-	public ResponseEntity<List<OrdineDTO>> list(LocalDate data, Double totale, Integer id_status, Integer id_utente, String indirizzo_destinazione) {
+	public ResponseEntity<List<OrdineDTO>> list(@RequestParam(required = false)LocalDate data, 
+			@RequestParam(required = false)Double totale, 
+			@RequestParam(required = false)Integer id_status, 
+			@RequestParam(required = false)Integer id_utente, 
+			@RequestParam(required = false)String indirizzo_destinazione) {
 		return ResponseEntity.ok(oS.listWithParameters(data,totale,id_status,id_utente,indirizzo_destinazione));
 	}
 	@GetMapping("getOrdineById")

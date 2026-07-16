@@ -58,10 +58,10 @@ private final IPrenotazioneDegustazioneService pdS;
 					.build());
 	}
 	@GetMapping("list")
-	public ResponseEntity<List<PrenotazioneDegustazioneDTO>> list(Integer id, 
-			Integer id_degustazione,
-			Integer id_status,
-			Integer id_cantina) {
+	public ResponseEntity<List<PrenotazioneDegustazioneDTO>> list(@RequestParam(required = false)Integer id, 
+			@RequestParam(required = false)Integer id_degustazione,
+			@RequestParam(required = false)Integer id_status,
+			@RequestParam(required = false)Integer id_cantina) {
 		return ResponseEntity.ok(pdS.listWithParameters(id,id_degustazione,id_status,id_cantina));
 	}
 	@GetMapping("getPrenotazioneDegustazioneById")
