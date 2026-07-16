@@ -10,6 +10,6 @@ public interface IVenditoreService {
 	public void update(VenditoreRequest venditoreRequest) throws Exception;
 	public void delete(Integer id) throws Exception;
 	
-	public List<VenditoreDTO> listBySearchString(String partitaIvaSearch) throws Exception;
+	public List<VenditoreDTO> list() throws Exception;
 	public VenditoreDTO getById(Integer id) throws Exception;
 }

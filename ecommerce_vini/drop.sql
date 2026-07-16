@@ -10,11 +10,14 @@
     alter table if exists alcolico 
        drop constraint if exists fk_alcolico_venditore;
 
-    alter table if exists box 
-       drop constraint if exists fk_box_cantina;
+    alter table if exists alcolico_caratteristica 
+       drop constraint if exists FKek22r3y74kgayspy92pfkcw0s;
+
+    alter table if exists alcolico_caratteristica 
+       drop constraint if exists FK4jw36v1f6q4369nphoka9o4vq;
 
     alter table if exists box 
-       drop constraint if exists fk_box_carrello;
+       drop constraint if exists fk_box_cantina;
 
     alter table if exists box_alcolico 
        drop constraint if exists fk_boxAlcolico_alcolico;
@@ -45,9 +48,6 @@
 
     alter table if exists degustazione 
        drop constraint if exists fk_degustazione_cantina;
-
-    alter table if exists degustazione 
-       drop constraint if exists fk_degustazione_carrello;
 
     alter table if exists degustazione_alcolico 
        drop constraint if exists FKpwbgxed2q41fl12cxr1qh501c;
@@ -85,14 +85,68 @@
     alter table if exists ordine_alcolico 
        drop constraint if exists fk_status_ordine_alcolico;
 
-    alter table if exists prodotto 
+    alter table if exists ordine_box 
+       drop constraint if exists fk_ordine_box;
+
+    alter table if exists ordine_box 
+       drop constraint if exists fk_ordine_alcolico_cantina;
+
+    alter table if exists ordine_box 
+       drop constraint if exists fk_ordine_alcolico_ordine;
+
+    alter table if exists ordine_box 
+       drop constraint if exists fk_status_ordine_alcolico;
+
+    alter table if exists ordine_degustazione 
+       drop constraint if exists fk_ordine_degustazione_cantina;
+
+    alter table if exists ordine_degustazione 
+       drop constraint if exists fk_ordine_degustazione;
+
+    alter table if exists ordine_degustazione 
+       drop constraint if exists fk_ordine_degustazione_ordine;
+
+    alter table if exists ordine_degustazione 
+       drop constraint if exists fk_status_ordine_degustazione;
+
+    alter table if exists prenotazione_degustazione 
+       drop constraint if exists fk_ordine_alcolico_cantina;
+
+    alter table if exists prenotazione_degustazione 
+       drop constraint if exists fk_ordine_degustazione;
+
+    alter table if exists prenotazione_degustazione 
+       drop constraint if exists fk_ordine_alcolico_ordine;
+
+    alter table if exists prenotazione_degustazione 
+       drop constraint if exists fk_status_ordine_alcolico;
+
+    alter table if exists prodotto_alcolico 
        drop constraint if exists fk_prodotto_alcolico;
 
-    alter table if exists prodotto 
+    alter table if exists prodotto_alcolico 
        drop constraint if exists fk_prodotto_cantina;
 
-    alter table if exists prodotto 
+    alter table if exists prodotto_alcolico 
        drop constraint if exists fk_prodotto_carrello;
+
+    alter table if exists prodotto_box 
+       drop constraint if exists fk_prodotto_box;
+
+    alter table if exists prodotto_box 
+       drop constraint if exists fk_prodotto_cantina;
+
+    alter table if exists prodotto_box 
+       drop constraint if exists fk_prodotto_carrello;
+
+    alter table if exists prodotto_degustazione 
+       drop constraint if exists fk_prodotto_cantina;
+
+    alter table if exists prodotto_degustazione 
+       drop constraint if exists fk_prodotto_carrello;
+
+    alter table if exists prodotto_degustazione 
+       drop constraint if exists fk_prodotto_degustazione;
 
     alter table if exists rating_alcolico 
        drop constraint if exists fk_rating_alcolico;
@@ -109,16 +163,25 @@
     alter table if exists rating_cantina 
        drop constraint if exists fk_rating_alcolico_utente;
 
-    alter table if exists spedizione 
-       drop constraint if exists FKo6f48fls3rywxwnto1d6p9gdx;
+    alter table if exists spedizione_alcolico 
+       drop constraint if exists FK4fumiy82ibpvyhlt5pf4x3237;
 
-    alter table if exists spedizione 
-       drop constraint if exists FK585rc92x841yqckemfql1n1pr;
+    alter table if exists spedizione_alcolico 
+       drop constraint if exists FK3k9hot3ra92o46r4s26u89l8;
 
-    alter table if exists spedizione 
+    alter table if exists spedizione_alcolico 
        drop constraint if exists fk_spedizione_ordine_alcolico;
 
-    alter table if exists spedizione 
+    alter table if exists spedizione_alcolico 
+       drop constraint if exists fk_status_ordine;
+
+    alter table if exists spedizione_box 
+       drop constraint if exists FKtm9ier84fy9iix8kn61eohk5l;
+
+    alter table if exists spedizione_box 
+       drop constraint if exists FKs1qmur4y1mdq2cxcfjx3wl5v0;
+
+    alter table if exists spedizione_box 
        drop constraint if exists fk_status_ordine;
 
     alter table if exists utente 
@@ -129,6 +192,8 @@
 
     drop table if exists alcolico cascade;
 
+    drop table if exists alcolico_caratteristica cascade;
+
     drop table if exists box cascade;
 
     drop table if exists box_alcolico cascade;
@@ -136,6 +201,8 @@
     drop table if exists cantina cascade;
 
     drop table if exists cantina_alcolico cascade;
+
+    drop table if exists caratteristica cascade;
 
     drop table if exists carrello cascade;
 
@@ -161,9 +228,19 @@
 
     drop table if exists ordine_alcolico cascade;
 
+    drop table if exists ordine_box cascade;
+
+    drop table if exists ordine_degustazione cascade;
+
     drop table if exists posizione cascade;
 
-    drop table if exists prodotto cascade;
+    drop table if exists prenotazione_degustazione cascade;
+
+    drop table if exists prodotto_alcolico cascade;
+
+    drop table if exists prodotto_box cascade;
+
+    drop table if exists prodotto_degustazione cascade;
 
     drop table if exists rating_alcolico cascade;
 
@@ -171,7 +248,9 @@
 
     drop table if exists role cascade;
 
-    drop table if exists spedizione cascade;
+    drop table if exists spedizione_alcolico cascade;
+
+    drop table if exists spedizione_box cascade;
 
     drop table if exists status cascade;
 
