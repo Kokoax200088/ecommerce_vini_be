@@ -19,6 +19,7 @@ import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ImmagineAlcolicoDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.services.interfaces.IImmagineAlcolicoService;
+import com.betacom.ec.services.interfaces.IImmagineBoxService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,10 +27,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/api/immagine-alcolico")
-public class ImmagineAlcolicoController {
-	
-	private final IImmagineAlcolicoService immS;
+@RequestMapping("/rest/api/immagine-box")
+public class ImmagineBoxController {
+	private final IImmagineBoxService immS;
 	
 
 	@PostMapping("create")
@@ -68,5 +68,4 @@ public class ImmagineAlcolicoController {
 	public ResponseEntity<Object> getImmagineDegustazioneById(@RequestParam (required = true) Integer id) throws Exception{
 		return ResponseEntity.ok(immS.getById(id)) ;
 	}
-
 }
