@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/rest/api/auth")
 public class AuthController {
 
-//	TODO in attesa di apprendere la parte jwt
+//	  TODO in attesa di apprendere la parte jwt
 //    private final AuthenticationManager authenticationManager;
 //    private final JwtService jwtService;
 

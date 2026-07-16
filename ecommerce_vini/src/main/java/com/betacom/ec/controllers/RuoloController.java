@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/api/ruolo")
+@RequestMapping("/rest/api/ruolo") //TODO security in tutti i controller
 public class RuoloController {
 	private final IRuoloService ruoloService;
 	
