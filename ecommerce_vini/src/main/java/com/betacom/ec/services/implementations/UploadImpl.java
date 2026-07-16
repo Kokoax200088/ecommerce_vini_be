@@ -24,9 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 public class UploadImpl implements IUploadService{
 	private final Path uploadPath;
 	
-	public UploadImpl(@Value("$app.upload.dir:uploads") String uploadDir) {
-		this.uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
-		init();
+	public UploadImpl(@Value("${app.upload.dir:uploads}") String uploadDir) {
+	    this.uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
+	    init();
 	}
 	
 	private void init() {
@@ -42,17 +42,16 @@ public class UploadImpl implements IUploadService{
 
 	@Override
 	public String saveImage(MultipartFile file, Integer id) throws Exception {
-		Assert.isTrue(!file.isEmpty(), () -> "upload_empty");
-		
-		String uniqueName = buildFileName(file);
-		Path destinationFile = uploadPath.resolve(uniqueName);
-		try {
-			Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
-			//set image(uniqueName) dei nostri model e la save.
-		} catch (IOException e) {
-			throw new EcommerceVinoException("upload_save_error");
-		}
-		return null;
+	    Assert.isTrue(!file.isEmpty(), () -> "upload_empty");
+	    
+	    String uniqueName = buildFileName(file);
+	    Path destinationFile = uploadPath.resolve(uniqueName);
+	    try {
+	        Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
+	        return uniqueName; // Ritorniamo il nome unico generato
+	    } catch (IOException e) {
+	        throw new EcommerceVinoException("upload_save_error");
+	    }
 	}
 	
 	private String buildFileName(MultipartFile file) {

@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.betacom.ec.dto.input.ImmagineAlcolicoReq;
 import com.betacom.ec.dto.input.ImmagineDegustazioneReq;
 import com.betacom.ec.dto.input.ValidationGroups;
+import com.betacom.ec.dto.output.ImmagineAlcolicoDTO;
 import com.betacom.ec.dto.output.ImmagineDegustazioneDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
-import com.betacom.ec.services.interfaces.IImmagineDegustazioneService;
+import com.betacom.ec.services.interfaces.IImmagineAlcolicoService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,15 +28,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/api/immagine-degustazione")
-public class ImmagineDegustazioneController {
+@RequestMapping("/rest/api/immagine-alcolico")
+public class ImmagineAlcolicoController {
 	
-	private final IImmagineDegustazioneService idS;
+	private final IImmagineAlcolicoService immS;
 	
+
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
-			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) ImmagineDegustazioneReq req) throws Exception{
-			idS.create(req);
+			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) ImmagineAlcolicoReq req) throws Exception{
+		immS.create(req);
 			return ResponseEntity.ok(ResponseDTO.builder()
 					.msg("created...")
 					.build());
@@ -42,8 +45,8 @@ public class ImmagineDegustazioneController {
 	
 	@PatchMapping("update")
 	public ResponseEntity<ResponseDTO> update(
-			@RequestBody (required = true) @Validated(ValidationGroups.Update.class) ImmagineDegustazioneReq req) throws Exception {
-		idS.update(req);
+			@RequestBody (required = true) @Validated(ValidationGroups.Update.class) ImmagineAlcolicoReq req) throws Exception {
+		immS.update(req);
 			return ResponseEntity.ok(ResponseDTO.builder()
 					.msg("updated...")
 					.build());
@@ -53,18 +56,19 @@ public class ImmagineDegustazioneController {
 	public ResponseEntity<ResponseDTO> delete(
 			@PathVariable (required = true) Integer id
 			) throws Exception{
-			idS.delete(id);
+		immS.delete(id);
 			return ResponseEntity.ok(ResponseDTO.builder()
 					.msg("deleted...")
 					.build());
 	}
 	
 	@GetMapping("list")
-	public ResponseEntity<List<ImmagineDegustazioneDTO>> list(Integer idCantina) throws Exception {
-		return ResponseEntity.ok(idS.listWithParameters(idCantina));
+	public ResponseEntity<List<ImmagineAlcolicoDTO>> list(Integer idAlcolico) throws Exception {
+		return ResponseEntity.ok(immS.listBySearch(idAlcolico));
 	}
 	@GetMapping("getImmagineDegustazioneById")
 	public ResponseEntity<Object> getImmagineDegustazioneById(@RequestParam (required = true) Integer id) throws Exception{
-		return ResponseEntity.ok(idS.getById(id)) ;
+		return ResponseEntity.ok(immS.getById(id)) ;
 	}
+
 }

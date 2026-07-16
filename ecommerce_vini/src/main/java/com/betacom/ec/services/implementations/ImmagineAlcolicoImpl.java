@@ -14,6 +14,7 @@ import com.betacom.ec.models.ImmagineAlcolico;
 import com.betacom.ec.repository.IAlcolicoRepository;
 import com.betacom.ec.repository.IImmagineAlcolicoRepository;
 import com.betacom.ec.services.interfaces.IImmagineAlcolicoService;
+import com.betacom.ec.services.interfaces.IUploadService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 	private final IImmagineAlcolicoRepository immagineAlcolicoRepository;
 	private final IAlcolicoRepository alcolicoRepository;
+	private final IUploadService uploadService;
 	
 	@Transactional
 	@Override
@@ -33,9 +35,15 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 		
 		Alcolico alcolico = alcolicoRepository.findById(req.getId_alcolico())
 									.orElseThrow(() -> new EcommerceVinoException("alcolico.id_not_found"));
+		
+		String fileName = uploadService.saveImage(req.getFile(), req.getId_alcolico());
+        
+        
+        String imageUrl = uploadService.buildUrl(fileName);
+        
 		ImmagineAlcolico immagineAlcolico = new ImmagineAlcolico();
 		immagineAlcolico.setAlcolico(alcolico);
-		immagineAlcolico.setUrl(req.getUrl());
+		immagineAlcolico.setUrl(imageUrl);
 		
 		alcolico.getListImmagine().add(immagineAlcolico);
 		alcolicoRepository.save(alcolico);
@@ -53,7 +61,10 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 
 		Optional.ofNullable(req.getId_alcolico()).ifPresent(data -> immagineAlcolico.setAlcolico(alcolicoRepository.findById(data)
 				.orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"))));
-		Optional.ofNullable(req.getUrl()).ifPresent(immagineAlcolico::setUrl);
+		
+		String fileName = uploadService.saveImage(req.getFile(), req.getId_alcolico());
+		String imageUrl = uploadService.buildUrl(fileName);
+		Optional.ofNullable(imageUrl).ifPresent(immagineAlcolico::setUrl);
 	}
 	
 	@Transactional
@@ -64,7 +75,7 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 		ImmagineAlcolico immagineAlcolico = immagineAlcolicoRepository.findById(id)
 				.orElseThrow(() -> new EcommerceVinoException("immagine_Alcolico.id_not_found"));
 		
-		//CHECK DELETE ON CASCADE? (e update?) vedi con i test
+		
 		immagineAlcolicoRepository.delete(immagineAlcolico);
 		
 	}
@@ -81,7 +92,7 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 	
 	@Transactional
 	@Override
-	public List<ImmagineAlcolicoDTO> listBySearchString(Integer idAlcolico) throws Exception {
+	public List<ImmagineAlcolicoDTO> listBySearch(Integer idAlcolico) throws Exception {
 		log.debug("GetImmagineAlcolicoBySearchString");
 		
 		List<ImmagineAlcolico> listImmagineAlcolico = immagineAlcolicoRepository.searchByFilter(idAlcolico);
