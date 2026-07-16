@@ -14,6 +14,7 @@ import com.betacom.ec.models.ImmagineCantina;
 import com.betacom.ec.repository.ICantinaRepository;
 import com.betacom.ec.repository.IImmagineCantinaRepository;
 import com.betacom.ec.services.interfaces.IImmagineCantinaService;
+import com.betacom.ec.services.interfaces.IUploadService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ImmagineCantinaImpl implements IImmagineCantinaService{
 	private final ICantinaRepository cantinaRepository;
 	private final IImmagineCantinaRepository immagineCantinaRepository;
+	private final IUploadService uploadService;
 	
 	@Transactional
 	@Override
@@ -33,9 +35,13 @@ public class ImmagineCantinaImpl implements IImmagineCantinaService{
 		
 		Cantina cantina = cantinaRepository.findById(req.getId_cantina())
 				.orElseThrow(() -> new EcommerceVinoException("immagine_cantina.id_not_found"));
+		
+		String fileName = uploadService.saveImage(req.getFile(), req.getId_cantina());
+        
+        String imageUrl = uploadService.buildUrl(fileName);
 		ImmagineCantina immagineCantina = new ImmagineCantina();
 		immagineCantina.setCantina(cantina);
-		immagineCantina.setUrl(req.getUrl());
+		immagineCantina.setUrl(imageUrl);
 		
 		cantina.getListImmagine().add(immagineCantina);
 		cantinaRepository.save(cantina);
@@ -53,7 +59,12 @@ public class ImmagineCantinaImpl implements IImmagineCantinaService{
 	
 		Optional.ofNullable(req.getId_cantina()).ifPresent(data -> immagineCantina.setCantina(cantinaRepository.findById(data)
 										.orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"))));
-		Optional.ofNullable(req.getUrl()).ifPresent(immagineCantina::setUrl);
+		String fileName = uploadService.saveImage(req.getFile(), req.getId_cantina());
+        
+        String imageUrl = uploadService.buildUrl(fileName);
+		Optional.ofNullable(imageUrl).ifPresent(immagineCantina::setUrl);
+		
+		immagineCantinaRepository.save(immagineCantina);
 	}
 	
 	@Transactional
@@ -64,7 +75,7 @@ public class ImmagineCantinaImpl implements IImmagineCantinaService{
 		ImmagineCantina immagineCantina = immagineCantinaRepository.findById(id)
 				.orElseThrow(() -> new EcommerceVinoException("immagine_cantina.id_not_found"));
 		
-		//CHECK DELETE ON CASCADE? (e update?)
+		
 		immagineCantinaRepository.delete(immagineCantina);
 	}
 	

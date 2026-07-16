@@ -14,6 +14,7 @@ import com.betacom.ec.models.ImmagineBox;
 import com.betacom.ec.repository.IBoxRepository;
 import com.betacom.ec.repository.IImmagineBoxRepository;
 import com.betacom.ec.services.interfaces.IImmagineBoxService;
+import com.betacom.ec.services.interfaces.IUploadService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +26,21 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 	
 	private final IImmagineBoxRepository immBR;
 	private final IBoxRepository boxR;
+	private final IUploadService uploadService;
 
 	@Override
 	public void create(ImmagineBoxReq req) throws Exception {
 		log.debug("create box{}", req);
 		ImmagineBox immB = new ImmagineBox();
 		Box box = boxR.findById(req.getId_box()).orElseThrow(() -> new EcommerceVinoException("box.notFnd"));
+		String fileName = uploadService.saveImage(req.getFile(), req.getId_box());
+        
+        String imageUrl = uploadService.buildUrl(fileName);
 		immB.setBox(box);
-		immB.setUrl(req.getUrl());
+		immB.setUrl(imageUrl);
+		
+		box.getListImmagine().add(immB);
+		boxR.save(box);
 		
 		immBR.save(immB);
 		
@@ -42,8 +50,10 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 	public void update(ImmagineBoxReq req) throws Exception {
 		log.debug("create box{}", req);
 		ImmagineBox immB = immBR.findById(req.getId()).orElseThrow(() -> new EcommerceVinoException("imm_box.notFnd"));
-		
-		Optional.ofNullable(req.getUrl()).ifPresent(immB::setUrl);
+		String fileName = uploadService.saveImage(req.getFile(), req.getId_box());
+        
+        String imageUrl = uploadService.buildUrl(fileName);
+		Optional.ofNullable(imageUrl).ifPresent(immB::setUrl);
 
 		Box box = boxR.findById(req.getId_box()).orElseThrow(() -> new EcommerceVinoException("box.notFnd"));
 		Optional.ofNullable(box).ifPresent(immB::setBox);
@@ -61,7 +71,7 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 	}
 
 	@Override
-	public List<ImmagineBoxDTO> list() {
+	public List<ImmagineBoxDTO> list(Integer idBox) {
 		log.debug("list imm alcolico");
 		List<ImmagineBox> listImmBox = immBR.findAll();
 		return ImmagineBoxMap.buildImmagineBoxDTOList(listImmBox);

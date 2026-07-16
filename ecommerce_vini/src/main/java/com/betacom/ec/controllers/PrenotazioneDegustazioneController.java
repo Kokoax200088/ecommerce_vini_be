@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betacom.ec.dto.input.SpedizioneAlcolicoReq;
+import com.betacom.ec.dto.input.PrenotazioneDegustazioneReq;
 import com.betacom.ec.dto.input.ValidationGroups;
+import com.betacom.ec.dto.output.PrenotazioneDegustazioneDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
-import com.betacom.ec.dto.output.SpedizioneAlcolicoDTO;
-import com.betacom.ec.services.interfaces.ISpedizioneAlcolicoService;
+import com.betacom.ec.services.interfaces.IPrenotazioneDegustazioneService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,14 +26,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/api/spedizionealcolico")
-public class SpedizioneAlcolicoController {
-	private final ISpedizioneAlcolicoService saS;
+@RequestMapping("/rest/api/prenotazionedegustazione")
+public class PrenotazioneDegustazioneController {
+private final IPrenotazioneDegustazioneService pdS;
 	
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
-			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) SpedizioneAlcolicoReq req) throws Exception{
-			saS.create(req);
+			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) PrenotazioneDegustazioneReq req) throws Exception{
+			pdS.create(req);
 			return ResponseEntity.ok(ResponseDTO.builder()
 					.msg("created...")
 					.build());
@@ -41,8 +41,8 @@ public class SpedizioneAlcolicoController {
 	
 	@PatchMapping("update")
 	public ResponseEntity<ResponseDTO> update(
-			@RequestBody (required = true) @Validated(ValidationGroups.Update.class) SpedizioneAlcolicoReq req) throws Exception {
-			saS.update(req);
+			@RequestBody (required = true) @Validated(ValidationGroups.Update.class) PrenotazioneDegustazioneReq req) throws Exception {
+			pdS.update(req);
 			return ResponseEntity.ok(ResponseDTO.builder()
 					.msg("updated...")
 					.build());
@@ -52,23 +52,21 @@ public class SpedizioneAlcolicoController {
 	public ResponseEntity<ResponseDTO> delete(
 			@PathVariable (required = true) Integer id
 			) throws Exception{
-			saS.delete(id);
+		pdS.delete(id);
 			return ResponseEntity.ok(ResponseDTO.builder()
 					.msg("deleted...")
 					.build());
 	}
 	@GetMapping("list")
-	public ResponseEntity<List<SpedizioneAlcolicoDTO>> list(String corriere,
-			String codice_tracciamento,
-			Integer id_cantina, 
-			Integer id_ordine_alcolico,
-			Integer id_cliente,
-			Integer id_status) {
-		return ResponseEntity.ok(saS.listWithParameters(corriere,codice_tracciamento,id_cantina,id_ordine_alcolico,id_cliente,id_status));
+	public ResponseEntity<List<PrenotazioneDegustazioneDTO>> list(Integer id, 
+			Integer id_degustazione,
+			Integer id_status,
+			Integer id_cantina) {
+		return ResponseEntity.ok(pdS.listWithParameters(id,id_degustazione,id_status,id_cantina));
 	}
-	@GetMapping("getSpedizioneAlcolicoById")
-	public ResponseEntity<Object> getSpedizioneAlcolicoById(@RequestParam (required = true) Integer id) throws Exception{
-		return ResponseEntity.ok(saS.getById(id)) ;
+	@GetMapping("getPrenotazioneDegustazioneById")
+	public ResponseEntity<Object> getPrenotazioneDegustazioneById(@RequestParam (required = true) Integer id) throws Exception{
+		return ResponseEntity.ok(pdS.getById(id)) ;
 	}
 
 }

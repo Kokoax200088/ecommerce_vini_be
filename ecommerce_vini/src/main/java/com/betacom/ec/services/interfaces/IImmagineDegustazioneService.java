@@ -13,7 +13,7 @@ public interface IImmagineDegustazioneService {
  
 	public void delete(Integer id) throws Exception;
 	
-	public List<ImmagineDegustazioneDTO> listByParameters(Integer idCantina) throws Exception;
+	public List<ImmagineDegustazioneDTO> listWithParameters(Integer idCantina) throws Exception;
  
 	public ImmagineDegustazioneDTO getById(Integer id) throws Exception;
 }

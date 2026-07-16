@@ -1,8 +1,5 @@
 package com.betacom.ec.controllers;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,11 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betacom.ec.dto.input.OrdineReq;
+import com.betacom.ec.dto.input.ClienteRequest;
 import com.betacom.ec.dto.input.ValidationGroups;
-import com.betacom.ec.dto.output.OrdineDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
-import com.betacom.ec.services.interfaces.IOrdineService;
+import com.betacom.ec.services.interfaces.IClienteService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,26 +23,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/api/ordine")
-public class OrdineController {
-	
-private final IOrdineService oS;
+@RequestMapping("/rest/api/cliente")
+public class ClienteController {
+	private final IClienteService clienteService;
 	
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
-			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) OrdineReq req) throws Exception{
-			oS.create(req);
-			return ResponseEntity.ok(ResponseDTO.builder()
-					.msg("created...")
-					.build());
+			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) ClienteRequest req) throws Exception{
+		clienteService.create(req);
+		return ResponseEntity.ok(ResponseDTO.builder()
+				.msg("created cliente...")
+				.build());
+	
 	}
 	
 	@PatchMapping("update")
 	public ResponseEntity<ResponseDTO> update(
-			@RequestBody (required = true) @Validated(ValidationGroups.Update.class) OrdineReq req) throws Exception {
-			oS.update(req);
+			@RequestBody (required = true) @Validated(ValidationGroups.Update.class) ClienteRequest req) throws Exception {
+			clienteService.update(req);
 			return ResponseEntity.ok(ResponseDTO.builder()
-					.msg("updated...")
+					.msg("updated cliente...")
 					.build());
 	}
 	
@@ -54,18 +50,22 @@ private final IOrdineService oS;
 	public ResponseEntity<ResponseDTO> delete(
 			@PathVariable (required = true) Integer id
 			) throws Exception{
-			oS.delete(id);
+			clienteService.delete(id);
 			return ResponseEntity.ok(ResponseDTO.builder()
-					.msg("deleted...")
+					.msg("deleted cliente...")
 					.build());
 	}
 	
-	@GetMapping("list")
-	public ResponseEntity<List<OrdineDTO>> list(LocalDate data, Double totale, Integer id_status, Integer id_utente, String indirizzo_destinazione) {
-		return ResponseEntity.ok(oS.listWithParameters(data,totale,id_status,id_utente,indirizzo_destinazione));
+	@GetMapping("getClienteById")
+	public ResponseEntity<Object> getSpedizioneBoxById(@RequestParam (required = true) Integer id) throws Exception{
+		return ResponseEntity.ok(clienteService.getById(id)) ;
 	}
-	@GetMapping("getOrdineById")
-	public ResponseEntity<Object> getOrdineById(@RequestParam (required = true) Integer id) throws Exception{
-		return ResponseEntity.ok(oS.getById(id)) ;
+	
+	@GetMapping("listWithParameters")
+	public ResponseEntity<Object> list(
+			@RequestParam(required = false) String indirizzo
+			) throws Exception {
+//	è possibile sia inutile perchè dovrebbe dare solo la ref a idUtente e non info complete, in ogni caso lo lascio per future implementazioni
+		return ResponseEntity.ok(clienteService.listBySearchString(indirizzo));
 	}
 }

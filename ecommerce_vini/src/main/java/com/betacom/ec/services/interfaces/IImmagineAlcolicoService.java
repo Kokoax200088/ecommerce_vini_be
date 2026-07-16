@@ -10,6 +10,6 @@ public interface IImmagineAlcolicoService {
 	public void update(ImmagineAlcolicoReq req) throws Exception;
 	public void delete(Integer id) throws Exception;
 	
-	public List<ImmagineAlcolicoDTO> listBySearchString(Integer idAlcolico) throws Exception;
+	public List<ImmagineAlcolicoDTO> listBySearch(Integer idAlcolico) throws Exception;
 	public ImmagineAlcolicoDTO getById (Integer id) throws Exception;
 }

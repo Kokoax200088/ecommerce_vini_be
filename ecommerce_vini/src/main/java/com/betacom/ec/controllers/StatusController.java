@@ -1,5 +1,7 @@
 package com.betacom.ec.controllers;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.betacom.ec.dto.input.StatusReq;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ResponseDTO;
+import com.betacom.ec.dto.output.StatusDTO;
 import com.betacom.ec.services.interfaces.IStatusService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/status")
+@RequestMapping("/rest/api/status")
 public class StatusController {
 
 	private final IStatusService sS;
@@ -55,9 +58,13 @@ public class StatusController {
 					.msg("deleted...")
 					.build());
 	}
+	@GetMapping("list")
+	public ResponseEntity<List<StatusDTO>> list(String nome, String descrizione) {
+		return ResponseEntity.ok(sS.listWithParameters(nome, descrizione));
+	}
 	
-	@GetMapping("getSpedizioneBoxById")
-	public ResponseEntity<Object> getSpedizioneBoxById(@RequestParam (required = true) Integer id) throws Exception{
+	@GetMapping("getStatusById")
+	public ResponseEntity<Object> getStatusById(@RequestParam (required = true) Integer id) throws Exception{
 		return ResponseEntity.ok(sS.getById(id)) ;
 	}
 }

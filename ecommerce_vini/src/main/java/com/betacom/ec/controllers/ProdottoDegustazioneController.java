@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betacom.ec.dto.input.ProdottoAlcolicoReq;
+import com.betacom.ec.dto.input.ProdottoDegustazioneReq;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ResponseDTO;
-import com.betacom.ec.services.interfaces.IProdottoAlcolicoService;
+import com.betacom.ec.services.interfaces.IProdottoDegustazioneService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,10 +22,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/api/prodotto-alcolico")
-public class ProdottoAlcolicoController {
+@RequestMapping("/rest/api/prodotto-degustazione")
+public class ProdottoDegustazioneController {
 	
-	private final IProdottoAlcolicoService prodS;
+	private final IProdottoDegustazioneService prodS;
 	
 	@GetMapping("/list")
 	public ResponseEntity<Object> list() throws Exception {
@@ -39,7 +39,7 @@ public class ProdottoAlcolicoController {
 	
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
-			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) ProdottoAlcolicoReq req) throws Exception{
+			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) ProdottoDegustazioneReq req) throws Exception{
 		prodS.create(req);
 		return ResponseEntity.ok(ResponseDTO.builder()
 				.msg("created...")

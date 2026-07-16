@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betacom.ec.dto.input.ProdottoAlcolicoReq;
+import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ResponseDTO;
-import com.betacom.ec.services.interfaces.IProdottoAlcolicoService;
+import com.betacom.ec.services.interfaces.IRuoloService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,36 +22,37 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/api/prodotto-alcolico")
-public class ProdottoAlcolicoController {
-	
-	private final IProdottoAlcolicoService prodS;
-	
-	@GetMapping("/list")
-	public ResponseEntity<Object> list() throws Exception {
-		return ResponseEntity.ok(prodS.list());
-	}
-	
-	@GetMapping("/getById")
-	public ResponseEntity<Object> getById(@RequestParam (required = true) Integer id) throws Exception {
-		return ResponseEntity.ok(prodS.getById(id));
-	}
+@RequestMapping("/rest/api/ruolo") //TODO security in tutti i controller
+public class RuoloController {
+	private final IRuoloService ruoloService;
 	
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
-			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) ProdottoAlcolicoReq req) throws Exception{
-		prodS.create(req);
+			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) RuoloRequest req) throws Exception{
+		ruoloService.create(req);
 		return ResponseEntity.ok(ResponseDTO.builder()
-				.msg("created...")
+				.msg("created ruolo...")
 				.build());
 	
 	}
 	
 	@DeleteMapping("delete/{id}")
-	public ResponseEntity<ResponseDTO> delete(@PathVariable (required = true) Integer id) throws Exception{
-		prodS.delete(id);
+	public ResponseEntity<ResponseDTO> delete(
+			@PathVariable (required = true) Integer id
+			) throws Exception{
+			ruoloService.delete(id);
 			return ResponseEntity.ok(ResponseDTO.builder()
-					.msg("deleted...")
+					.msg("deleted ruolo...")
 					.build());
+	}
+	
+	@GetMapping("getRuoloById")
+	public ResponseEntity<Object> getSpedizioneBoxById(@RequestParam (required = true) Integer id) throws Exception{
+		return ResponseEntity.ok(ruoloService.getById(id)) ;
+	}
+	
+	@GetMapping("list")
+	public ResponseEntity<Object> listAll() throws Exception {
+		return ResponseEntity.ok(ruoloService.listAll());
 	}
 }
