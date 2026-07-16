@@ -11,7 +11,7 @@ import com.betacom.ec.models.Cantina;
 
 @Repository
 public interface ICantinaRepository extends JpaRepository<Cantina, Integer> {
-	@Query(name="cantinaAlcolico.searchByFilter")
+	@Query(name="cantina.searchByFilter")
 	List<Cantina> searchByFilter(
 			@Param("nome") String nome,
 			@Param("idVenditore") Integer idVenditore
