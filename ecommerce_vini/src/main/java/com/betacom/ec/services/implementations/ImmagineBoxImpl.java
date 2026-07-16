@@ -39,6 +39,9 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 		immB.setBox(box);
 		immB.setUrl(imageUrl);
 		
+		box.getListImmagine().add(immB);
+		boxR.save(box);
+		
 		immBR.save(immB);
 		
 	}
@@ -68,7 +71,7 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 	}
 
 	@Override
-	public List<ImmagineBoxDTO> list() {
+	public List<ImmagineBoxDTO> list(Integer idBox) {
 		log.debug("list imm alcolico");
 		List<ImmagineBox> listImmBox = immBR.findAll();
 		return ImmagineBoxMap.buildImmagineBoxDTOList(listImmBox);

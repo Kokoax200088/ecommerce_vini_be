@@ -14,6 +14,7 @@ import com.betacom.ec.models.ImmagineDegustazione;
 import com.betacom.ec.repository.IDegustazioneRepository;
 import com.betacom.ec.repository.IImmagineDegustazioneRepository;
 import com.betacom.ec.services.interfaces.IImmagineDegustazioneService;
+import com.betacom.ec.services.interfaces.IUploadService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 		private final IDegustazioneRepository dR;
 		private final IImmagineDegustazioneRepository idR;
+		private final IUploadService uploadService;
 	 
 		@Transactional
 		@Override
@@ -33,9 +35,12 @@ public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 	 
 			Degustazione d= dR.findById(req.getId_degustazione())
 					.orElseThrow(() -> new EcommerceVinoException("immagine_cantina.id_not_found"));
+			String fileName = uploadService.saveImage(req.getFile(), req.getId_degustazione());
+	        
+	        String imageUrl = uploadService.buildUrl(fileName);
 			ImmagineDegustazione iC= new ImmagineDegustazione();
 			iC.setDegustazione(d);
-			iC.setUrl(req.getUrl());
+			iC.setUrl(imageUrl);
 	 
 			d.getListImmagine().add(iC);
 			dR.save(d);
@@ -53,7 +58,13 @@ public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 	 
 			Optional.ofNullable(req.getId_degustazione()).ifPresent(data -> imgD.setDegustazione(dR.findById(data)
 											.orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"))));
-			Optional.ofNullable(req.getUrl()).ifPresent(imgD::setUrl);
+			
+			String fileName = uploadService.saveImage(req.getFile(), req.getId_degustazione());
+	        
+	        String imageUrl = uploadService.buildUrl(fileName);
+			Optional.ofNullable(imageUrl).ifPresent(imgD::setUrl);
+			
+			idR.save(imgD);
 		}
 	 
 		@Transactional
@@ -64,7 +75,6 @@ public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 			ImmagineDegustazione imgD = idR.findById(id)
 					.orElseThrow(() -> new EcommerceVinoException("immagine_degustazione.id_not_found"));
 	 
-			//CHECK DELETE ON CASCADE? (e update?)
 			idR.delete(imgD);
 		}
 	 

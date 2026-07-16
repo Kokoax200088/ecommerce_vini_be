@@ -10,6 +10,6 @@ public interface IImmagineBoxService {
 	void update(ImmagineBoxReq req)throws Exception;
 	void delete(Integer id)throws Exception;
 	
-	List<ImmagineBoxDTO> list();
+	List<ImmagineBoxDTO> list(Integer idBox);
 	ImmagineBoxDTO getById(Integer id)throws Exception;
 }

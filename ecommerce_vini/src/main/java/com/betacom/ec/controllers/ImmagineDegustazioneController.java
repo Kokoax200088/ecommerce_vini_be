@@ -60,8 +60,8 @@ public class ImmagineDegustazioneController {
 	}
 	
 	@GetMapping("list")
-	public ResponseEntity<List<ImmagineDegustazioneDTO>> list(Integer idCantina) throws Exception {
-		return ResponseEntity.ok(idS.listWithParameters(idCantina));
+	public ResponseEntity<List<ImmagineDegustazioneDTO>> list(@PathVariable(required = true) Integer idDegustazione) throws Exception {
+		return ResponseEntity.ok(idS.listWithParameters(idDegustazione));
 	}
 	@GetMapping("getImmagineDegustazioneById")
 	public ResponseEntity<Object> getImmagineDegustazioneById(@RequestParam (required = true) Integer id) throws Exception{

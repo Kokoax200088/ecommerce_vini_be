@@ -61,7 +61,7 @@ public class ImmagineAlcolicoController {
 	}
 	
 	@GetMapping("list")
-	public ResponseEntity<List<ImmagineAlcolicoDTO>> list(Integer idAlcolico) throws Exception {
+	public ResponseEntity<List<ImmagineAlcolicoDTO>> list(@PathVariable(required = true) Integer idAlcolico) throws Exception {
 		return ResponseEntity.ok(immS.listBySearch(idAlcolico));
 	}
 	@GetMapping("getById")

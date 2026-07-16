@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betacom.ec.dto.input.ImmagineAlcolicoReq;
+import com.betacom.ec.dto.input.ImmagineBoxReq;
 import com.betacom.ec.dto.input.ValidationGroups;
-import com.betacom.ec.dto.output.ImmagineAlcolicoDTO;
+import com.betacom.ec.dto.output.ImmagineBoxDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
-import com.betacom.ec.services.interfaces.IImmagineAlcolicoService;
 import com.betacom.ec.services.interfaces.IImmagineBoxService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,7 +33,7 @@ public class ImmagineBoxController {
 
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
-			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) ImmagineAlcolicoReq req) throws Exception{
+			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) ImmagineBoxReq req) throws Exception{
 		immS.create(req);
 			return ResponseEntity.ok(ResponseDTO.builder()
 					.msg("created...")
@@ -43,7 +42,7 @@ public class ImmagineBoxController {
 	
 	@PatchMapping("update")
 	public ResponseEntity<ResponseDTO> update(
-			@RequestBody (required = true) @Validated(ValidationGroups.Update.class) ImmagineAlcolicoReq req) throws Exception {
+			@RequestBody (required = true) @Validated(ValidationGroups.Update.class) ImmagineBoxReq req) throws Exception {
 		immS.update(req);
 			return ResponseEntity.ok(ResponseDTO.builder()
 					.msg("updated...")
@@ -61,8 +60,8 @@ public class ImmagineBoxController {
 	}
 	
 	@GetMapping("list")
-	public ResponseEntity<List<ImmagineAlcolicoDTO>> list(Integer idAlcolico) throws Exception {
-		return ResponseEntity.ok(immS.listBySearch(idAlcolico));
+	public ResponseEntity<List<ImmagineBoxDTO>> list(@PathVariable(required = true) Integer idBox) throws Exception {
+		return ResponseEntity.ok(immS.list(idBox));
 	}
 	@GetMapping("getById")
 	public ResponseEntity<Object> getImmagineDegustazioneById(@RequestParam (required = true) Integer id) throws Exception{

@@ -65,6 +65,7 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 		String fileName = uploadService.saveImage(req.getFile(), req.getId_alcolico());
 		String imageUrl = uploadService.buildUrl(fileName);
 		Optional.ofNullable(imageUrl).ifPresent(immagineAlcolico::setUrl);
+		immagineAlcolicoRepository.save(immagineAlcolico);
 	}
 	
 	@Transactional

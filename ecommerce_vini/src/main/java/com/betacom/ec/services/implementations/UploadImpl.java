@@ -48,7 +48,7 @@ public class UploadImpl implements IUploadService{
 	    Path destinationFile = uploadPath.resolve(uniqueName);
 	    try {
 	        Files.copy(file.getInputStream(), destinationFile, StandardCopyOption.REPLACE_EXISTING);
-	        return uniqueName; // Ritorniamo il nome unico generato
+	        return uniqueName; 
 	    } catch (IOException e) {
 	        throw new EcommerceVinoException("upload_save_error");
 	    }
