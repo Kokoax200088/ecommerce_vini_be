@@ -59,7 +59,11 @@ public class OrdineAlcolicoController {
 	}
 	
 	@GetMapping("list")
-	public ResponseEntity<List<OrdineAlcolicoDTO>> list(Integer quantita,Integer id_ordine,Integer id_status,Integer id_alcolico,Integer id_cantina) {
+	public ResponseEntity<List<OrdineAlcolicoDTO>> list(@RequestParam(required = false)Integer quantita,
+			@RequestParam(required = false)Integer id_ordine,
+			@RequestParam(required = false)Integer id_status,
+			@RequestParam(required = false)Integer id_alcolico,
+			@RequestParam(required = false)Integer id_cantina) {
 		return ResponseEntity.ok(oaS.listWithParameters(quantita,id_ordine,id_status,id_alcolico,id_cantina));
 	}
 	@GetMapping("getOrdineAlcolicoById")

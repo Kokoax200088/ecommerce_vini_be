@@ -58,12 +58,12 @@ public class SpedizioneAlcolicoController {
 					.build());
 	}
 	@GetMapping("list")
-	public ResponseEntity<List<SpedizioneAlcolicoDTO>> list(String corriere,
-			String codice_tracciamento,
-			Integer id_cantina, 
-			Integer id_ordine_alcolico,
-			Integer id_cliente,
-			Integer id_status) {
+	public ResponseEntity<List<SpedizioneAlcolicoDTO>> list(@RequestParam(required = false)String corriere,
+			@RequestParam(required = false)String codice_tracciamento,
+			@RequestParam(required = false)Integer id_cantina, 
+			@RequestParam(required = false)Integer id_ordine_alcolico,
+			@RequestParam(required = false)Integer id_cliente,
+			@RequestParam(required = false)Integer id_status) {
 		return ResponseEntity.ok(saS.listWithParameters(corriere,codice_tracciamento,id_cantina,id_ordine_alcolico,id_cliente,id_status));
 	}
 	@GetMapping("getSpedizioneAlcolicoById")

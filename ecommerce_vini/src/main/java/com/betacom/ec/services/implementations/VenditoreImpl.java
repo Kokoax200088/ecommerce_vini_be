@@ -9,6 +9,7 @@ import com.betacom.ec.dto.input.UtenteRequest;
 import com.betacom.ec.dto.input.VenditoreRequest;
 import com.betacom.ec.dto.output.VenditoreDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
+import com.betacom.ec.mapping.VenditoreMap;
 import com.betacom.ec.models.Utente;
 import com.betacom.ec.models.Venditore;
 import com.betacom.ec.repository.IUtenteRepository;
@@ -69,17 +70,21 @@ public class VenditoreImpl implements IVenditoreService{
 	
 	@Transactional
 	@Override
-	public List<VenditoreDTO> listBySearchString(String partitaIvaSearch) throws Exception {
-		log.debug("Venditore listBySearchString [partitaIva = {}]", partitaIvaSearch);
+	public List<VenditoreDTO> list() throws Exception {
+		log.debug("Venditore list");
 		
-		//TODO VENDITOREMAP
+		List<Venditore> listVenditore = venditoreRepository.findAll();
 		
-		return null;
+		return VenditoreMap.buildVenditoreDTOList(listVenditore);
 	}
 	
+	@Transactional
 	@Override
 	public VenditoreDTO getById(Integer id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		log.debug("Venditore getById {}", id);
+		
+		Venditore venditore = venditoreRepository.findById(id)
+								.orElseThrow(() -> new EcommerceVinoException("venditore.id_not_found"));
+		return VenditoreMap.buildVenditoreDTO(venditore);
 	}
 }

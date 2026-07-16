@@ -36,7 +36,7 @@ public class StatusTest {
 	
 	@Test
 	@Order(1)
-	public void createAbbonamentoTest() throws Exception{
+	public void createStatusTest() throws Exception{
 		log.debug("createAbbonamentoTest");
 		StatusReq req = new StatusReq();
 		req.setDescrizione("testDescrizione");
