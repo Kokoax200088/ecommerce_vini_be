@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import com.betacom.ec.models.OrdineAlcolico;
 
 public interface IOrdineAlcolicoRepository extends JpaRepository<OrdineAlcolico, Integer>{
-	@Query (name="ordine.searchWithParameters")
+	@Query (name="ordineAlcolico.searchWithParameters")
 	List<OrdineAlcolico> searchWithParameters(@Param ("quantita") Integer quantita,
 			@Param("id_ordine") Integer id_ordine,
 			@Param("id_status") Integer id_status,

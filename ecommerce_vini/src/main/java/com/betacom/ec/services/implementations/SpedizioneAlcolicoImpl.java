@@ -74,7 +74,7 @@ public class SpedizioneAlcolicoImpl implements ISpedizioneAlcolicoService{
 			Integer id_ordine_alcolico,
 			Integer id_cliente,
 			Integer id_status){
-		List<SpedizioneAlcolico> lS= saR.searchWithParameters(corriere,codice_tracciamento,id_cantina,id_ordine_alcolico,id_cliente,id_status);
+		List<SpedizioneAlcolico> lS = saR.searchWithParameters(corriere, codice_tracciamento, id_cantina, id_ordine_alcolico, id_status, id_cliente);
 		return SpedizioneAlcolicoMap.buildSpedizioneAlcolicoDTOList(lS);
 	}
 

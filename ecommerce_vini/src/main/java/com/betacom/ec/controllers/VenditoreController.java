@@ -66,6 +66,6 @@ public class VenditoreController {
 			@RequestParam(required = false) String partitaIva
 			) throws Exception {
 //	è possibile sia inutile perchè dovrebbe dare solo la ref a idUtente e non info complete, in ogni caso lo lascio per future implementazioni
-		return ResponseEntity.ok(venditoreService.listBySearchString(partitaIva));
+		return ResponseEntity.ok(venditoreService.list());
 	}
 }
