@@ -1,5 +1,7 @@
 package com.betacom.ec.controllers;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.ec.dto.input.OrdineAlcolicoReq;
 import com.betacom.ec.dto.input.ValidationGroups;
+import com.betacom.ec.dto.output.OrdineAlcolicoDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.services.interfaces.IOrdineAlcolicoService;
 
@@ -23,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/ordinealcolico")
+@RequestMapping("/rest/api/ordinealcolico")
 public class OrdineAlcolicoController {
 	private final IOrdineAlcolicoService oaS;
 
@@ -55,8 +58,12 @@ public class OrdineAlcolicoController {
 					.build());
 	}
 	
-	@GetMapping("getSpedizioneAlcolicoById")
-	public ResponseEntity<Object> getSpedizioneBoxById(@RequestParam (required = true) Integer id) throws Exception{
+	@GetMapping("list")
+	public ResponseEntity<List<OrdineAlcolicoDTO>> list(Integer quantita,Integer id_ordine,Integer id_status,Integer id_alcolico,Integer id_cantina) {
+		return ResponseEntity.ok(oaS.listWithParameters(quantita,id_ordine,id_status,id_alcolico,id_cantina));
+	}
+	@GetMapping("getOrdineAlcolicoById")
+	public ResponseEntity<Object> getOrdineAlcolicoById(@RequestParam (required = true) Integer id) throws Exception{
 		return ResponseEntity.ok(oaS.getById(id)) ;
 	}
 }
