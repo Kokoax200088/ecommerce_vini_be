@@ -13,11 +13,11 @@ public class RatingCantinaMap {
 				.map(r -> buildRatingCantinaDTO(r)).toList();
 	}
 	
-	public static RatingCantinaDTO buildRatingCantinaDTO(RatingCantina r) { // TODO: aggiungere
+	public static RatingCantinaDTO buildRatingCantinaDTO(RatingCantina r) {
 		return RatingCantinaDTO.builder()
 				.id(r.getId())
-				.cantina(null)//CantinaMap.buildCantinaDTO(r.getCantina())
-				.cliente(null) //ClienteMap.buildClienteDTO(r.getCliente())
+				.cantina(CantinaMap.buildCantinaDTO(r.getCantina()))
+				.cliente(ClienteMap.buildClienteDTO(r.getCliente())) 
 				.valutazione(r.getValutazione())
 				.commento(r.getCommento())
 				.build();

@@ -70,7 +70,7 @@ public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 	 
 		@Transactional
 		@Override
-		public List<ImmagineDegustazioneDTO> listByParameters(Integer idCantina) throws Exception {
+		public List<ImmagineDegustazioneDTO> listWithParameters(Integer idCantina) throws Exception {
 			log.debug("GetImmagineCantinaBySearchString");
 	 
 			List<ImmagineDegustazione> lID= idR.searchWithParameters(idCantina);

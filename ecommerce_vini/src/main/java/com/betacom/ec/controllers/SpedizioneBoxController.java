@@ -1,5 +1,7 @@
 package com.betacom.ec.controllers;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.betacom.ec.dto.input.SpedizioneBoxReq;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ResponseDTO;
+import com.betacom.ec.dto.output.SpedizioneBoxDTO;
 import com.betacom.ec.services.interfaces.ISpedizioneBoxService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/spedizionebox")
+@RequestMapping("/rest/api/spedizionebox")
 public class SpedizioneBoxController {
 	
 	private final ISpedizioneBoxService sbS;
@@ -56,6 +59,15 @@ public class SpedizioneBoxController {
 					.build());
 	}
 	
+	@GetMapping("list")
+	public ResponseEntity<List<SpedizioneBoxDTO>> list(String corriere,
+			String codice_tracciamento,
+			Integer id_cantina, 
+			Integer id_ordine_alcolico,
+			Integer id_cliente,
+			Integer id_status) {
+		return ResponseEntity.ok(sbS.listWithParameters(corriere,codice_tracciamento,id_cantina,id_ordine_alcolico,id_cliente,id_status));
+	}
 	@GetMapping("getSpedizioneBoxById")
 	public ResponseEntity<Object> getSpedizioneBoxById(@RequestParam (required = true) Integer id) throws Exception{
 		return ResponseEntity.ok(sbS.getById(id)) ;

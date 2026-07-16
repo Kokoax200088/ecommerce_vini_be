@@ -1,5 +1,8 @@
 package com.betacom.ec.controllers;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.ec.dto.input.OrdineReq;
 import com.betacom.ec.dto.input.ValidationGroups;
+import com.betacom.ec.dto.output.OrdineDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.services.interfaces.IOrdineService;
 
@@ -23,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/rest/ordine")
+@RequestMapping("/rest/api/ordine")
 public class OrdineController {
 	
 private final IOrdineService oS;
@@ -56,8 +60,12 @@ private final IOrdineService oS;
 					.build());
 	}
 	
-	@GetMapping("getSpedizioneAlcolicoById")
-	public ResponseEntity<Object> getSpedizioneBoxById(@RequestParam (required = true) Integer id) throws Exception{
+	@GetMapping("list")
+	public ResponseEntity<List<OrdineDTO>> list(LocalDate data, Double totale, Integer id_status, Integer id_utente, String indirizzo_destinazione) {
+		return ResponseEntity.ok(oS.listWithParameters(data,totale,id_status,id_utente,indirizzo_destinazione));
+	}
+	@GetMapping("getOrdineById")
+	public ResponseEntity<Object> getOrdineById(@RequestParam (required = true) Integer id) throws Exception{
 		return ResponseEntity.ok(oS.getById(id)) ;
 	}
 }

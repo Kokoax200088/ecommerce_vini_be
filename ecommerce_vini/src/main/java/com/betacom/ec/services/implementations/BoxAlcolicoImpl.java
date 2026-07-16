@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class BoxAlcolicoImp implements IBoxAlcolicoService{
+public class BoxAlcolicoImpl implements IBoxAlcolicoService{
 	
 	private final IBoxAlcolicoRepository boxAR;
 	private final IBoxRepository boxR;
