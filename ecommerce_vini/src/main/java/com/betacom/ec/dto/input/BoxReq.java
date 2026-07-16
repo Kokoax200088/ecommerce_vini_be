@@ -37,10 +37,6 @@ public class BoxReq {
 	
 	@NotNull(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class},message="box_id_cantina_missing")
 	private Integer cantinaId;
-	
-	private Cantina cantina;
 	private List <BoxAlcolico> listBoxAlcolico;
 	private List <ImmagineBox> listImmagine;	
-	private List<OrdineBox> listOrdineBox;
-	private List <ProdottoBox> listProdottoBox;	
 }

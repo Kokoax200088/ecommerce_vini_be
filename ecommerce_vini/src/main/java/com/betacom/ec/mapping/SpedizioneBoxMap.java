@@ -16,10 +16,10 @@ public class SpedizioneBoxMap {
 				.id(o.getId())
 				.corriere(o.getCorriere())
 				.codice_tracciamento(o.getCodice_tracciamento())
-				.id_status(o.getStatus().getId())
+				.status(StatusMap.buildStatusDTO(o.getStatus()))
 			//	.id_box(o.getBox().getId())
-				.id_cliente(o.getCliente().getId())
-				.id_cantina(o.getCantina().getId())
+				.cliente(ClienteMap.buildClienteDTO(o.getCliente()))
+			//	.cantina(CantinaMap.buildCantinaDTO(o.getCantina()))
 				.build();
 	}
 }

@@ -11,10 +11,10 @@ public class ProdottoAlcolicoMap {
 				.map(r -> buildProdottoAlcolicoDTO(r)).toList();
 	}
 	
-	public static ProdottoAlcolicoDTO buildProdottoAlcolicoDTO(ProdottoAlcolico p) { // TODO: aggiungere
+	public static ProdottoAlcolicoDTO buildProdottoAlcolicoDTO(ProdottoAlcolico p) { 
 		return ProdottoAlcolicoDTO.builder()
 				.id(p.getId())
-				.cantina(null)//CantinaMap.buildCantinaDTO(r.getCantina())
+				.cantina(CantinaMap.buildCantinaDTO(p.getCantina()))
 				.alcolico(AlcolicoMap.buildAlcolicoDTO(p.getAlcolico()))
 				.carrello(CarrelloMap.buildCarrelloDTO(p.getCarrello()))
 				.quantità(p.getQuantità())

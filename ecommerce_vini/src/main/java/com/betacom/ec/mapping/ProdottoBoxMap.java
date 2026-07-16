@@ -11,10 +11,10 @@ public class ProdottoBoxMap {
 				.map(r -> buildProdottoBoxDTO(r)).toList();
 	}
 	
-	public static ProdottoBoxDTO buildProdottoBoxDTO(ProdottoBox p) { // TODO: aggiungere
+	public static ProdottoBoxDTO buildProdottoBoxDTO(ProdottoBox p) { 
 		return ProdottoBoxDTO.builder()
 				.id(p.getId())
-				.cantina(null)//CantinaMap.buildCantinaDTO(r.getCantina())
+				.cantina(CantinaMap.buildCantinaDTO(p.getCantina()))
 				.box(BoxMap.buildBoxDTO(p.getBox()))
 				.carrello(CarrelloMap.buildCarrelloDTO(p.getCarrello()))
 				.quantità(p.getQuantità())

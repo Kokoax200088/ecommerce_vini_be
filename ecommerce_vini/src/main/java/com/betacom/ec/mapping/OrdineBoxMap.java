@@ -14,10 +14,10 @@ public class OrdineBoxMap {
 	public static OrdineBoxDTO buildOrdineBoxDTO(OrdineBox o) {
 		return OrdineBoxDTO.builder()
 				.id(o.getId())
-				.id_status(o.getStatus().getId())
-				.id_box(o.getBox().getId())
-				.id_cantina(o.getCantina().getId())
-				.id_ordine(o.getOrdine().getId())
+				.status(StatusMap.buildStatusDTO(o.getStatus()))
+				.box(BoxMap.buildBoxDTO(o.getBox()))
+			//	.cantina(CantinaMap.buildCantinaDTO(o.getCantina()))
+				.ordine(OrdineMap.buildOrdineDTO(o.getOrdine()))
 				.build();
 	}
 }

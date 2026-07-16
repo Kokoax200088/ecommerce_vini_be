@@ -12,7 +12,6 @@ import com.betacom.ec.mapping.BoxAlcolicoMap;
 import com.betacom.ec.models.Alcolico;
 import com.betacom.ec.models.Box;
 import com.betacom.ec.models.BoxAlcolico;
-import com.betacom.ec.models.RatingAlcolico;
 import com.betacom.ec.repository.IAlcolicoRepository;
 import com.betacom.ec.repository.IBoxAlcolicoRepository;
 import com.betacom.ec.repository.IBoxRepository;
@@ -57,8 +56,8 @@ public class BoxAlcolicoImp implements IBoxAlcolicoService{
 		Optional.ofNullable(req.getQuantita()).ifPresent(boxAlc::setQuantita);
 		Alcolico alcolico = alcR.findById(req.getId()).orElseThrow(() -> new EcommerceVinoException("alcolico.notFnd"));
 		Box box = boxR.findById(req.getBoxId()).orElseThrow(() -> new EcommerceVinoException("box.notFnd"));
-		boxAlc.setBox(box);
-		boxAlc.setAlcolico(alcolico);
+		Optional.ofNullable(alcolico).ifPresent(boxAlc::setAlcolico);
+		Optional.ofNullable(box).ifPresent(boxAlc::setBox);
 		
 		boxAR.save(boxAlc);
 		

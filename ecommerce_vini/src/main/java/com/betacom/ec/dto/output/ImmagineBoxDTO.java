@@ -17,5 +17,5 @@ import lombok.ToString;
 public class ImmagineBoxDTO {
 	private Integer id;
 	private String url;
-	private Integer id_box;
+	private BoxDTO box;
 }

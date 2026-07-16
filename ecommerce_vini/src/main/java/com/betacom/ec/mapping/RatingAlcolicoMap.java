@@ -11,12 +11,12 @@ public class RatingAlcolicoMap {
 				.map(r -> buildRatingAlcolicoDTO(r)).toList();
 	}
 	
-	public static RatingAlcolicoDTO buildRatingAlcolicoDTO(RatingAlcolico r) { // TODO: aggiungere
+	public static RatingAlcolicoDTO buildRatingAlcolicoDTO(RatingAlcolico r) {
 		return RatingAlcolicoDTO.builder()
 				.id(r.getId())
-				.cantina(null)//CantinaMap.buildCantinaDTO(r.getCantina())
+				.cantina(CantinaMap.buildCantinaDTO(r.getCantina()))//
 				.alcolico(AlcolicoMap.buildAlcolicoDTO(r.getAlcolico()))
-				.cliente(null) //ClienteMap.buildClienteDTO(r.getCliente())
+				.cliente(ClienteMap.buildClienteDTO(r.getCliente())) 
 				.valutazione(r.getValutazione())
 				.commento(r.getCommento())
 				.build();

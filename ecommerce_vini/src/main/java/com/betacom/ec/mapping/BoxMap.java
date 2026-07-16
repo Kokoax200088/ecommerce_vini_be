@@ -21,8 +21,6 @@ public class BoxMap {
 				.id_cantina(box.getCantina().getId())
 				.listBoxAlcolico(box.getListBoxAlcolico())
 				.listImmagine(box.getListImmagine())
-				.listOrdineBox(box.getListOrdineBox())
-				.listProdottoBox(box.getListProdottoBox())
 				.build();
 	}
 }

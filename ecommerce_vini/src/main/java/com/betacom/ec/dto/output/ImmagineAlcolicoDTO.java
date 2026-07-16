@@ -15,5 +15,5 @@ import lombok.ToString;
 public class ImmagineAlcolicoDTO {
 	private Integer id;
 	private String url;
-	private AlcolicoDTO alcolico;
+	private Integer idAlcolico;
 }

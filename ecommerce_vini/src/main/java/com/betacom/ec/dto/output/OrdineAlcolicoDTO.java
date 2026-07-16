@@ -11,8 +11,8 @@ import lombok.ToString;
 @ToString
 public class OrdineAlcolicoDTO {
 	private Integer id;
-	private Integer id_ordine;
-	private Integer id_status;
-	private Integer id_alcolico;
-	private Integer id_cantina;
+	private OrdineDTO ordine;
+	private StatusDTO status;
+	private AlcolicoDTO alcolico;
+	private CantinaDTO cantina;
 }
