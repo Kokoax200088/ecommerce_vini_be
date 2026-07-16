@@ -11,7 +11,7 @@ import com.betacom.ec.models.BoxAlcolico;
 
 @Repository
 public interface IBoxAlcolicoRepository extends JpaRepository<BoxAlcolico, Integer>{
-	@Query (name="boxalc.searchByFilter")
+	@Query (name="boxAlcolico.searchByFilter")
 	List<BoxAlcolico> searchByFilter( 
 			@Param("quantita") Integer quantita,
 			@Param("id_ordine") Integer id_ordine,
