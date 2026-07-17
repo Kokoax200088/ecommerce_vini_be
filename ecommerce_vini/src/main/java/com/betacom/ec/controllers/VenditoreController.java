@@ -57,7 +57,7 @@ public class VenditoreController {
 	}
 	
 	@GetMapping("getVenditoreById")
-	public ResponseEntity<Object> getSpedizioneBoxById(@RequestParam (required = true) Integer id) throws Exception{
+	public ResponseEntity<Object> getById(@RequestParam (required = true) Integer id) throws Exception{
 		return ResponseEntity.ok(venditoreService.getById(id)) ;
 	}
 	
