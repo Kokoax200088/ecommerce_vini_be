@@ -31,7 +31,7 @@ public class RatingCantina {
 	@ManyToOne
 	@JoinColumn (
 			name="id_cliente",
-			foreignKey = @ForeignKey(name ="fk_rating_alcolico_utente" )	
+			foreignKey = @ForeignKey(name ="fk_rating_cantina_utente" )	
 			)
 	private Cliente cliente;
 	

@@ -14,9 +14,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.assertj.core.api.Assertions;
+
 import com.betacom.ec.controllers.RuoloController;
 import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.output.ResponseDTO;
+import com.betacom.ec.dto.output.RuoloDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -97,16 +100,16 @@ public class RuoloControllerTest {
 	public void getRuolo() throws Exception {
 		log.debug("GetRuolo Test");
 		
-//		try {
-//			ResponseEntity<Object> response = ruoloController.getSpedizioneBoxById(null)1);
-//			assertEquals(HttpStatus.OK, response.getStatusCode());
-//			SocioDTO dto = (SocioDTO)response.getBody();
-//			
-//			Assertions.assertThat(dto.getCognome()).isEqualTo("Minto");
-//
-//		} catch (Exception e) {
-//			new AssertionError("Errore: " + e.getMessage());
-//		}
+		try {
+			ResponseEntity<Object> response = ruoloController.getById(1);
+			assertEquals(HttpStatus.OK, response.getStatusCode());
+			RuoloDTO dto = (RuoloDTO)response.getBody();
+			
+			Assertions.assertThat(dto.getNome()).isEqualTo("user");
+
+		} catch (Exception e) {
+			new AssertionError("Errore: " + e.getMessage());
+		}
 	}
 	
 }
