@@ -182,6 +182,9 @@
        drop constraint if exists FKs1qmur4y1mdq2cxcfjx3wl5v0;
 
     alter table if exists spedizione_box 
+       drop constraint if exists fk_spedizione_ordine_box;
+
+    alter table if exists spedizione_box 
        drop constraint if exists fk_status_ordine;
 
     alter table if exists utente 

@@ -47,7 +47,7 @@ public class RuoloController {
 	}
 	
 	@GetMapping("getRuoloById")
-	public ResponseEntity<Object> getSpedizioneBoxById(@RequestParam (required = true) Integer id) throws Exception{
+	public ResponseEntity<Object> getById(@RequestParam (required = true) Integer id) throws Exception{
 		return ResponseEntity.ok(ruoloService.getById(id)) ;
 	}
 	

@@ -49,8 +49,8 @@ public class SpedizioneBox {
 			)
 	private Status status;
 	
-/*	@OneToOne
+	@OneToOne
 	@JoinColumn(name = "id_ordine_box", referencedColumnName = "id",
 	    foreignKey = @ForeignKey(name = "fk_spedizione_ordine_box"))
-	private OrdineBox ordineBox; */
+	private OrdineBox ordineBox;
 }
