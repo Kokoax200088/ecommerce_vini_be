@@ -2,6 +2,8 @@ package com.betacom.ec.carrello;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail; // Importato per gestire i fallimenti nel catch
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -27,6 +30,9 @@ import com.betacom.ec.models.Cantina;
 import com.betacom.ec.models.Carrello;
 import com.betacom.ec.models.Cliente;
 import com.betacom.ec.models.ProdottoBox;
+import com.betacom.ec.repository.ICarrelloRepository;
+import com.betacom.ec.repository.IProdottoBoxRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,33 +50,36 @@ public class CarrelloTest {
 	
     @Autowired
     private ProdottoBoxController prodBoxController;
+    
+    @Autowired
+    private IProdottoBoxRepository repP;
+    
+    @Autowired
+    private ICarrelloRepository carR;
 	
     @Autowired
     private MockMvc mockMvc;
+    
+
 	
     @Test
     @Order(1)
-    public void createCarrello() {
+    public void createCarrello() throws Exception {
         log.debug("createCarrello Test");
 		
         CarrelloReq req = new CarrelloReq();
-
-        Cliente cliente = new Cliente();
-        cliente.setId(1); 
         req.setId_cliente(1);
         req.setQuantità(0);
         req.setTotale(0.0); 		
-        try {
-            ResponseEntity<ResponseDTO> response = carrelloController.create(req);
-            assertEquals(HttpStatus.OK, response.getStatusCode());
-        } catch (Exception e) {
-            fail("Errore in createCarrello: " + e.getMessage());
-        }
+        mockMvc.perform(post("/rest/api/cart/create")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(req))
+				).andExpect(status().isOk());
     }
 	
     @Test
     @Order(2)
-    public void createProdBox() {
+    public void createProdBox() throws Exception{
         log.debug("createProdBox Test");
 		
         ProdottoBoxReq req = new ProdottoBoxReq();
@@ -78,48 +87,35 @@ public class CarrelloTest {
         req.setId_cantina(1);
         req.setId_carrello(1);
         req.setQuantità(3);		
-        try {
-            ResponseEntity<ResponseDTO> response = prodBoxController.create(req);
-            assertEquals(HttpStatus.OK, response.getStatusCode());
-        } catch (Exception e) {
-            fail("Errore in createProdBox: " + e.getMessage());
-        }
+        
+        mockMvc.perform(post("/rest/api/prodotto-box/create")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(req))
+				).andExpect(status().isOk());
     }
 	
     @Test
     @Order(3)
-    public void updateCarrello() {
+    public void updateCarrello() throws Exception{
         log.debug("updateCarrello Test");
-        Box box = new Box();
-        box.setId(1); 
-        
-      
-        Cantina cantina = new Cantina();
-        cantina.setId(1); 
         
         Carrello carrello = new Carrello();
         carrello.setId(1); 
-        
-        ProdottoBox pb = new ProdottoBox();
-        pb.setBox(box);        
-        pb.setCantina(cantina);
-        pb.setCarrello(carrello); 
-        pb.setQuantità(3);
-        
-        List<ProdottoBox> listaBox = new ArrayList<>();
-        listaBox.add(pb);
 
-        CarrelloReq req = new CarrelloReq();
-        req.setId_cliente(1);
-        req.setListaBox(listaBox);
+        List<ProdottoBox> listaBox = new ArrayList<>();
+        
+        ProdottoBox pb = repP.findById(1).orElseThrow();
+        
+        listaBox.add(pb);
+        
+        Carrello req = carR.findById(1).orElseThrow();
+        req.setListaProdottoBox(listaBox);
         req.setQuantità(3);        
         req.setTotale(45.50);		
         
-        try {
-            ResponseEntity<ResponseDTO> response = carrelloController.update(req);
-            assertEquals(HttpStatus.OK, response.getStatusCode());
-        } catch (Exception e) {
-            fail("Errore in updateCarrello: " + e.getMessage());
-        }
+        mockMvc.perform(post("/rest/api/cart/update")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(req))
+				).andExpect(status().isOk());
     }
 }
