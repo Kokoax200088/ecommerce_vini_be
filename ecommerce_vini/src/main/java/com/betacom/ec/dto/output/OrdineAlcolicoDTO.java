@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class OrdineAlcolicoDTO {
 	private Integer id;
-	private OrdineDTO ordine;
+	private Integer id_ordine;
 	private StatusDTO status;
 	private AlcolicoDTO alcolico;
 	private CantinaDTO cantina;

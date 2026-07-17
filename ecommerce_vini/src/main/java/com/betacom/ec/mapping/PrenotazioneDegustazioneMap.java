@@ -12,10 +12,12 @@ public class PrenotazioneDegustazioneMap {
 	
 	private final CantinaMap cantinaMap;
 	private final OrdineMap ordMap;
+	private final DegustazioneMap degMap;
 
-    public PrenotazioneDegustazioneMap(CantinaMap cantinaMap, OrdineMap ordMap) {
+    public PrenotazioneDegustazioneMap(CantinaMap cantinaMap, OrdineMap ordMap,  DegustazioneMap degMap) {
         this.cantinaMap = cantinaMap;
         this.ordMap = ordMap;
+        this.degMap = degMap;
     }
 	public  List<PrenotazioneDegustazioneDTO> buildPrenotazioneDegustazioneDTOList(List<PrenotazioneDegustazione> lPD){
 		return lPD.stream()
@@ -27,7 +29,7 @@ public class PrenotazioneDegustazioneMap {
 		return PrenotazioneDegustazioneDTO.builder()
 				.id(pd.getId())
 				.cantina(cantinaMap.buildCantinaDTO(pd.getCantina()))
-				.degustazione(DegustazioneMap.buildDegustazioneDTO(pd.getDegustazione()))
+				.degustazione(degMap.buildDegustazioneDTO(pd.getDegustazione()))
 				.ordine(ordMap.buildOrdineDTO(pd.getOrdine()))
 				.status(StatusMap.buildStatusDTO(pd.getStatus()))
 				.build();

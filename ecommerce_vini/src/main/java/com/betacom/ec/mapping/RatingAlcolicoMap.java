@@ -6,28 +6,20 @@ import org.springframework.stereotype.Component;
 
 import com.betacom.ec.dto.output.RatingAlcolicoDTO;
 import com.betacom.ec.models.RatingAlcolico;
-
 @Component
 public class RatingAlcolicoMap {
 	
-	private final CantinaMap cantinaMap;
-	private final ClienteMap clientMap;
-
-    public RatingAlcolicoMap(CantinaMap cantinaMap, ClienteMap clientMap) {
-        this.cantinaMap = cantinaMap;
-        this.clientMap = clientMap;
-    }
-	public  List<RatingAlcolicoDTO> buildRatingAlcolicoDTOList(List<RatingAlcolico> lRA) {
+	public  static List<RatingAlcolicoDTO> buildRatingAlcolicoDTOList(List<RatingAlcolico> lRA) {
 		return lRA.stream()
 				.map(r -> buildRatingAlcolicoDTO(r)).toList();
 	}
 	
-	public  RatingAlcolicoDTO buildRatingAlcolicoDTO(RatingAlcolico r) {
+	public  static RatingAlcolicoDTO buildRatingAlcolicoDTO(RatingAlcolico r) {
 		return RatingAlcolicoDTO.builder()
 				.id(r.getId())
-				.cantina(cantinaMap.buildCantinaDTO(r.getCantina()))
-				.alcolico(AlcolicoMap.buildAlcolicoDTO(r.getAlcolico()))
-				.cliente(clientMap.buildClienteDTO(r.getCliente())) 
+				.id_cantina(r.getCantina().getId())
+				.id_alcolico(r.getAlcolico().getId())
+				.id_cliente(r.getCliente().getId()) 
 				.valutazione(r.getValutazione())
 				.commento(r.getCommento())
 				.build();

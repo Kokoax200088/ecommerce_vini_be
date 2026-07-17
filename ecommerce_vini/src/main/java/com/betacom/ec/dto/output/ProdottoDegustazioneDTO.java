@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ProdottoDegustazioneDTO {
 	private Integer id;
-	private CarrelloDTO carrello;
+	private Integer id_carrello;
 	private DegustazioneDTO degustazione;
 	private CantinaDTO cantina;
 	private Integer quantità;

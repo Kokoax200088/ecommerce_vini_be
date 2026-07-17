@@ -10,11 +10,13 @@ import com.betacom.ec.models.Cantina;
 public class CantinaMap {
 	
 	private final ImmagineCantinaMap immagineCantinaMap;
-	private final RatingCantinaMap ratingCantMap;
+	private final BoxMap boxMap;
+	private final DegustazioneMap degMap;
 
-    public CantinaMap(ImmagineCantinaMap immagineCantinaMap, RatingCantinaMap ratingCantMap) {
+    public CantinaMap(ImmagineCantinaMap immagineCantinaMap, BoxMap boxMap, DegustazioneMap degMap) {
         this.immagineCantinaMap = immagineCantinaMap;
-        this.ratingCantMap = ratingCantMap;
+        this.boxMap = boxMap;
+        this.degMap = degMap;
     }
 	public List<CantinaDTO> buildCantinaDTOList(List<Cantina> listCantina){
 		return listCantina.stream().map(item -> buildCantinaDTO(item)
@@ -28,9 +30,9 @@ public class CantinaMap {
 				.idVenditore(cantina.getVenditore().getId()) //CHECK meglio con il getIdUtente?
 				.posizione(PosizioneMap.buildPosizioneDTO(cantina.getPosizione()))
 				.listCantinaAlcolico(CantinaAlcolicoMap.buildCantinaAlcolicoDTOList(cantina.getListCantinaAlcolico()))
-				.listRatingCantina(ratingCantMap.buildRatingCantinaDTOList(cantina.getListRatingCantina()))
-				.listBox(BoxMap.buildBoxDTOList(cantina.getListBox()))
-				.listDegustazione(DegustazioneMap.buildDegustazioneDTOList(cantina.getListDegustazione()))
+				.listRatingCantina(RatingCantinaMap.buildRatingCantinaDTOList(cantina.getListRatingCantina()))
+				.listBox(boxMap.buildBoxDTOList(cantina.getListBox()))
+				.listDegustazione(degMap.buildDegustazioneDTOList(cantina.getListDegustazione()))
 				.listImmagineCantina(immagineCantinaMap.buildImmagineCantinaDTOList(cantina.getListImmagine()))
 				.build();
 	}

@@ -20,6 +20,6 @@ public class BoxDTO {
     private String nome;
     private Double sconto;
     private Integer id_cantina;
-    private List <BoxAlcolico> listBoxAlcolico;
-	private List <ImmagineBox> listImmagine;
+    private List <BoxAlcolicoDTO> listBoxAlcolico;
+	private List <ImmagineBoxDTO> listImmagine;
 }

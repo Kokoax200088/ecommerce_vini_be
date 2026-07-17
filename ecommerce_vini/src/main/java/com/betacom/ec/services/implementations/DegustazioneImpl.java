@@ -30,6 +30,8 @@ public class DegustazioneImpl implements IDegustazioneService{
 	private final ICantinaRepository cR;
 	private final IDegustazioneRepository dR;
 	
+	private final DegustazioneMap mapper;
+	
 	@Transactional
 	public void create(DegustazioneReq req) throws Exception{
 		Degustazione d = new Degustazione();
@@ -66,14 +68,14 @@ public class DegustazioneImpl implements IDegustazioneService{
 			Integer id_cantina,
 			Integer id_carrello)  {
 		List<Degustazione> lD= dR.searchWithParameters(nome,descrizione,prezzo,dataInizio,dataFine,id_cantina,id_carrello);
-		return DegustazioneMap.buildDegustazioneDTOList(lD);
+		return mapper.buildDegustazioneDTOList(lD);
 	}
 
 	@Transactional
 	public DegustazioneDTO getById(Integer id_degustazione) throws Exception{
 		Degustazione d = dR.findById(id_degustazione)
 				.orElseThrow(()-> new EcommerceVinoException("degustazione.ntfnd"));
-		return DegustazioneMap.buildDegustazioneDTO(d);
+		return mapper.buildDegustazioneDTO(d);
 	}
 	
 	@Transactional

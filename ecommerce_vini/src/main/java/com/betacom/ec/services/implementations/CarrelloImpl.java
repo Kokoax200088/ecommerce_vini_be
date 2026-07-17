@@ -29,6 +29,8 @@ public class CarrelloImpl implements ICarrelloService{
 	private final ICarrelloRepository carR;
 	private final IClienteRepository cliR;
 	
+	private final CarrelloMap mapper;
+	
 	@Transactional
 	@Override
 	public void create(CarrelloReq req) throws Exception {
@@ -81,7 +83,7 @@ public class CarrelloImpl implements ICarrelloService{
 	public List<CarrelloDTO> list() {
 		log.debug("list Carrello");
 		List<Carrello> listCart = carR.findAll();
-		return CarrelloMap.buildCarrelloDTOList(listCart);
+		return mapper.buildCarrelloDTOList(listCart);
 	}
 
 	@Transactional
@@ -90,7 +92,7 @@ public class CarrelloImpl implements ICarrelloService{
 		log.debug("getById Cart {}", id);
 		Carrello cart = carR.findById(id)
 				.orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
-		return CarrelloMap.buildCarrelloDTO(cart);
+		return mapper.buildCarrelloDTO(cart);
 	}
 
 }

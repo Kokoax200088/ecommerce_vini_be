@@ -10,9 +10,11 @@ import com.betacom.ec.models.ProdottoDegustazione;
 public class ProdottoDegustazioneMap {
 	
 	private final CantinaMap cantinaMap;
+	private final DegustazioneMap degMap;
 
-    public ProdottoDegustazioneMap(CantinaMap cantinaMap) {
+    public ProdottoDegustazioneMap(CantinaMap cantinaMap, DegustazioneMap degMap) {
         this.cantinaMap = cantinaMap;
+        this.degMap = degMap;
     }
 	public  List<ProdottoDegustazioneDTO> buildProdottoDegustazioneDTOList(List<ProdottoDegustazione> lPA) {
 		return lPA.stream()
@@ -23,8 +25,8 @@ public class ProdottoDegustazioneMap {
 		return ProdottoDegustazioneDTO.builder()
 				.id(p.getId())
 				.cantina(cantinaMap.buildCantinaDTO(p.getCantina()))
-				.degustazione(DegustazioneMap.buildDegustazioneDTO(p.getDegustazione()))
-				.carrello(CarrelloMap.buildCarrelloDTO(p.getCarrello()))
+				.degustazione(degMap.buildDegustazioneDTO(p.getDegustazione()))
+				.id_carrello(p.getCarrello().getId())
 				.quantità(p.getQuantità())
 				.build();
 	}

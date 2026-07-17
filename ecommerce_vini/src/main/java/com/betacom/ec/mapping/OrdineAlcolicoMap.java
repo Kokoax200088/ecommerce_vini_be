@@ -10,11 +10,9 @@ import com.betacom.ec.models.OrdineAlcolico;
 @Component
 public class OrdineAlcolicoMap {
 	private final CantinaMap cantinaMap;
-	private final OrdineMap ordMap;
 
-    public OrdineAlcolicoMap(CantinaMap cantinaMap, OrdineMap ordMap) {
+    public OrdineAlcolicoMap(CantinaMap cantinaMap) {
         this.cantinaMap = cantinaMap;
-        this.ordMap = ordMap;
     }
 	public  List<OrdineAlcolicoDTO> buildOrdineAlcolicoDTOList(List<OrdineAlcolico> lO){
 		return lO.stream()
@@ -28,7 +26,7 @@ public class OrdineAlcolicoMap {
 				.status(StatusMap.buildStatusDTO(o.getStatus()))
 				.alcolico(AlcolicoMap.buildAlcolicoDTO(o.getAlcolico()))
 				.cantina(cantinaMap.buildCantinaDTO(o.getCantina()))
-				.ordine(ordMap.buildOrdineDTO(o.getOrdine()))
+				.id_ordine(o.getOrdine().getId())
 				.build();
 	}
 }

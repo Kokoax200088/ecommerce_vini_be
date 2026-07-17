@@ -10,12 +10,10 @@ import com.betacom.ec.models.Cliente;
 @Component
 public class ClienteMap {
 	
-	private final RatingAlcolicoMap ratAlcMap;
-	private final RatingCantinaMap ratingCantMap;
+	private final CarrelloMap carMap;
 
-    public ClienteMap(RatingAlcolicoMap ratAlcMap, RatingCantinaMap ratingCantMap) {
-        this.ratAlcMap = ratAlcMap;
-        this.ratingCantMap = ratingCantMap;
+    public ClienteMap(CarrelloMap carMap) {
+        this.carMap = carMap;
     }
 	public  List<ClienteDTO> buildClienteDTOList(List<Cliente> listCliente){
 		return listCliente.stream().map(item -> buildClienteDTO(item)
@@ -25,9 +23,9 @@ public class ClienteMap {
 	public  ClienteDTO buildClienteDTO (Cliente cliente) {
 		return ClienteDTO.builder() //CHECK serve idUtente? nell'esempio non c'era quindi non ho messo
 				.id(cliente.getId())
-				.carrello(CarrelloMap.buildCarrelloDTO(cliente.getCarrello()))
-				.listRatingAlcolico(ratAlcMap.buildRatingAlcolicoDTOList(cliente.getListRatingAlcolico()))
-				.listRatingCantina(ratingCantMap.buildRatingCantinaDTOList(cliente.getListRatingCantina()))
+				.carrello(carMap.buildCarrelloDTO(cliente.getCarrello()))
+				.listRatingAlcolico(RatingAlcolicoMap.buildRatingAlcolicoDTOList(cliente.getListRatingAlcolico()))
+				.listRatingCantina(RatingCantinaMap.buildRatingCantinaDTOList(cliente.getListRatingCantina()))
 				.build();
 	}
 }

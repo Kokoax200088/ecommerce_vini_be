@@ -13,9 +13,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class RatingAlcolicoDTO {
 	private Integer id;
-	private AlcolicoDTO alcolico;
-	private CantinaDTO cantina;
-	private ClienteDTO cliente;
+	private Integer id_alcolico;
+	private Integer id_cantina;
+	private Integer id_cliente;
 	private Double valutazione;
 	private String commento;
 }

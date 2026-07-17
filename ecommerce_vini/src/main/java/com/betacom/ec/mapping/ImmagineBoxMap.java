@@ -25,7 +25,7 @@ public class ImmagineBoxMap {
 		return ImmagineBoxDTO.builder()
 				.id(box.getId())
 				.url(box.getUrl() == null ? null : uplS.buildUrl(box.getUrl()))
-				.box(BoxMap.buildBoxDTO(box.getBox()))
+				.id_box(box.getBox().getId())
 				.build();
 	}
 }

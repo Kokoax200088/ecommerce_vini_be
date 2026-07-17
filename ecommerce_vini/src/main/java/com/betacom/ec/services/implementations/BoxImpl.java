@@ -28,6 +28,7 @@ public class BoxImpl implements IBoxService{
 	
 	private final IBoxRepository boxR;
 	private final ICantinaRepository cR;
+	private final BoxMap mapper;
 
 	@Transactional
 	@Override
@@ -85,7 +86,7 @@ public class BoxImpl implements IBoxService{
 	public List<BoxDTO> list(String nome, Integer id_cantina) throws Exception {
 		log.debug("list box");
 		List<Box> listBox = boxR.searchByFilter(nome, id_cantina);
-		return BoxMap.buildBoxDTOList(listBox);
+		return mapper.buildBoxDTOList(listBox);
 	}
 
 	@Transactional
@@ -93,7 +94,7 @@ public class BoxImpl implements IBoxService{
 	public BoxDTO getById(Integer id) throws Exception {
 		Box box = boxR.findById(id)
 				.orElseThrow(() -> new EcommerceVinoException("box_ntfnd"));
-		return BoxMap.buildBoxDTO(box);
+		return mapper.buildBoxDTO(box);
 	}
 
 }

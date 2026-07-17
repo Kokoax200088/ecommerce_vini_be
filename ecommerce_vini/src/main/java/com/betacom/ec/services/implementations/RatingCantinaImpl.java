@@ -34,7 +34,6 @@ public class RatingCantinaImpl implements IRatingCantinaService {
 	private final ICantinaRepository cR;
 	private final IClienteRepository cliR;
 	
-	private final RatingCantinaMap mapper;
 
 	@Transactional
 	@Override
@@ -72,14 +71,14 @@ public class RatingCantinaImpl implements IRatingCantinaService {
 	public List<RatingCantinaDTO> list(String cantReq, Integer utReq, Integer valutazione) throws Exception {
 		log.debug("list rating alcolico: {} {} {}", cantReq, utReq, valutazione);
 		List<RatingCantina> listRatingCantina = rcR.searchByFilter(cantReq, utReq, valutazione);
-		return mapper.buildRatingCantinaDTOList(listRatingCantina);
+		return RatingCantinaMap.buildRatingCantinaDTOList(listRatingCantina);
 	}
 
 	@Transactional
 	@Override
 	public RatingCantinaDTO getById(Integer id) throws Exception {
 		RatingCantina ratCant = rcR.findById(id).orElseThrow(() -> new EcommerceVinoException("rat_cant.notFnd"));
-		return mapper.buildRatingCantinaDTO(ratCant);
+		return RatingCantinaMap.buildRatingCantinaDTO(ratCant);
 	}
 
 }

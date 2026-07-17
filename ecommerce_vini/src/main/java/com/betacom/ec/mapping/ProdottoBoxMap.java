@@ -10,9 +10,11 @@ import com.betacom.ec.models.ProdottoBox;
 public class ProdottoBoxMap {
 	
 	private final CantinaMap cantinaMap;
+	private final BoxMap boxMap;
 
-    public ProdottoBoxMap(CantinaMap cantinaMap) {
+    public ProdottoBoxMap(CantinaMap cantinaMap, BoxMap boxMap) {
         this.cantinaMap = cantinaMap;
+        this.boxMap = boxMap;
     }
 	public  List<ProdottoBoxDTO> buildProdottoBoxDTOList(List<ProdottoBox> lPA) {
 		return lPA.stream()
@@ -23,8 +25,8 @@ public class ProdottoBoxMap {
 		return ProdottoBoxDTO.builder()
 				.id(p.getId())
 				.cantina(cantinaMap.buildCantinaDTO(p.getCantina()))
-				.box(BoxMap.buildBoxDTO(p.getBox()))
-				.carrello(CarrelloMap.buildCarrelloDTO(p.getCarrello()))
+				.box(boxMap.buildBoxDTO(p.getBox()))
+				.id_carrello(p.getCarrello().getId())
 				.quantità(p.getQuantità())
 				.build();
 	}

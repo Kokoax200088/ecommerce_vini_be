@@ -25,7 +25,7 @@ public class ProdottoAlcolicoMap {
 				.id(p.getId())
 				.cantina(cantinaMap.buildCantinaDTO(p.getCantina()))
 				.alcolico(AlcolicoMap.buildAlcolicoDTO(p.getAlcolico()))
-				.carrello(CarrelloMap.buildCarrelloDTO(p.getCarrello()))
+				.id_carrello(p.getCarrello().getId())
 				.quantità(p.getQuantità())
 				.build();
 	}

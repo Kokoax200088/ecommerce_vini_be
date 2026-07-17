@@ -34,7 +34,6 @@ public class RatingAlcolicoImpl implements IRatingAlcolicoService{
 	 private final ICantinaRepository cR;
 	 private final IClienteRepository cliR;
 	 
-	 private final RatingAlcolicoMap mapper;
 	
 	@Transactional
 	@Override
@@ -78,7 +77,7 @@ public class RatingAlcolicoImpl implements IRatingAlcolicoService{
 	public List<RatingAlcolicoDTO> list(String alcReq, Integer utReq, Integer valutazione) throws Exception {
 		log.debug("list rating alcolico: {} {} {}", alcReq, utReq, valutazione);
 		List<RatingAlcolico> listRatingAlc = rAR.searchByFilter(alcReq, utReq, valutazione);
-		return mapper.buildRatingAlcolicoDTOList(listRatingAlc);
+		return RatingAlcolicoMap.buildRatingAlcolicoDTOList(listRatingAlc);
 	}
 
 	@Transactional
@@ -86,7 +85,7 @@ public class RatingAlcolicoImpl implements IRatingAlcolicoService{
 	public RatingAlcolicoDTO getById(Integer id) throws Exception {
 		RatingAlcolico ratAlc = rAR.findById(id)
 				.orElseThrow(() -> new EcommerceVinoException("rat_alc.notFnd"));
-		return mapper.buildRatingAlcolicoDTO(ratAlc);
+		return RatingAlcolicoMap.buildRatingAlcolicoDTO(ratAlc);
 	}
 
 }
