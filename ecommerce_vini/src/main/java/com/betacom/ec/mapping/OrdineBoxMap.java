@@ -2,22 +2,33 @@ package com.betacom.ec.mapping;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.betacom.ec.dto.output.OrdineBoxDTO;
 import com.betacom.ec.models.OrdineBox;
 
+@Component
 public class OrdineBoxMap {
-	public static List<OrdineBoxDTO> buildOrdineBoxDTOList(List<OrdineBox> lO){
+	
+	private final CantinaMap cantinaMap;
+	private final OrdineMap ordMap;
+
+    public OrdineBoxMap(CantinaMap cantinaMap, OrdineMap ordMap) {
+        this.cantinaMap = cantinaMap;
+        this.ordMap = ordMap;
+    }
+	public  List<OrdineBoxDTO> buildOrdineBoxDTOList(List<OrdineBox> lO){
 		return lO.stream()
 				.map(o -> buildOrdineBoxDTO(o)).toList();
 	}
 
-	public static OrdineBoxDTO buildOrdineBoxDTO(OrdineBox o) {
+	public  OrdineBoxDTO buildOrdineBoxDTO(OrdineBox o) {
 		return OrdineBoxDTO.builder()
 				.id(o.getId())
 				.status(StatusMap.buildStatusDTO(o.getStatus()))
 				.box(BoxMap.buildBoxDTO(o.getBox()))
-			//	.cantina(CantinaMap.buildCantinaDTO(o.getCantina()))
-				.ordine(OrdineMap.buildOrdineDTO(o.getOrdine()))
+				.cantina(cantinaMap.buildCantinaDTO(o.getCantina()))
+				.ordine(ordMap.buildOrdineDTO(o.getOrdine()))
 				.build();
 	}
 }
