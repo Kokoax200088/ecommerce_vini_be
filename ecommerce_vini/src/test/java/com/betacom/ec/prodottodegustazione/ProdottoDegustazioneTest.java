@@ -40,15 +40,37 @@ public class ProdottoDegustazioneTest {
     private MockMvc mockMvc;
 
     @Test
-    @Order(1)
+	@Order(1)
+	public void createRuoloUser() throws Exception{ 
+		log.debug("createRuolo User");
+		
+		RuoloRequest req = new RuoloRequest();
+		req.setId(1);
+		req.setNome("user");
+		req.setCanManage(false);
+		req.setCanBuy(true);
+		req.setCanSell(false);
+		 mockMvc.perform(post("/rest/api/ruolo/create")
+	                .contentType(MediaType.APPLICATION_JSON)
+	                .content(objectMapper.writeValueAsString(req))
+	                ).andExpect(status().isOk());
+	}
+    
+    @Test
+    @Order(2)
     public void createCliente() throws Exception {
         log.debug("createCliente Test");
         
         ClienteRequest req = new ClienteRequest();
-        req.setId(1);
         req.setNome("Mario");
-        req.setCognome("Rossi");
-        req.setEmail("mario.rossi@gmail.com");
+		req.setCognome("Rossi");
+		req.setDataNascita("21/11/2005");
+		req.setEmail("mario.rossi@tiscali.net");
+		req.setIdRuolo(1); 
+		req.setPassword("abete1");
+		
+		req.setIndirizzo("via Roma, 1 Torino TO");
+        
         
         mockMvc.perform(post("/rest/api/cliente/create")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -57,7 +79,7 @@ public class ProdottoDegustazioneTest {
     }
     
     @Test
-    @Order(2)
+    @Order(3)
     public void createCarrello() throws Exception {
         log.debug("createCarrello Test");
 		
@@ -72,7 +94,7 @@ public class ProdottoDegustazioneTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     public void createRuoloSeller() throws Exception {
         log.debug("createRuolo Seller");
         
@@ -90,7 +112,7 @@ public class ProdottoDegustazioneTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     public void createVenditore() throws Exception {
         log.debug("createVenditore Test");
         
@@ -110,7 +132,7 @@ public class ProdottoDegustazioneTest {
     }
 
     @Test
-    @Order(5)
+    @Order(6)
     public void createCantina() throws Exception {
         log.debug("createCantina Test");
         
@@ -126,7 +148,7 @@ public class ProdottoDegustazioneTest {
     }
 
     @Test
-    @Order(6)
+    @Order(7)
     public void createDegustazione() throws Exception {
         log.debug("createDegustazione Test");
         
@@ -148,7 +170,7 @@ public class ProdottoDegustazioneTest {
     }
 
     @Test
-    @Order(7)
+    @Order(8)
     public void createProdottoDegustazione() throws Exception {
         log.debug("createProdottoDegustazione Test");
         
@@ -166,7 +188,7 @@ public class ProdottoDegustazioneTest {
     }
 
     @Test
-    @Order(8)
+    @Order(9)
     public void updateProdottoDegustazione() throws Exception {
         log.debug("updateProdottoDegustazione Test");
         
@@ -184,7 +206,7 @@ public class ProdottoDegustazioneTest {
     }
 
     @Test
-    @Order(9)
+    @Order(10)
     public void deleteProdottoDegustazione() throws Exception {
         log.debug("deleteProdottoDegustazione Test");
         
