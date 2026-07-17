@@ -33,7 +33,7 @@ public class OrdineAlcolico {
 	@ManyToOne
 	@JoinColumn (
 			name="id_alcolico",
-			foreignKey = @ForeignKey(name ="fk_ordine_alcolico" )	
+			foreignKey = @ForeignKey(name ="fk_ordine_alcolicoo" )	
 			)
 	private Alcolico alcolico;
 	

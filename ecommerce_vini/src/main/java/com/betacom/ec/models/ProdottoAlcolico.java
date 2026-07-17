@@ -24,7 +24,7 @@ public class ProdottoAlcolico { // PRODOTTO id alcolico e alcolico con quantità
 	@ManyToOne
 	@JoinColumn (
 			name="id_carrello",
-			foreignKey = @ForeignKey(name ="fk_prodotto_carrello" )	
+			foreignKey = @ForeignKey(name ="fk_prodotto_alcolico_carrello" )	
 			)
 	private Carrello carrello;
 	
@@ -32,14 +32,14 @@ public class ProdottoAlcolico { // PRODOTTO id alcolico e alcolico con quantità
 	@ManyToOne
 	@JoinColumn (
 			name="id_alcolico",
-			foreignKey = @ForeignKey(name ="fk_prodotto_alcolico" )	
+			foreignKey = @ForeignKey(name ="fk_prodotto_alcolico_alcolico" )	
 			)
 	private Alcolico alcolico;
 	
 	@ManyToOne
 	@JoinColumn (
 			name="id_cantina",
-			foreignKey = @ForeignKey(name ="fk_prodotto_cantina" )	
+			foreignKey = @ForeignKey(name ="fk_prodotto_alcolico_cantina" )	
 			)
 	private Cantina cantina;
 

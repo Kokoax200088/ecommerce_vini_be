@@ -25,7 +25,7 @@ public class OrdineBox {
 	
 	@ManyToOne
 	@JoinColumn(name="id_ordine",
-			foreignKey= @ForeignKey(name="fk_ordine_alcolico_ordine")
+			foreignKey= @ForeignKey(name="fk_ordine_box_ordine")
 			)
 	private Ordine ordine;
 	
@@ -40,14 +40,14 @@ public class OrdineBox {
 	@ManyToOne
 	@JoinColumn(
 		name="status",
-		foreignKey = @ForeignKey(name ="fk_status_ordine_alcolico" )
+		foreignKey = @ForeignKey(name ="fk_status_ordine_box" )
 			)
 	private Status status;
 	
 	@ManyToOne
 	@JoinColumn(
 			name="cantina",
-			foreignKey = @ForeignKey(name="fk_ordine_alcolico_cantina")
+			foreignKey = @ForeignKey(name="fk_ordine_boxo_cantina")
 			)
 	private Cantina cantina;
 
