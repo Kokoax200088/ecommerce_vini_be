@@ -24,21 +24,21 @@ public class ProdottoDegustazione {
 	@ManyToOne
 	@JoinColumn (
 			name="id_carrello",
-			foreignKey = @ForeignKey(name ="fk_prodotto_carrello" )	
+			foreignKey = @ForeignKey(name ="fk_prodotto_degustazione_carrello" )	
 			)
 	private Carrello carrello;
 	
 	@ManyToOne
 	@JoinColumn (
 			name="id_degustazione",
-			foreignKey = @ForeignKey(name ="fk_prodotto_degustazione" )	
+			foreignKey = @ForeignKey(name ="fk_prodotto_degustazione_degustazione" )	
 			)
 	private  Degustazione degustazione;
 	
 	@ManyToOne
 	@JoinColumn (
 			name="id_cantina",
-			foreignKey = @ForeignKey(name ="fk_prodotto_cantina" )	
+			foreignKey = @ForeignKey(name ="fk_prodotto_degustazione_cantina" )	
 			)
 	private Cantina cantina;
 

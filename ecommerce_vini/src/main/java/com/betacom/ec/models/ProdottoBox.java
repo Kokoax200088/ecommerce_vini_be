@@ -24,7 +24,7 @@ public class ProdottoBox {
 	@ManyToOne
 	@JoinColumn (
 			name="id_carrello",
-			foreignKey = @ForeignKey(name ="fk_prodotto_carrello" )	
+			foreignKey = @ForeignKey(name ="fk_prodotto_box_carrello" )	
 			)
 	private Carrello carrello;
 	
@@ -32,14 +32,14 @@ public class ProdottoBox {
 	@ManyToOne
 	@JoinColumn (
 			name="id_box",
-			foreignKey = @ForeignKey(name ="fk_prodotto_box" )	
+			foreignKey = @ForeignKey(name ="fk_prodotto_box_box" )	
 			)
 	private  Box box;
 	
 	@ManyToOne
 	@JoinColumn (
 			name="id_cantina",
-			foreignKey = @ForeignKey(name ="fk_prodotto_cantina" )	
+			foreignKey = @ForeignKey(name ="fk_prodotto_box_cantina" )	
 			)
 	private Cantina cantina;
 

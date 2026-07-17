@@ -24,28 +24,28 @@ public class PrenotazioneDegustazione {
 	
 	@ManyToOne
 	@JoinColumn(name="id_ordine",
-			foreignKey= @ForeignKey(name="fk_ordine_alcolico_ordine")
+			foreignKey= @ForeignKey(name="fk_prenotazione_degustazione_ordine")
 			)
 	private Ordine ordine;
 	
 	@ManyToOne
 	@JoinColumn (
 			name="id_degustazione",
-			foreignKey = @ForeignKey(name ="fk_ordine_degustazione" )	
+			foreignKey = @ForeignKey(name ="fk_prenotazione_degustazione_degustazione" )	
 			)
 	private Degustazione degustazione;
 	
 	@ManyToOne
 	@JoinColumn(
 		name="status",
-		foreignKey = @ForeignKey(name ="fk_status_ordine_alcolico" )
+		foreignKey = @ForeignKey(name ="fk_prenotazione_degustazione_status" )
 			)
 	private Status status;
 	
 	@ManyToOne
 	@JoinColumn(
 			name="cantina",
-			foreignKey = @ForeignKey(name="fk_ordine_alcolico_cantina")
+			foreignKey = @ForeignKey(name="fk_prenotazione_degustazione_cantina")
 			)
 	private Cantina cantina;
 	
