@@ -27,6 +27,7 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 	private final IImmagineBoxRepository immBR;
 	private final IBoxRepository boxR;
 	private final IUploadService uploadService;
+	private final ImmagineBoxMap immBoxMap;
 
 	@Override
 	public void create(ImmagineBoxReq req) throws Exception {
@@ -74,14 +75,14 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 	public List<ImmagineBoxDTO> list(Integer idBox) {
 		log.debug("list imm alcolico");
 		List<ImmagineBox> listImmBox = immBR.findAll();
-		return ImmagineBoxMap.buildImmagineBoxDTOList(listImmBox);
+		return immBoxMap.buildImmagineBoxDTOList(listImmBox);
 	}
 
 	@Override
 	public ImmagineBoxDTO getById(Integer id) throws Exception {
 		log.debug("getbyId imm box {}", id);
 		ImmagineBox immB = immBR.findById(id).orElseThrow(() -> new EcommerceVinoException("imm_box.notFnd"));
-		return ImmagineBoxMap.buildImmagineBoxDTO(immB);
+		return immBoxMap.buildImmagineBoxDTO(immB);
 	}
 
 }

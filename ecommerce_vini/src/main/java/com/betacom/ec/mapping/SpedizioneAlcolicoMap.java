@@ -10,9 +10,13 @@ import com.betacom.ec.models.SpedizioneAlcolico;
 public class SpedizioneAlcolicoMap {
 	
 	private final CantinaMap cantinaMap;
+	private final OrdineAlcolicoMap ordineAlcolicoMap; 
+	private final ClienteMap clienteMap;
 
-    public SpedizioneAlcolicoMap(CantinaMap cantinaMap) {
+    public SpedizioneAlcolicoMap(CantinaMap cantinaMap,OrdineAlcolicoMap ordineAlcolicoMap, ClienteMap clienteMap) {
         this.cantinaMap = cantinaMap;
+        this.ordineAlcolicoMap = ordineAlcolicoMap;
+        this.clienteMap = clienteMap;
     }
 	public  List<SpedizioneAlcolicoDTO> buildSpedizioneAlcolicoDTOList(List<SpedizioneAlcolico> lS){
 		return lS.stream()
@@ -25,8 +29,8 @@ public class SpedizioneAlcolicoMap {
 				.corriere(o.getCorriere())
 				.codice_tracciamento(o.getCodice_tracciamento())
 				.status(StatusMap.buildStatusDTO(o.getStatus()))
-				.ordine_alcolico(OrdineAlcolicoMap.buildOrdineAlcolicoDTO(o.getOrdineAlcolico()))
-				.cliente(ClienteMap.buildClienteDTO(o.getCliente()))
+				.ordine_alcolico(ordineAlcolicoMap.buildOrdineAlcolicoDTO(o.getOrdineAlcolico()))
+				.cliente(clienteMap.buildClienteDTO(o.getCliente()))
 				.cantina(cantinaMap.buildCantinaDTO(o.getCantina()))
 				.build();
 	}

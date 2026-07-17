@@ -27,6 +27,7 @@ public class CantinaImpl implements ICantinaService {
 	private final ICantinaRepository cantinaRepository;
 	private final IPosizioneRepository posizioneRepository;
 	private final IVenditoreRepository venditoreRepository;
+	private final CantinaMap cantinaMap;
 	
 	@Transactional
 	@Override
@@ -77,7 +78,7 @@ public class CantinaImpl implements ICantinaService {
 		
 		List<Cantina> listCantina = cantinaRepository.searchByFilter(cantinaSearch, idVenditoreSearch);
 		
-		return CantinaMap.buildCantinaDTOList(listCantina);
+		return cantinaMap.buildCantinaDTOList(listCantina);
 	}
 	
 	@Transactional
@@ -85,6 +86,6 @@ public class CantinaImpl implements ICantinaService {
 	public CantinaDTO getById(Integer id) throws Exception {
 		log.debug("GetCantinaById {}", id);
 		Cantina cantina = cantinaRepository.findById(id).orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"));
-		return CantinaMap.buildCantinaDTO(cantina);
+		return cantinaMap.buildCantinaDTO(cantina);
 	}
 }

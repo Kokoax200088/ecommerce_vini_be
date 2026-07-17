@@ -27,6 +27,7 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 	private final IImmagineAlcolicoRepository immagineAlcolicoRepository;
 	private final IAlcolicoRepository alcolicoRepository;
 	private final IUploadService uploadService;
+	private final ImmagineAlcolicoMap immalcMap;
 	
 	@Transactional
 	@Override
@@ -88,7 +89,7 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 		
 		ImmagineAlcolico immagineAlcolico = immagineAlcolicoRepository.findById(id).orElseThrow(() -> new EcommerceVinoException("immagine_alcolico.id_not_found"));
 		
-		return ImmagineAlcolicoMap.buildImmagineAlcolicoDTO(immagineAlcolico);
+		return immalcMap.buildImmagineAlcolicoDTO(immagineAlcolico);
 	}
 	
 	@Transactional
@@ -98,6 +99,6 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 		
 		List<ImmagineAlcolico> listImmagineAlcolico = immagineAlcolicoRepository.searchByFilter(idAlcolico);
 		
-		return ImmagineAlcolicoMap.buildImmagineAlcolicoDTOList(listImmagineAlcolico);
+		return immalcMap.buildImmagineAlcolicoDTOList(listImmagineAlcolico);
 	}
 }

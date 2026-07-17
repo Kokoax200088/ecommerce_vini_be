@@ -10,9 +10,11 @@ import com.betacom.ec.models.Ordine;
 @Component
 public class OrdineMap {
 	private final OrdineAlcolicoMap ordAlcMap;
+	private final UtenteMap utenteMap;
 
-    public OrdineMap(OrdineAlcolicoMap ordAlcMap) {
+    public OrdineMap(OrdineAlcolicoMap ordAlcMap, UtenteMap utenteMap) {
         this.ordAlcMap = ordAlcMap;
+        this.utenteMap = utenteMap;
     }
 	public  List<OrdineDTO> buildOrdineDTOList(List<Ordine> lO){
 		return lO.stream()
@@ -26,7 +28,7 @@ public class OrdineMap {
 				.data_ordine(o.getData_ordine())
 				.totale(o.getTotale())
 				.status(StatusMap.buildStatusDTO(o.getStatus()))
-				.utente(UtenteMap.buildUtenteDTO(o.getUtente()))
+				.utente(utenteMap.buildUtenteDTO(o.getUtente()))
 				.ordineAlcolico(ordAlcMap.buildOrdineAlcolicoDTOList(o.getListOrdineAlcolico()))
 				.build();
 	}

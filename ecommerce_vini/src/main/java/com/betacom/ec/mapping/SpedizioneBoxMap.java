@@ -11,9 +11,13 @@ import com.betacom.ec.models.SpedizioneBox;
 public class SpedizioneBoxMap {
 	
 	private final CantinaMap cantinaMap;
+	private final ClienteMap clienteMap;
+	private final OrdineBoxMap ordBox;
 
-    public SpedizioneBoxMap(CantinaMap cantinaMap) {
+    public SpedizioneBoxMap(CantinaMap cantinaMap, ClienteMap clienteMap, OrdineBoxMap ordBox) {
         this.cantinaMap = cantinaMap;
+        this.clienteMap = clienteMap;
+        this.ordBox = ordBox;
     }
 	public  List<SpedizioneBoxDTO> buildSpedizioneBoxDTOList(List<SpedizioneBox> lS){
 		return lS.stream()
@@ -26,7 +30,8 @@ public class SpedizioneBoxMap {
 				.corriere(o.getCorriere())
 				.codice_tracciamento(o.getCodice_tracciamento())
 				.status(StatusMap.buildStatusDTO(o.getStatus()))
-				.cliente(ClienteMap.buildClienteDTO(o.getCliente()))
+				.ordBox(ordBox.buildOrdineBoxDTO(o.getOrdineBox()))
+				.cliente(clienteMap.buildClienteDTO(o.getCliente()))
 				.cantina(cantinaMap.buildCantinaDTO(o.getCantina()))
 				.build();
 	}

@@ -17,5 +17,5 @@ public class SpedizioneBoxDTO {
 	private CantinaDTO cantina;
 	private ClienteDTO cliente;
 	private StatusDTO status;
-	private BoxDTO box;
+	private OrdineBoxDTO ordBox;
 }

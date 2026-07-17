@@ -35,6 +35,7 @@ public class ClienteImpl implements IClienteService{
 //	private final IRatingCantinaRepository ratingCantinaRepository;
 //	private final IRuoloRepository ruoloRepository;
 	private final IUtenteRepository utenteRepository;
+	private final ClienteMap clienteMap;
 	
 	@Transactional
 	@Override
@@ -101,7 +102,7 @@ public class ClienteImpl implements IClienteService{
 		
 		Cliente cliente = clienteRepository.findById(id)
 							.orElseThrow(() -> new EcommerceVinoException("cliente.id_not_found"));
-		return ClienteMap.buildClienteDTO(cliente);
+		return clienteMap.buildClienteDTO(cliente);
 	}
 	
 	@Transactional
@@ -111,6 +112,6 @@ public class ClienteImpl implements IClienteService{
 		
 		List<Cliente> listCliente = clienteRepository.searchByFilter(indirizzoSearch);
 		
-		return ClienteMap.buildClienteDTOList(listCliente);
+		return clienteMap.buildClienteDTOList(listCliente);
 	}
 }
