@@ -16,7 +16,7 @@ public class ColoreReq {
 
 	private Integer id;
 
-	@NotBlank
+	@NotBlank(groups= {ValidationGroups.Create.class}, message="colore_nome_missing")
 	private String nome;
 
 	private String descrizione;

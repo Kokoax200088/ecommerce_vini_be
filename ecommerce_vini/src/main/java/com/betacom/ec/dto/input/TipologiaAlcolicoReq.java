@@ -16,7 +16,7 @@ public class TipologiaAlcolicoReq {
 
 	private Integer id;
 
-	@NotBlank
+	@NotBlank(groups= {ValidationGroups.Create.class}, message="tipologiaAlcolico_nome_missing")
 	private String nome;
 
 	private String descrizione;
