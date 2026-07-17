@@ -33,7 +33,7 @@ public class SpedizioneAlcolicoTest {
 	@Test
 	@Order(1)
 	public void createSpeAlcTest() throws Exception{
-		log.debug("createAbbonamentoTest");
+		log.debug("createSpeAlcTest");
 		SpedizioneAlcolicoReq req = new SpedizioneAlcolicoReq();
 		req.setCodice_tracciamento("who?");
 		req.setCorriere("brt");
@@ -83,4 +83,20 @@ public class SpedizioneAlcolicoTest {
 		ResponseEntity<ResponseDTO> response = saC.delete(1);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
+	
+	@Test
+	@Order(6)
+	public void createSpeAlc2Test() throws Exception{
+		log.debug("createSpeAlc2Test");
+		SpedizioneAlcolicoReq req = new SpedizioneAlcolicoReq();
+		req.setCodice_tracciamento("who?");
+		req.setCorriere("brt");
+		req.setId_cantina(1);
+		req.setId_cliente(1);
+		req.setId_ordine_alcolico(2);
+		req.setId_status(2);
+			ResponseEntity<ResponseDTO> response = saC.create(req);
+			assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+	
 }
