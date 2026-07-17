@@ -40,7 +40,7 @@ public class StatusTest {
 	@Test
 	@Order(1)
 	public void createStatusTest() throws Exception{
-		log.debug("createAbbonamentoTest");
+		log.debug("createStatusTest");
 		StatusReq req = new StatusReq();
 		req.setDescrizione("testDescrizione");
 		req.setNome("Test");
@@ -90,7 +90,7 @@ public class StatusTest {
 	@Test
 	@Order(6)
 	public void createStatus2Test() throws Exception{
-		log.debug("createAbbonamentoTest");
+		log.debug("createStatus2Test");
 		StatusReq req = new StatusReq();
 		req.setDescrizione("testDescrizione");
 		req.setNome("Test2");

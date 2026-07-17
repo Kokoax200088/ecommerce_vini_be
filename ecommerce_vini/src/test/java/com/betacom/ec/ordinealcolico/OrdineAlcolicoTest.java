@@ -32,7 +32,7 @@ public class OrdineAlcolicoTest {
 	@Test
 	@Order(1)
 	public void createOrdAlcTest() throws Exception{
-		log.debug("createAbbonamentoTest");
+		log.debug("createOrdAlcTest");
 		OrdineAlcolicoReq req = new OrdineAlcolicoReq();
 		req.setData_ordine(Utilities.stringToDate("17/07/2026"));
 		req.setQuantita(2);
@@ -81,5 +81,20 @@ public class OrdineAlcolicoTest {
 	public void deleteOrdAlcTest() throws Exception {
 		ResponseEntity<ResponseDTO> response = oaC.delete(1);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+	
+	@Test
+	@Order(6)
+	public void createOrdAlc2Test() throws Exception{
+		log.debug("createOrdAlc2Test");
+		OrdineAlcolicoReq req = new OrdineAlcolicoReq();
+		req.setData_ordine(Utilities.stringToDate("17/07/2026"));
+		req.setQuantita(2);
+		req.setAlcolicoId(1);
+		req.setCantinaId(1);
+		req.setOrdineId(2);
+		req.setStatusId(2);
+			ResponseEntity<ResponseDTO> response = oaC.create(req);
+			assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 }
