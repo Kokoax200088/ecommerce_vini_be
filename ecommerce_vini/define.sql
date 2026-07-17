@@ -418,7 +418,7 @@
        references utente;
 
     alter table if exists ordine_alcolico 
-       add constraint fk_ordine_alcolico 
+       add constraint fk_ordine_alcolicoo 
        foreign key (id_alcolico) 
        references alcolico;
 
@@ -443,17 +443,17 @@
        references box;
 
     alter table if exists ordine_box 
-       add constraint fk_ordine_alcolico_cantina 
+       add constraint fk_ordine_boxo_cantina 
        foreign key (cantina) 
        references cantina;
 
     alter table if exists ordine_box 
-       add constraint fk_ordine_alcolico_ordine 
+       add constraint fk_ordine_box_ordine 
        foreign key (id_ordine) 
        references ordine;
 
     alter table if exists ordine_box 
-       add constraint fk_status_ordine_alcolico 
+       add constraint fk_status_ordine_box 
        foreign key (status) 
        references status;
 
@@ -478,67 +478,67 @@
        references status;
 
     alter table if exists prenotazione_degustazione 
-       add constraint fk_ordine_alcolico_cantina 
+       add constraint fk_prenotazione_degustazione_cantina 
        foreign key (cantina) 
        references cantina;
 
     alter table if exists prenotazione_degustazione 
-       add constraint fk_ordine_degustazione 
+       add constraint fk_prenotazione_degustazione_degustazione 
        foreign key (id_degustazione) 
        references degustazione;
 
     alter table if exists prenotazione_degustazione 
-       add constraint fk_ordine_alcolico_ordine 
+       add constraint fk_prenotazione_degustazione_ordine 
        foreign key (id_ordine) 
        references ordine;
 
     alter table if exists prenotazione_degustazione 
-       add constraint fk_status_ordine_alcolico 
+       add constraint fk_prenotazione_degustazione_status 
        foreign key (status) 
        references status;
 
     alter table if exists prodotto_alcolico 
-       add constraint fk_prodotto_alcolico 
+       add constraint fk_prodotto_alcolico_alcolico 
        foreign key (id_alcolico) 
        references alcolico;
 
     alter table if exists prodotto_alcolico 
-       add constraint fk_prodotto_cantina 
+       add constraint fk_prodotto_alcolico_cantina 
        foreign key (id_cantina) 
        references cantina;
 
     alter table if exists prodotto_alcolico 
-       add constraint fk_prodotto_carrello 
+       add constraint fk_prodotto_alcolico_carrello 
        foreign key (id_carrello) 
        references carrello;
 
     alter table if exists prodotto_box 
-       add constraint fk_prodotto_box 
+       add constraint fk_prodotto_box_box 
        foreign key (id_box) 
        references box;
 
     alter table if exists prodotto_box 
-       add constraint fk_prodotto_cantina 
+       add constraint fk_prodotto_box_cantina 
        foreign key (id_cantina) 
        references cantina;
 
     alter table if exists prodotto_box 
-       add constraint fk_prodotto_carrello 
+       add constraint fk_prodotto_box_carrello 
        foreign key (id_carrello) 
        references carrello;
 
     alter table if exists prodotto_degustazione 
-       add constraint fk_prodotto_cantina 
+       add constraint fk_prodotto_degustazione_cantina 
        foreign key (id_cantina) 
        references cantina;
 
     alter table if exists prodotto_degustazione 
-       add constraint fk_prodotto_carrello 
+       add constraint fk_prodotto_degustazione_carrello 
        foreign key (id_carrello) 
        references carrello;
 
     alter table if exists prodotto_degustazione 
-       add constraint fk_prodotto_degustazione 
+       add constraint fk_prodotto_degustazione_degustazione 
        foreign key (id_degustazione) 
        references degustazione;
 
@@ -563,7 +563,7 @@
        references cantina;
 
     alter table if exists rating_cantina 
-       add constraint fk_rating_alcolico_utente 
+       add constraint fk_rating_cantina_utente 
        foreign key (id_cliente) 
        references cliente;
 
@@ -603,7 +603,7 @@
        references ordine_box;
 
     alter table if exists spedizione_box 
-       add constraint fk_status_ordine 
+       add constraint fk_status_spedizione_box 
        foreign key (status) 
        references status;
 
