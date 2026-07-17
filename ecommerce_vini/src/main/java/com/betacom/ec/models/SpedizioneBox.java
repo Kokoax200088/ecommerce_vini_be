@@ -45,7 +45,7 @@ public class SpedizioneBox {
 	@JoinColumn(
 			name="status",
 			referencedColumnName = "id",
-			foreignKey = @ForeignKey(name ="fk_status_ordine" )
+			foreignKey = @ForeignKey(name ="fk_status_spedizione_box" )
 			)
 	private Status status;
 	
