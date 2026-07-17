@@ -18,7 +18,7 @@ public class ClienteRequest extends UtenteRequest {
 	@NotNull (groups = ValidationGroups.Create.class , message ="cliente.indirizzo.missing")
 	private String indirizzo;
 	
-	private Integer idCarrello;
-	private List<RatingAlcolico> listRatingAlcolico;
-	private List<RatingCantina> listRatingCantina;
+//	private Integer idCarrello;
+//	private List<RatingAlcolico> listRatingAlcolico;
+//	private List<RatingCantina> listRatingCantina;
 }

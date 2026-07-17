@@ -6,6 +6,7 @@ import org.junit.platform.suite.api.Suite;
 import com.betacom.ec.utente.ClienteControllerTest;
 import com.betacom.ec.utente.RuoloControllerTest;
 import com.betacom.ec.utente.UtenteControllerTest;
+import com.betacom.ec.utente.VenditoreControllerTest;
 
 //import com.betacom.ec.utente.RuoloControllerTest;
 
@@ -13,7 +14,8 @@ import com.betacom.ec.utente.UtenteControllerTest;
 @SelectClasses({
 	RuoloControllerTest.class,
 	UtenteControllerTest.class,
-	ClienteControllerTest.class
+	ClienteControllerTest.class,
+	VenditoreControllerTest.class
 })
 public class SuiteClassSalvatore {
 

@@ -10,7 +10,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.test.context.support.WithMockUser;
+//import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -169,7 +169,7 @@ public class RuoloControllerTest {
 	
 	@Test
 	@Order(8)
-	@WithMockUser(roles = "ADMIN")
+//	@WithMockUser(roles = "ADMIN")
 	public void createRuoloError() {
 		log.debug("createRuoloControllerError");
 		

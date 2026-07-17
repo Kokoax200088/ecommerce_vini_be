@@ -12,8 +12,10 @@ import com.betacom.ec.dto.input.UtenteRequest;
 import com.betacom.ec.dto.output.ClienteDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.ClienteMap;
+import com.betacom.ec.models.Carrello;
 import com.betacom.ec.models.Cliente;
 import com.betacom.ec.models.Utente;
+import com.betacom.ec.repository.ICarrelloRepository;
 import com.betacom.ec.repository.IClienteRepository;
 import com.betacom.ec.repository.IUtenteRepository;
 import com.betacom.ec.services.interfaces.IClienteService;
@@ -30,7 +32,7 @@ public class ClienteImpl implements IClienteService{
 	private final IUtenteService utenteService;
 	
 	private final IClienteRepository clienteRepository;
-//	private final ICarrelloRepository carrelloRepository;
+	private final ICarrelloRepository carrelloRepository;
 //	private final IRatingAlcolicoRepository ratingAlcolicoRepository;
 //	private final IRatingCantinaRepository ratingCantinaRepository;
 //	private final IRuoloRepository ruoloRepository;
@@ -54,6 +56,15 @@ public class ClienteImpl implements IClienteService{
 		//cliente.setListRatingCantina(ratingCantinaRepository.searchByFilter(null, cliente.getUtente().getId(), null));
 		cliente.setUtente(utente);
 		
+		cliente = clienteRepository.save(cliente);
+		
+		Carrello carrello = new Carrello();
+		carrello.setCliente(cliente);
+		carrello.setQuantità(0);
+		carrello.setTotale(0d);
+		carrelloRepository.save(carrello);
+		
+		cliente.setCarrello(carrello);	
 		clienteRepository.save(cliente);
 	}
 	

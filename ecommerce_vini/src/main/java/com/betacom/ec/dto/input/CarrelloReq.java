@@ -21,8 +21,8 @@ public class CarrelloReq {
 	@NotNull(groups=ValidationGroups.Create.class, message="cliente_notFound")
 	private Integer id_cliente;
 	private Double totale;
-	private List<ProdottoAlcolico> listaProdotti;
-	private List<ProdottoDegustazione> listaDegustazione;
-	private List<ProdottoBox> listaBox;
+//	private List<ProdottoAlcolico> listaProdotti;
+//	private List<ProdottoDegustazione> listaDegustazione;
+//	private List<ProdottoBox> listaBox;
 	private Integer quantità;
 }

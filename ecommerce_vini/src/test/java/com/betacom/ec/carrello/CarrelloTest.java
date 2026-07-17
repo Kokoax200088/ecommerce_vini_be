@@ -89,6 +89,15 @@ public class CarrelloTest {
 	@Order(2)
 	public void createRuoloSeller() throws Exception{
 		log.debug("createRuolo Seller");
+=======
+		CarrelloReq req = new CarrelloReq();
+		req.setId_cliente(1);
+//		req.setListaBox(null);
+//		req.setListaDegustazione(null);
+//		req.setListaProdotti(null);
+		req.setQuantità(0);
+		req.setTotale(0.0);
+>>>>>>> dev-Salvatore
 		
 		RuoloRequest req = new RuoloRequest();
 		req.setId(2);

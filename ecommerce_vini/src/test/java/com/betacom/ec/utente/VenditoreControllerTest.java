@@ -1,13 +1,5 @@
 package com.betacom.ec.utente;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -22,50 +14,59 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import com.betacom.ec.controllers.ClienteController;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
+
+import com.betacom.ec.controllers.VenditoreController;
 import com.betacom.ec.dto.input.ClienteRequest;
+import com.betacom.ec.dto.input.VenditoreRequest;
 import com.betacom.ec.dto.output.ClienteDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
+import com.betacom.ec.dto.output.VenditoreDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
-import com.betacom.ec.models.Cliente;
 
 import lombok.extern.slf4j.Slf4j;
 import tools.jackson.databind.ObjectMapper;
 
 @Slf4j
 @SpringBootTest
-@AutoConfigureMockMvc //chiediamo di fare una simulazione di mvc al sistema di test
+@AutoConfigureMockMvc
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class ClienteControllerTest {
+public class VenditoreControllerTest {
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Autowired
-	private ClienteController clienteController;
+	private VenditoreController venditoreController;
 	
 	@Autowired
 	private MockMvc mockMvc;
 	
 	@Test
 	@Order (1)
-	public void createCliente (){
+	public void createVenditore (){
 		log.debug("createCliente");
 		
-		ClienteRequest req = new ClienteRequest();
+		VenditoreRequest req = new VenditoreRequest();
 		req.setNome("Mario");
 		req.setCognome("Rossi");
 		req.setDataNascita("21/11/2005");
 		req.setEmail("mario.rossi@tiscali.net");
-		req.setIdRuolo(1); //ROLE USER
+		req.setIdRuolo(3); //ROLE SELLER
 		req.setPassword("abete1");
 		
-		req.setIndirizzo("via Roma, 1 Torino TO");
+		req.setPartitaIva("IT3435315N34");
 		
 		try {
-			ResponseEntity<ResponseDTO> response = clienteController.create(req);
+			ResponseEntity<ResponseDTO> response = venditoreController.create(req);
 			assertEquals(HttpStatus.OK, response.getStatusCode());
 			
 //			here I just check if can get the clienteDTO object, everything else is part of other stuff I tried
-			ResponseEntity<Object> responseEntity = clienteController.getById(1);
+			ResponseEntity<Object> responseEntity = venditoreController.getById(1);
 //			ClienteDTO cliente= (ClienteDTO) responseEntity.getBody();
 //			Assertions.assertThat(cliente.getIndirizzo()).isEqualTo("via Roma, 1 Torino TO");
 		} catch (Exception e) {
@@ -75,15 +76,15 @@ public class ClienteControllerTest {
 	
 	@Test
 	@Order (2)
-	public void updateCliente() {
-		log.debug("update cliente test");
+	public void updateVenditore() {
+		log.debug("update venditore test");
 		
 		ClienteRequest req = new ClienteRequest();
 		req.setId(1);
 		req.setIndirizzo("indirizzo updated");
 		
 		try {
-			MvcResult result = mockMvc.perform(patch("/rest/api/cliente/update")
+			MvcResult result = mockMvc.perform(patch("/rest/api/venditore/update")
 					.contentType(MediaType.APPLICATION_JSON)
 					.content(objectMapper.writeValueAsString(req))
 					).andExpect(status().isOk()).andReturn();
@@ -104,9 +105,9 @@ public class ClienteControllerTest {
 		log.debug("test cliente list");
 		
 		try {
-			ResponseEntity<Object> response = clienteController.list(null);
+			ResponseEntity<Object> response = venditoreController.list(null);
 			assertEquals(HttpStatus.OK, response.getStatusCode());
-			List<ClienteDTO> listSocio = (List<ClienteDTO>) response.getBody(); //non ho capito il warning
+			List<VenditoreDTO> listSocio = (List<VenditoreDTO>) response.getBody(); //non ho capito il warning
 			Assertions.assertThat(listSocio.size()).isGreaterThan(0);
 			
 //			listSocio.forEach(item -> log.debug(item.toString()));
@@ -117,12 +118,12 @@ public class ClienteControllerTest {
 	
 	@Test
 	@Order (4)
-	public void deleteClienteTest() throws Exception {
-		log.debug("deleteClienteTest");
+	public void deleteVenditoreTest() throws Exception {
+		log.debug("deleteVenditoreTest");
 		
-		mockMvc.perform(delete("/rest/api/cliente/delete" + "/1")
+		mockMvc.perform(delete("/rest/api/venditore/delete" + "/1")
 				).andExpect(status().isOk());
 		
-		assertThrows(EcommerceVinoException.class, () -> clienteController.getById(1));
+		assertThrows(EcommerceVinoException.class, () -> venditoreController.getById(1));
 	}
 }

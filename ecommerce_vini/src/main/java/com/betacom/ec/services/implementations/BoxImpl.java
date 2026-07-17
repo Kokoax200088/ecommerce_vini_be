@@ -43,8 +43,8 @@ public class BoxImpl implements IBoxService{
 		box.setNome(req.getNome());
 		box.setSconto(req.getSconto());
 		box.setCantina(cantina);
-		box.setListBoxAlcolico(req.getListBoxAlcolico());
-		box.setListImmagine(req.getListImmagine());
+//		box.setListBoxAlcolico(req.getListBoxAlcolico());
+//		box.setListImmagine(req.getListImmagine());
 		
 		boxR.save(box);
 		
@@ -61,8 +61,8 @@ public class BoxImpl implements IBoxService{
 		
 		Optional.ofNullable(cantina).ifPresent(box::setCantina);
 		Optional.ofNullable(req.getNome()).ifPresent(box::setNome);
-		Optional.ofNullable(req.getListBoxAlcolico()).ifPresent(box::setListBoxAlcolico);
-		Optional.ofNullable(req.getListImmagine()).ifPresent(box::setListImmagine);
+//		Optional.ofNullable(req.getListBoxAlcolico()).ifPresent(box::setListBoxAlcolico);
+//		Optional.ofNullable(req.getListImmagine()).ifPresent(box::setListImmagine);
 		Optional.ofNullable(req.getSconto()).ifPresent(box::setSconto);
 		
 		boxR.save(box);
