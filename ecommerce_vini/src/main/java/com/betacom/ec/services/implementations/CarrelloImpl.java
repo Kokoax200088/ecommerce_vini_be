@@ -38,9 +38,6 @@ public class CarrelloImpl implements ICarrelloService{
 		Carrello cart = new Carrello();
 		Cliente cli =   cliR.findById(req.getId_cliente()).orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
 		cart.setCliente(cli);
-		cart.setListaProdottoBox(req.getListaBox()); 
-		cart.setListaProdottoDegustazione(req.getListaDegustazione()); 
-		cart.setListaProdottoAlcolico(req.getListaProdotti()); 
 		cart.setQuantità(req.getQuantità());
 		cart.setTotale(req.getTotale());
 		

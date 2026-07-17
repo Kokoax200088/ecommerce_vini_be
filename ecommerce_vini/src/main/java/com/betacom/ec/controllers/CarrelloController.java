@@ -6,16 +6,19 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.betacom.ec.dto.input.AlcolicoReq;
 import com.betacom.ec.dto.input.CarrelloReq;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.services.interfaces.ICarrelloService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,6 +48,14 @@ public class CarrelloController {
 				.msg("created...")
 				.build());
 	
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<ResponseDTO> update(@RequestBody (required = true) @Validated(ValidationGroups.Create.class) CarrelloReq req) throws Exception {
+		cartS.update(req);
+		return ResponseEntity.ok(ResponseDTO.builder()
+				.msg("updated...")
+				.build());
 	}
 	
 	@DeleteMapping("delete/{id}")
