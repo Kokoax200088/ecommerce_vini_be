@@ -74,7 +74,7 @@
        drop constraint if exists fk_ordine_utente;
 
     alter table if exists ordine_alcolico 
-       drop constraint if exists fk_ordine_alcolico;
+       drop constraint if exists fk_ordine_alcolicoo;
 
     alter table if exists ordine_alcolico 
        drop constraint if exists fk_ordine_alcolico_cantina;
@@ -89,13 +89,13 @@
        drop constraint if exists fk_ordine_box;
 
     alter table if exists ordine_box 
-       drop constraint if exists fk_ordine_alcolico_cantina;
+       drop constraint if exists fk_ordine_boxo_cantina;
 
     alter table if exists ordine_box 
-       drop constraint if exists fk_ordine_alcolico_ordine;
+       drop constraint if exists fk_ordine_box_ordine;
 
     alter table if exists ordine_box 
-       drop constraint if exists fk_status_ordine_alcolico;
+       drop constraint if exists fk_status_ordine_box;
 
     alter table if exists ordine_degustazione 
        drop constraint if exists fk_ordine_degustazione_cantina;
@@ -110,43 +110,43 @@
        drop constraint if exists fk_status_ordine_degustazione;
 
     alter table if exists prenotazione_degustazione 
-       drop constraint if exists fk_ordine_alcolico_cantina;
+       drop constraint if exists fk_prenotazione_degustazione_cantina;
 
     alter table if exists prenotazione_degustazione 
-       drop constraint if exists fk_ordine_degustazione;
+       drop constraint if exists fk_prenotazione_degustazione_degustazione;
 
     alter table if exists prenotazione_degustazione 
-       drop constraint if exists fk_ordine_alcolico_ordine;
+       drop constraint if exists fk_prenotazione_degustazione_ordine;
 
     alter table if exists prenotazione_degustazione 
-       drop constraint if exists fk_status_ordine_alcolico;
+       drop constraint if exists fk_prenotazione_degustazione_status;
 
     alter table if exists prodotto_alcolico 
-       drop constraint if exists fk_prodotto_alcolico;
+       drop constraint if exists fk_prodotto_alcolico_alcolico;
 
     alter table if exists prodotto_alcolico 
-       drop constraint if exists fk_prodotto_cantina;
+       drop constraint if exists fk_prodotto_alcolico_cantina;
 
     alter table if exists prodotto_alcolico 
-       drop constraint if exists fk_prodotto_carrello;
+       drop constraint if exists fk_prodotto_alcolico_carrello;
 
     alter table if exists prodotto_box 
-       drop constraint if exists fk_prodotto_box;
+       drop constraint if exists fk_prodotto_box_box;
 
     alter table if exists prodotto_box 
-       drop constraint if exists fk_prodotto_cantina;
+       drop constraint if exists fk_prodotto_box_cantina;
 
     alter table if exists prodotto_box 
-       drop constraint if exists fk_prodotto_carrello;
+       drop constraint if exists fk_prodotto_box_carrello;
 
     alter table if exists prodotto_degustazione 
-       drop constraint if exists fk_prodotto_cantina;
+       drop constraint if exists fk_prodotto_degustazione_cantina;
 
     alter table if exists prodotto_degustazione 
-       drop constraint if exists fk_prodotto_carrello;
+       drop constraint if exists fk_prodotto_degustazione_carrello;
 
     alter table if exists prodotto_degustazione 
-       drop constraint if exists fk_prodotto_degustazione;
+       drop constraint if exists fk_prodotto_degustazione_degustazione;
 
     alter table if exists rating_alcolico 
        drop constraint if exists fk_rating_alcolico;
@@ -161,7 +161,7 @@
        drop constraint if exists fk_cantina_rating;
 
     alter table if exists rating_cantina 
-       drop constraint if exists fk_rating_alcolico_utente;
+       drop constraint if exists fk_rating_cantina_utente;
 
     alter table if exists spedizione_alcolico 
        drop constraint if exists FK4fumiy82ibpvyhlt5pf4x3237;
@@ -185,7 +185,7 @@
        drop constraint if exists fk_spedizione_ordine_box;
 
     alter table if exists spedizione_box 
-       drop constraint if exists fk_status_ordine;
+       drop constraint if exists fk_status_spedizione_box;
 
     alter table if exists utente 
        drop constraint if exists fk_utente_ruolo;

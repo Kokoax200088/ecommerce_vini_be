@@ -27,8 +27,6 @@ public class StatusImpl implements IStatusService{
 		s.setId(req.getId());
 		s.setDescrizione(req.getDescrizione());
 		s.setNome(req.getNome());
-		req.getListOrdineAlcolico().forEach(ordAlc -> s.getListOrdineAlcolico().add(ordAlc));
-		req.getListOrdine().forEach(o-> s.getListOrdine().add(o));
 		
 		sR.save(s);
 	}
@@ -38,8 +36,6 @@ public class StatusImpl implements IStatusService{
 		Optional.ofNullable(req.getId()).ifPresent(s::setId);
 		Optional.ofNullable(req.getDescrizione()).ifPresent(s::setDescrizione);
 		Optional.ofNullable(req.getNome()).ifPresent(s::setNome);
-		req.getListOrdineAlcolico().forEach(ordAlc -> s.getListOrdineAlcolico().add(ordAlc));
-		req.getListOrdine().forEach(o-> s.getListOrdine().add(o));
 		
 		sR.save(s);
 	}
