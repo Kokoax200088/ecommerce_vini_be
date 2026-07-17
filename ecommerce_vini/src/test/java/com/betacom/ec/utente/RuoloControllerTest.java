@@ -37,8 +37,8 @@ public class RuoloControllerTest {
 	
 	@Test
 	@Order(1)
-	public void createRuolo() {
-		log.debug("createRuolo Test");
+	public void createRuoloUser() { //crea user
+		log.debug("createRuolo User");
 		
 		RuoloRequest req = new RuoloRequest();
 		req.setNome("user");
@@ -52,6 +52,61 @@ public class RuoloControllerTest {
 		} catch (Exception e) {
 			new AssertionError("Errore: " + e.getMessage());
 		}
+	}
+	
+	@Test
+	@Order(2)
+	public void createRuoloAdmin() { //crea admin
+		log.debug("createRuolo Admin");
+		
+		RuoloRequest req = new RuoloRequest();
+		req.setNome("admin");
+		req.setCanManage(true);
+		req.setCanBuy(false);
+		req.setCanSell(false);
+		
+		try {
+			ResponseEntity<ResponseDTO> response = ruoloController.create(req);
+			assertEquals(HttpStatus.OK, response.getStatusCode());
+		} catch (Exception e) {
+			new AssertionError("Errore: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	@Order(3)
+	public void createRuoloSeller() { //crea seller
+		log.debug("createRuolo Seller");
+		
+		RuoloRequest req = new RuoloRequest();
+		req.setNome("seller");
+		req.setCanManage(false);
+		req.setCanBuy(false);
+		req.setCanSell(true);
+		
+		try {
+			ResponseEntity<ResponseDTO> response = ruoloController.create(req);
+			assertEquals(HttpStatus.OK, response.getStatusCode());
+		} catch (Exception e) {
+			new AssertionError("Errore: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	@Order(4)
+	public void getRuolo() throws Exception {
+		log.debug("GetRuolo Test");
+		
+//		try {
+//			ResponseEntity<Object> response = ruoloController.getSpedizioneBoxById(null)1);
+//			assertEquals(HttpStatus.OK, response.getStatusCode());
+//			SocioDTO dto = (SocioDTO)response.getBody();
+//			
+//			Assertions.assertThat(dto.getCognome()).isEqualTo("Minto");
+//
+//		} catch (Exception e) {
+//			new AssertionError("Errore: " + e.getMessage());
+//		}
 	}
 	
 }
