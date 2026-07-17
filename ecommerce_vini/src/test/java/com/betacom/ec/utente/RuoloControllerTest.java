@@ -8,11 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.List;
 
 import org.assertj.core.api.Assertions;
 
@@ -53,7 +59,7 @@ public class RuoloControllerTest {
 			ResponseEntity<ResponseDTO> response = ruoloController.create(req);
 			assertEquals(HttpStatus.OK, response.getStatusCode());
 		} catch (Exception e) {
-			new AssertionError("Errore: " + e.getMessage());
+			throw new AssertionError("Errore: " + e.getMessage());
 		}
 	}
 	
@@ -72,7 +78,7 @@ public class RuoloControllerTest {
 			ResponseEntity<ResponseDTO> response = ruoloController.create(req);
 			assertEquals(HttpStatus.OK, response.getStatusCode());
 		} catch (Exception e) {
-			new AssertionError("Errore: " + e.getMessage());
+			throw new AssertionError("Errore: " + e.getMessage());
 		}
 	}
 	
@@ -91,7 +97,7 @@ public class RuoloControllerTest {
 			ResponseEntity<ResponseDTO> response = ruoloController.create(req);
 			assertEquals(HttpStatus.OK, response.getStatusCode());
 		} catch (Exception e) {
-			new AssertionError("Errore: " + e.getMessage());
+			throw new AssertionError("Errore: " + e.getMessage());
 		}
 	}
 	
@@ -108,7 +114,79 @@ public class RuoloControllerTest {
 			Assertions.assertThat(dto.getNome()).isEqualTo("user");
 
 		} catch (Exception e) {
-			new AssertionError("Errore: " + e.getMessage());
+			throw new AssertionError("Errore: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	@Order(5)
+	public void createRuoloToBeDeleted() { //crea toBeDeleted
+		log.debug("createRuolo toBeDeleted");
+		
+		RuoloRequest req = new RuoloRequest();
+		req.setNome("deleting");
+		req.setCanManage(false);
+		req.setCanBuy(false);
+		req.setCanSell(true);
+		
+		try {
+			ResponseEntity<ResponseDTO> response = ruoloController.create(req);
+			assertEquals(HttpStatus.OK, response.getStatusCode());
+		} catch (Exception e) {
+			throw new AssertionError("Errore: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	@Order(6)
+	public void deleteRuolo() { //delete ruolo
+		log.debug("deleteRuolo");
+		
+		try {
+			ResponseEntity<ResponseDTO> response = ruoloController.delete(4);
+			assertEquals(HttpStatus.OK, response.getStatusCode());
+		} catch (Exception e) {
+			throw new AssertionError("Errore: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	@Order(7)
+	public void listAllRuolo() { //listAll ruolo
+		log.debug("listAllRuolo");
+		
+		try {
+			ResponseEntity<Object> response = ruoloController.listAll();
+			assertEquals(HttpStatus.OK, response.getStatusCode());
+			
+			@SuppressWarnings("unchecked") //il warning che dà è inutile, l'ho soppresso
+			List<RuoloDTO> listRuolo = (List<RuoloDTO>) response.getBody();
+			Assertions.assertThat(listRuolo.size()).isGreaterThan(2);
+		} catch (Exception e) {
+			throw new AssertionError("Errore: " + e.getMessage());
+		}
+	}
+	
+	@Test
+	@Order(8)
+	@WithMockUser(roles = "ADMIN")
+	public void createRuoloError() {
+		log.debug("createRuoloControllerError");
+		
+		RuoloRequest ruoloRequest = new RuoloRequest();
+		ruoloRequest.setNome("evvove");
+		ruoloRequest.setCanManage(null);
+		//gli altri non li metto tanto è test di error
+		
+		try {
+			mockMvc.perform(post("/rest/api/ruolo/create")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content(objectMapper.writeValueAsString(ruoloRequest))  //trasformo il mio oggetto di richiesta in json
+					).andExpect(status().isBadRequest());
+//					.andExpect(jsonPath("$.msg").exists()); //per verificare il return contenga il tag msg
+			
+		} catch (Exception e) {
+			throw new AssertionError("Errore in SocioController" + e.getMessage());
 		}
 	}
 	

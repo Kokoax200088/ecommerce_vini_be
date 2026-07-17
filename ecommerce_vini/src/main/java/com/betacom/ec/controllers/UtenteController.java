@@ -57,7 +57,7 @@ public class UtenteController {
 	}
 	
 	@GetMapping("getUtenteById")
-	public ResponseEntity<Object> getSpedizioneBoxById(@RequestParam (required = true) Integer id) throws Exception{
+	public ResponseEntity<Object> getById(@RequestParam (required = true) Integer id) throws Exception{
 		return ResponseEntity.ok(utenteService.getById(id)) ;
 	}
 	
