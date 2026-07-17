@@ -35,6 +35,8 @@ public class PrenotazioneDegustazioneImpl implements IPrenotazioneDegustazioneSe
 	private final IOrdineRepository oR;
 	private final IStatusRepository sR;
 	
+	private final PrenotazioneDegustazioneMap mapper;
+	
 	public void create(PrenotazioneDegustazioneReq req) throws Exception{
 		PrenotazioneDegustazione pd = new PrenotazioneDegustazione();
 		
@@ -81,13 +83,13 @@ public class PrenotazioneDegustazioneImpl implements IPrenotazioneDegustazioneSe
 			Integer id_status,
 			Integer id_cantina)  {
 		List<PrenotazioneDegustazione> lPD = pdR.searchWithParameters(id,id_degustazione,id_status,id_cantina);
-		return PrenotazioneDegustazioneMap.buildPrenotazioneDegustazioneDTOList(lPD);
+		return mapper.buildPrenotazioneDegustazioneDTOList(lPD);
 	}
 
 	public PrenotazioneDegustazioneDTO getById(Integer id_prenotazione_degustazione) throws Exception{
 		PrenotazioneDegustazione pd = pdR.findById(id_prenotazione_degustazione)
 				.orElseThrow(()-> new EcommerceVinoException("prendeg.ntfnd"));
-		return PrenotazioneDegustazioneMap.buildPrenotazioneDegustazioneDTO(pd);
+		return mapper.buildPrenotazioneDegustazioneDTO(pd);
 	}
 
 }

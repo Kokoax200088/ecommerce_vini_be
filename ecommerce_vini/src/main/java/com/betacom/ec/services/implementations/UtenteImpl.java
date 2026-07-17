@@ -26,6 +26,8 @@ public class UtenteImpl implements IUtenteService {
 	private final IUtenteRepository utenteRepository;
 	private final IRuoloRepository ruoloRepository;
 	
+	private final UtenteMap mapper;
+	
 	@Transactional
 	@Override
 	public Utente create(UtenteRequest utenteRequest) throws Exception {
@@ -82,7 +84,7 @@ public class UtenteImpl implements IUtenteService {
 								String ruoloSearch) throws Exception {
 		
 		List<Utente> listUtente = utenteRepository.searchByFilter(nomeSearch, cognomeSearch, emailSearch, dataNascitaSearch, ruoloSearch); 
-		return UtenteMap.buildUtenteDTOList(listUtente); 
+		return mapper.buildUtenteDTOList(listUtente); 
 	}
 	
 	@Transactional
@@ -93,7 +95,7 @@ public class UtenteImpl implements IUtenteService {
 		Utente utente = utenteRepository.findById(id)
 							.orElseThrow(() -> new EcommerceVinoException("utente.id_not_found"));		
 		
-		return UtenteMap.buildUtenteDTO(utente);
+		return mapper.buildUtenteDTO(utente);
 	}
 	
 }

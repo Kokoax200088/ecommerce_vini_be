@@ -35,6 +35,8 @@ public class OrdineBoxImpl implements IOrdineBoxService {
 	private final ICantinaRepository cR;
 	private final IOrdineRepository oR;
 	private final IStatusRepository sR;
+	
+	private final OrdineBoxMap mapper;
 
 	@Transactional
 	@Override
@@ -108,7 +110,7 @@ public class OrdineBoxImpl implements IOrdineBoxService {
 		log.debug("listWithParameters {} {} {} {} {}", quantita, id_ordine, id_status, id_box, id_cantina);
 
 		List<OrdineBox> lOB = obR.searchWithParameters(quantita, id_ordine, id_status, id_box, id_cantina);
-		return OrdineBoxMap.buildOrdineBoxDTOList(lOB);
+		return mapper.buildOrdineBoxDTOList(lOB);
 	}
 
 	@Override
@@ -118,6 +120,6 @@ public class OrdineBoxImpl implements IOrdineBoxService {
 		OrdineBox ob = obR.findById(id_ordine_box)
 				.orElseThrow(() -> new EcommerceVinoException("ordineBox.notFnd"));
 
-		return OrdineBoxMap.buildOrdineBoxDTO(ob);
+		return mapper.buildOrdineBoxDTO(ob);
 	}
 }

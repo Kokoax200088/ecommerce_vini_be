@@ -39,6 +39,8 @@ public class OrdineImpl implements IOrdineService{
 	private final IOrdineBoxRepository obR;
 	private final IPrenotazioneDegustazioneRepository pdR;
 	
+	private final OrdineMap mapper;
+	
 	@Transactional
 	public void create(OrdineReq req) throws Exception {
 		Ordine o = new Ordine();
@@ -83,14 +85,14 @@ public class OrdineImpl implements IOrdineService{
 	@Transactional
 	public List<OrdineDTO> listWithParameters(LocalDate data,Double totale,Integer id_status,Integer id_utente,String indirizzo_destinazione){
 		List<Ordine> lO = oR.searchWithParameters(data,totale,id_status,id_utente,indirizzo_destinazione);
-		return OrdineMap.buildOrdineDTOList(lO);
+		return mapper.buildOrdineDTOList(lO);
 	}
 
 	@Transactional
 	public OrdineDTO getById(Integer id_ordine) throws Exception{
 		Ordine o = oR.findById(id_ordine)
 				.orElseThrow(()-> new EcommerceVinoException("ordine.ntfnd"));
-		return OrdineMap.buildOrdineDTO(o);
+		return mapper.buildOrdineDTO(o);
 	}	
 	
 	@Transactional

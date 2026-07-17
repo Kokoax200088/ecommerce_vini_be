@@ -32,6 +32,8 @@ public class ProdottoAlcolicoImpl implements IProdottoAlcolicoService{
 	private final ICantinaRepository cantR;
 	private final ICarrelloRepository cartR;
 	
+	private final ProdottoAlcolicoMap mapper;
+	
 	@Transactional
 	@Override
 	public void create(ProdottoAlcolicoReq req) throws Exception {
@@ -70,7 +72,7 @@ public class ProdottoAlcolicoImpl implements IProdottoAlcolicoService{
 	public List<ProdottoAlcolicoDTO> list() {
 		log.debug("list prodotto alcolico");
 		List<ProdottoAlcolico> listPA = pR.findAll();
-		return ProdottoAlcolicoMap.buildProdottoAlcolicoDTOList(listPA);
+		return mapper.buildProdottoAlcolicoDTOList(listPA);
 		
 	}
 
@@ -79,7 +81,7 @@ public class ProdottoAlcolicoImpl implements IProdottoAlcolicoService{
 	public ProdottoAlcolicoDTO getById(Integer id) throws Exception {
 		ProdottoAlcolico pA = pR.findById(id).orElseThrow(() -> new EcommerceVinoException("prod_alc.notFnd"));
 		
-		return ProdottoAlcolicoMap.buildProdottoAlcolicoDTO(pA);
+		return mapper.buildProdottoAlcolicoDTO(pA);
 		
 	}
 

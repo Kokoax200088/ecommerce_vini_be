@@ -27,6 +27,7 @@ public class ImmagineCantinaImpl implements IImmagineCantinaService{
 	private final ICantinaRepository cantinaRepository;
 	private final IImmagineCantinaRepository immagineCantinaRepository;
 	private final IUploadService uploadService;
+	private final ImmagineCantinaMap immCantMap;
 	
 	@Transactional
 	@Override
@@ -86,7 +87,7 @@ public class ImmagineCantinaImpl implements IImmagineCantinaService{
 		
 		List<ImmagineCantina> listImmagineCantina = immagineCantinaRepository.searchByFilter(idCantina);
 		
-		return ImmagineCantinaMap.buildImmagineCantinaDTOList(listImmagineCantina);
+		return immCantMap.buildImmagineCantinaDTOList(listImmagineCantina);
 	}
 	
 	@Transactional
@@ -96,6 +97,6 @@ public class ImmagineCantinaImpl implements IImmagineCantinaService{
 		
 		ImmagineCantina immagineCantina = immagineCantinaRepository.findById(id).orElseThrow(() -> new EcommerceVinoException("immagine_cantina.id_not_found"));
 		
-		return ImmagineCantinaMap.buildImmagineCantinaDTO(immagineCantina);
+		return immCantMap.buildImmagineCantinaDTO(immagineCantina);
 	}
 }

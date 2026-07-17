@@ -34,6 +34,9 @@ public class SpedizioneAlcolicoImpl implements ISpedizioneAlcolicoService{
 	private final IStatusRepository sR;
 	private final IClienteRepository cliR;
 	private final IOrdineAlcolicoRepository oaR;
+	
+	private final SpedizioneAlcolicoMap mapper;
+	
 	public void create(SpedizioneAlcolicoReq req) throws Exception{
 		SpedizioneAlcolico sa = new SpedizioneAlcolico();
 		Optional.ofNullable(req.getId()).ifPresent(sa::setId);
@@ -75,12 +78,12 @@ public class SpedizioneAlcolicoImpl implements ISpedizioneAlcolicoService{
 			Integer id_cliente,
 			Integer id_status){
 		List<SpedizioneAlcolico> lS = saR.searchWithParameters(corriere, codice_tracciamento, id_cantina, id_ordine_alcolico, id_status, id_cliente);
-		return SpedizioneAlcolicoMap.buildSpedizioneAlcolicoDTOList(lS);
+		return mapper.buildSpedizioneAlcolicoDTOList(lS);
 	}
 
 	public SpedizioneAlcolicoDTO getById(Integer id_spedizione) throws Exception{
 		SpedizioneAlcolico sa = saR.findById(id_spedizione)
 				.orElseThrow(()-> new EcommerceVinoException("status.ntfnd"));
-		return SpedizioneAlcolicoMap.buildSpedizioneAlcolicoDTO(sa);
+		return mapper.buildSpedizioneAlcolicoDTO(sa);
 	}
 }

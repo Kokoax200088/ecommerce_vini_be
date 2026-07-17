@@ -33,6 +33,8 @@ public class OrdineAlcolicoImpl implements IOrdineAlcolicoService{
 	private final ICantinaRepository cR;
 	private final IOrdineRepository oR;
 	private final IStatusRepository sR;
+	private final OrdineAlcolicoMap mapper;
+	
 	public void create(OrdineAlcolicoReq req) throws Exception{
 		OrdineAlcolico oa = new OrdineAlcolico();
 		Optional.ofNullable(req.getId()).ifPresent(oa::setId);
@@ -73,12 +75,12 @@ public class OrdineAlcolicoImpl implements IOrdineAlcolicoService{
 	}
 	public List<OrdineAlcolicoDTO> listWithParameters(Integer quantita,Integer id_ordine, Integer id_status,Integer id_alcolico, Integer id_cantina){
 		List<OrdineAlcolico> lOA = oaR.searchWithParameters(quantita,id_ordine,id_status, id_alcolico,id_cantina);
-		return OrdineAlcolicoMap.buildOrdineAlcolicoDTOList(lOA);
+		return mapper.buildOrdineAlcolicoDTOList(lOA);
 	}
 
 	public OrdineAlcolicoDTO getById(Integer id_ordine_alcolico) throws Exception{
 		OrdineAlcolico oa = oaR.findById(id_ordine_alcolico)
 				.orElseThrow(()-> new EcommerceVinoException("ordine.ntfnd"));
-		return OrdineAlcolicoMap.buildOrdineAlcolicoDTO(oa);
+		return mapper.buildOrdineAlcolicoDTO(oa);
 	}
 }

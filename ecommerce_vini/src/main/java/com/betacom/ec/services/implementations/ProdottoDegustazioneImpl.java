@@ -31,6 +31,8 @@ public class ProdottoDegustazioneImpl implements IProdottoDegustazioneService{
 	private final ICantinaRepository cantR;
 	private final ICarrelloRepository cartR;
 	private final IDegustazioneRepository degR;
+	
+	private final ProdottoDegustazioneMap mapper;
 
 	@Transactional
 	@Override
@@ -71,7 +73,7 @@ public class ProdottoDegustazioneImpl implements IProdottoDegustazioneService{
 		log.debug("list prodotto deg");
 		List<ProdottoDegustazione> listPA = pD.findAll();
 		
-		return ProdottoDegustazioneMap.buildProdottoDegustazioneDTOList(listPA);
+		return mapper.buildProdottoDegustazioneDTOList(listPA);
 		
 	}
 
@@ -80,7 +82,7 @@ public class ProdottoDegustazioneImpl implements IProdottoDegustazioneService{
 	public ProdottoDegustazioneDTO getById(Integer id) throws Exception {
 		ProdottoDegustazione pA= pD.findById(id).orElseThrow(() -> new EcommerceVinoException("prod_deg.notFnd"));
 		
-		return ProdottoDegustazioneMap.buildProdottoDegustazioneDTO(pA);
+		return mapper.buildProdottoDegustazioneDTO(pA);
 		
 	}
 

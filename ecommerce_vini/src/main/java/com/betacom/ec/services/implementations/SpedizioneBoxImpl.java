@@ -30,6 +30,9 @@ public class SpedizioneBoxImpl implements ISpedizioneBoxService{
 	private final IStatusRepository sR;
 	private final IClienteRepository cliR;
 	private final ISpedizioneBoxRepository sbR;
+	
+	private final SpedizioneBoxMap mapper;
+	
 	//private final IBoxRepository bR;
 	public void create(SpedizioneBoxReq req) throws Exception{
 		SpedizioneBox sb = new SpedizioneBox();
@@ -71,12 +74,12 @@ public class SpedizioneBoxImpl implements ISpedizioneBoxService{
 			Integer id_cliente,
 			Integer id_status)  {
 		List<SpedizioneBox> lS= sbR.searchWithParameters(corriere,codice_tracciamento,id_cantina,id_box,id_cliente,id_status);
-		return SpedizioneBoxMap.buildSpedizioneBoxDTOList(lS);
+		return mapper.buildSpedizioneBoxDTOList(lS);
 	}
 
 	public SpedizioneBoxDTO getById(Integer id_spedizione) throws Exception{
 		SpedizioneBox sb = sbR.findById(id_spedizione)
 				.orElseThrow(()-> new EcommerceVinoException("spedbox.ntfnd"));
-		return SpedizioneBoxMap.buildSpedizioneBoxDTO(sb);
+		return mapper.buildSpedizioneBoxDTO(sb);
 	}
 }

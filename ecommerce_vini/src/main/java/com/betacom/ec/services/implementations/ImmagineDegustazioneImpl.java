@@ -27,6 +27,7 @@ public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 		private final IDegustazioneRepository dR;
 		private final IImmagineDegustazioneRepository idR;
 		private final IUploadService uploadService;
+		private final ImmagineDegustazioneMap immdegMap;
 	 
 		@Transactional
 		@Override
@@ -85,7 +86,7 @@ public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 	 
 			List<ImmagineDegustazione> lID= idR.searchWithParameters(idCantina);
 	 
-			return ImmagineDegustazioneMap.buildImmagineDegustazioneDTOList(lID);
+			return immdegMap.buildImmagineDegustazioneDTOList(lID);
 		}
 	 
 		@Transactional
@@ -95,6 +96,6 @@ public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 	 
 			ImmagineDegustazione imgD= idR.findById(id).orElseThrow(() -> new EcommerceVinoException("immagine_degustazione.id_not_found"));
 	 
-			return ImmagineDegustazioneMap.buildImmagineDegustazioneDTO(imgD);
+			return immdegMap.buildImmagineDegustazioneDTO(imgD);
 		}
 }

@@ -34,6 +34,8 @@ public class ProdottoBoxImpl implements IProdottoBoxService{
 	private final ICarrelloRepository cartR;
 	private final IBoxRepository boxR;
 	
+	private final ProdottoBoxMap mapper;
+	
 	@Transactional
 	@Override
 	public void create(ProdottoBoxReq req) throws Exception {
@@ -68,14 +70,14 @@ public class ProdottoBoxImpl implements IProdottoBoxService{
 	@Override
 	public List<ProdottoBoxDTO> list() {
 		List<ProdottoBox> listProdottoBox = pR.findAll();
-		return ProdottoBoxMap.buildProdottoBoxDTOList(listProdottoBox);
+		return mapper.buildProdottoBoxDTOList(listProdottoBox);
 	}
 
 	@Transactional
 	@Override
 	public ProdottoBoxDTO getById(Integer id) throws Exception {
 		ProdottoBox pA = pR.findById(id).orElseThrow(() -> new EcommerceVinoException("prod_box.notFnd"));
-		return ProdottoBoxMap.buildProdottoBoxDTO(pA);
+		return mapper.buildProdottoBoxDTO(pA);
 	}
 
 }

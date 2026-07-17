@@ -30,6 +30,8 @@ public class VenditoreImpl implements IVenditoreService{
 	private final IUtenteRepository utenteRepository;
 	private final IVenditoreRepository venditoreRepository;
 	
+	private final VenditoreMap mapper;
+	
 	@Transactional
 	@Override
 	public void create(VenditoreRequest venditoreRequest) throws Exception {
@@ -75,7 +77,7 @@ public class VenditoreImpl implements IVenditoreService{
 		
 		List<Venditore> listVenditore = venditoreRepository.findAll();
 		
-		return VenditoreMap.buildVenditoreDTOList(listVenditore);
+		return mapper.buildVenditoreDTOList(listVenditore);
 	}
 	
 	@Transactional
@@ -85,6 +87,6 @@ public class VenditoreImpl implements IVenditoreService{
 		
 		Venditore venditore = venditoreRepository.findById(id)
 								.orElseThrow(() -> new EcommerceVinoException("venditore.id_not_found"));
-		return VenditoreMap.buildVenditoreDTO(venditore);
+		return mapper.buildVenditoreDTO(venditore);
 	}
 }

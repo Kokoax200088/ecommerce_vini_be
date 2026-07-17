@@ -22,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 public class RuoloImpl implements IRuoloService {
 	private final IRuoloRepository ruoloRepository;
 	
+	private final RuoloMap mapper;
+	
 	@Transactional
 	@Override
 	public void create(RuoloRequest ruoloRequest) throws Exception {
@@ -55,12 +57,12 @@ public class RuoloImpl implements IRuoloService {
 		Ruolo ruolo = ruoloRepository.findById(id)
 						.orElseThrow(() -> new EcommerceVinoException("ruolo.id_not_found"));
 		
-		return RuoloMap.buildRuoloDTO(ruolo);
+		return mapper.buildRuoloDTO(ruolo);
 	}
 	
 	@Transactional
 	@Override
 	public List<RuoloDTO> listAll() throws Exception {
-		return RuoloMap.buildRuoloDTOList(ruoloRepository.findAll());
+		return mapper.buildRuoloDTOList(ruoloRepository.findAll());
 	}
 }
