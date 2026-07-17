@@ -42,9 +42,9 @@ private final ObjectMapper objectMapper = new ObjectMapper();
 		
 		CarrelloReq req = new CarrelloReq();
 		req.setId_cliente(1);
-		req.setListaBox(null);
-		req.setListaDegustazione(null);
-		req.setListaProdotti(null);
+//		req.setListaBox(null);
+//		req.setListaDegustazione(null);
+//		req.setListaProdotti(null);
 		req.setQuantità(0);
 		req.setTotale(0.0);
 		

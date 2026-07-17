@@ -38,9 +38,9 @@ public class CarrelloImpl implements ICarrelloService{
 		Carrello cart = new Carrello();
 		Cliente cli =   cliR.findById(req.getId_cliente()).orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
 		cart.setCliente(cli);
-		cart.setListaProdottoBox(req.getListaBox()); 
-		cart.setListaProdottoDegustazione(req.getListaDegustazione()); 
-		cart.setListaProdottoAlcolico(req.getListaProdotti()); 
+//		cart.setListaProdottoBox(req.getListaBox()); 
+//		cart.setListaProdottoDegustazione(req.getListaDegustazione()); 
+//		cart.setListaProdottoAlcolico(req.getListaProdotti()); 
 		cart.setQuantità(req.getQuantità());
 		cart.setTotale(req.getTotale());
 		
@@ -57,9 +57,9 @@ public class CarrelloImpl implements ICarrelloService{
 		Cliente cli =   cliR.findById(req.getId_cliente()).orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
 		
 		Optional.ofNullable(cli).ifPresent(cart::setCliente);
-		Optional.ofNullable(req.getListaBox()).ifPresent(cart::setListaProdottoBox);
-		Optional.ofNullable(req.getListaDegustazione()).ifPresent(cart::setListaProdottoDegustazione);
-		Optional.ofNullable(req.getListaProdotti()).ifPresent(cart::setListaProdottoAlcolico);
+//		Optional.ofNullable(req.getListaBox()).ifPresent(cart::setListaProdottoBox);
+//		Optional.ofNullable(req.getListaDegustazione()).ifPresent(cart::setListaProdottoDegustazione);
+//		Optional.ofNullable(req.getListaProdotti()).ifPresent(cart::setListaProdottoAlcolico);
 		Optional.ofNullable(req.getQuantità()).ifPresent(cart::setQuantità);
 		Optional.ofNullable(req.getTotale()).ifPresent(cart::setTotale);
 		
