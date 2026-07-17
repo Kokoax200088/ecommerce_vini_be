@@ -16,7 +16,7 @@ public class CaratteristicaReq {
 
 	private Integer id;
 
-	@NotBlank
+	@NotBlank(groups= {ValidationGroups.Create.class}, message="caratteristica_nome_missing")
 	private String nome;
 
 	private String descrizione;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.betacom.ec.dto.input.CaratteristicaReq;
+import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.CaratteristicaDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.services.interfaces.ICaratteristicaService;
 import com.betacom.ec.services.interfaces.IMessaggioService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,7 +33,7 @@ public class CaratteristicaController extends ExceptionManager {
 	private final IMessaggioService msgS;
 
 	@PostMapping("/create")
-	public ResponseEntity<ResponseDTO> create(@Valid @RequestBody CaratteristicaReq req) throws Exception {
+	public ResponseEntity<ResponseDTO> create(@RequestBody (required = true) @Validated(ValidationGroups.Create.class) CaratteristicaReq req) throws Exception {
 		caratteristicaS.create(req);
 		return new ResponseEntity<>(
 				ResponseDTO.builder().msg(msgS.get("caratteristica_create_ok")).build(),

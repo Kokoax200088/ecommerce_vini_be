@@ -17,20 +17,21 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AlcolicoReq {
 
+	@NotNull(groups = {ValidationGroups.Update.class}, message ="alcolico_update_id_missing")
 	private Integer id_alcolico;
 
-	@NotNull
+	@NotNull(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class}, message="alcolico_id_venditore_missing")
 	private Integer id_venditore;
 
-	@NotBlank
+	@NotBlank(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class}, message="alcolico_nome_missing")
 	private String nome;
 
 	private Integer annata;
 
-	@NotNull
+	@NotNull(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class}, message="alcolico_id_tipologia_alcolico_missing")
 	private Integer id_tipologia_alcolico;
 
-	@NotNull
+	@NotNull(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class}, message="alcolico_id_colore_missing")
 	private Integer id_colore;
 
 	private Integer gradazione;
@@ -41,7 +42,7 @@ public class AlcolicoReq {
 
 	private String immagine;
 
-	@NotNull
+	@NotNull(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class}, message="alcolico_prezzo_missing")
 	private Double prezzo;
 
 	private List<Integer> id_caratteristiche;
