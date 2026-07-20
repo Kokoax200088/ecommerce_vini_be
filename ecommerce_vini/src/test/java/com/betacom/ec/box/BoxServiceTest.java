@@ -50,7 +50,7 @@ public class BoxServiceTest {
 
     @BeforeEach
     public void setupDatabase() throws Exception {
-        log.debug("Setup DB completo per BoxService");
+        log.debug("Setup DB inizio per BoxService");
 
         RuoloRequest rUser = new RuoloRequest();
         rUser.setId(1);

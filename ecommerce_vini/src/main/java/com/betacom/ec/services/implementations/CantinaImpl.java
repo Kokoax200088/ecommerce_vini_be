@@ -1,5 +1,6 @@
 package com.betacom.ec.services.implementations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,18 +35,24 @@ public class CantinaImpl implements ICantinaService {
 	public void create(CantinaReq req) throws Exception {
 		log.debug("Create Cantina {}", req);
 		
+		Cantina cantina = new Cantina();
+		
 		Venditore venditore = venditoreRepository.findById(req.getVenditoreId())
 				.orElseThrow(() -> new EcommerceVinoException("venditore.id_not_found"));
-		Cantina cantina = new Cantina();
+		log.debug("Venditore trovato: {}", venditore.getId());
+		
 		cantina.setVenditore(venditore);
+		
 		cantina.setNome(req.getNome());
+		
 		cantina.setPosizione(posizioneRepository.findById(req.getPosizioneId())
 								.orElseThrow(() -> new EcommerceVinoException("posizione.id_not_found")));
+		Cantina savedCantina = cantinaRepository.save(cantina);
+		log.debug("posizione trovata: {}", cantina.getPosizione().getId());
 		
-		venditore.getListCantina().add(cantina);
-		venditoreRepository.save(venditore); // DOVREBBE fare la update della cantina con relativa lista alcolici
-		
-		cantinaRepository.save(cantina);
+		venditore.getListCantina().add(savedCantina);
+		Venditore saved = venditoreRepository.save(venditore); // DOVREBBE fare la update della cantina con relativa lista alcolici
+		saved.getListCantina().forEach(cantinesaved -> log.debug("Cantina salvata: {}", cantinesaved));
 	}
 	
 	@Transactional

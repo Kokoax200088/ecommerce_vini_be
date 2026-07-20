@@ -17,10 +17,12 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
 @Entity
+@ToString
 @Table(name = "cantina")
 public class Cantina {
 
@@ -34,6 +36,7 @@ public class Cantina {
 	private String nome;
 
 	// collegamento al venditore
+	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "id_venditore", foreignKey = @ForeignKey(name = "fk_cantina_venditore"))
 	private Venditore venditore;

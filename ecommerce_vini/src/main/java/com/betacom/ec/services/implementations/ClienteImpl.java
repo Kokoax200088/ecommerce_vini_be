@@ -48,8 +48,7 @@ public class ClienteImpl implements IClienteService{
 		
 		Utente utente = utenteService.create((UtenteRequest) clienteRequest);
 		cliente.setIndirizzo(clienteRequest.getIndirizzo());
-		
-		//in teoria in fase di creazione del cliente non ha ratings nè carrello
+		log.debug("Utente: {}", utente);		//in teoria in fase di creazione del cliente non ha ratings nè carrello
 		//cliente.setCarrello(carrelloRepository.findById(clienteRequest.getIdCarrello())
 		//		.orElseThrow(() -> new EcommerceVinoException("carrello.not_found")));
 		//cliente.setListRatingAlcolico(ratingAlcolicoRepository.searchByFilter(null, cliente.getUtente().getId(), null));
