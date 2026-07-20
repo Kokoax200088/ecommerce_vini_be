@@ -19,6 +19,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ import com.betacom.ec.controllers.ProdottoBoxController;
 import com.betacom.ec.dto.input.BoxReq;
 import com.betacom.ec.dto.input.CantinaReq;
 import com.betacom.ec.dto.input.CarrelloReq;
+import com.betacom.ec.dto.input.ClienteRequest;
 import com.betacom.ec.dto.input.ProdottoBoxReq;
 import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.input.VenditoreRequest;
@@ -68,10 +70,47 @@ public class CarrelloTest {
     @Autowired
     private MockMvc mockMvc;
     
+    @Test
+   	@Order(1)
+    @WithMockUser(username = "user", roles = {"ADMIN", "USER"})
+   	public void createRuoloUser() throws Exception{ 
+   		log.debug("createRuolo User");
+   		
+   		RuoloRequest req = new RuoloRequest();
+   		req.setId(1);
+   		req.setNome("user");
+   		req.setCanManage(false);
+   		req.setCanBuy(true);
+   		req.setCanSell(false);
+   		 mockMvc.perform(post("/rest/api/ruolo/create")
+   	                .contentType(MediaType.APPLICATION_JSON)
+   	                .content(objectMapper.writeValueAsString(req))
+   	                ).andExpect(status().isOk());
+   	}
 
+       @Test
+       @Order(2)
+       public void createCliente() throws Exception {
+           log.debug("createCliente Test");
+           
+           ClienteRequest req = new ClienteRequest();
+   		req.setNome("Mario");
+   		req.setCognome("Rossi");
+   		req.setDataNascita("21/11/2005");
+   		req.setEmail("mario.rossi@tiscali.net");
+   		req.setIdRuolo(1); 
+   		req.setPassword("abete1");
+   		
+   		req.setIndirizzo("via Roma, 1 Torino TO");
+           
+           mockMvc.perform(post("/rest/api/cliente/create")
+                   .contentType(MediaType.APPLICATION_JSON)
+                   .content(objectMapper.writeValueAsString(req))
+                   ).andExpect(status().isOk());
+       }
 	
     @Test
-    @Order(1)
+    @Order(3)
     public void createCarrello() throws Exception {
         log.debug("createCarrello Test");
 		
@@ -86,34 +125,29 @@ public class CarrelloTest {
     }
     
     @Test
-	@Order(2)
+	@Order(4)
 	public void createRuoloSeller() throws Exception{
 		log.debug("createRuolo Seller");
-=======
 		CarrelloReq req = new CarrelloReq();
 		req.setId_cliente(1);
-//		req.setListaBox(null);
-//		req.setListaDegustazione(null);
-//		req.setListaProdotti(null);
 		req.setQuantità(0);
 		req.setTotale(0.0);
->>>>>>> dev-Salvatore
 		
-		RuoloRequest req = new RuoloRequest();
-		req.setId(2);
-		req.setNome("seller");
-		req.setCanManage(false);
-		req.setCanBuy(false);
-		req.setCanSell(true);
+		RuoloRequest req1 = new RuoloRequest();
+		req1.setId(2);
+		req1.setNome("seller");
+		req1.setCanManage(false);
+		req1.setCanBuy(false);
+		req1.setCanSell(true);
 		mockMvc.perform(post("/rest/api/ruolo/create")
 				.contentType(MediaType.APPLICATION_JSON)
-				.content(objectMapper.writeValueAsString(req))
+				.content(objectMapper.writeValueAsString(req1))
 				).andExpect(status().isOk());
 	}
 	
     
     @Test
-    @Order(3)
+    @Order(5)
     public void createVenditore() throws Exception {
         log.debug("createVenditore Test");
 		
@@ -132,7 +166,7 @@ public class CarrelloTest {
     }
     
     @Test
-    @Order(4)
+    @Order(6)
     public void createCantina() throws Exception {
         log.debug("createCantina Test");
 		
@@ -147,7 +181,7 @@ public class CarrelloTest {
     }
     
     @Test
-    @Order(5)
+    @Order(7)
     public void createBox() throws Exception {
         log.debug("createBox Test");
 		
@@ -162,7 +196,7 @@ public class CarrelloTest {
     }
 	
     @Test
-    @Order(6)
+    @Order(8)
     public void createProdBox() throws Exception{
         log.debug("createProdBox Test");
 		
@@ -179,7 +213,7 @@ public class CarrelloTest {
     }
 	
     @Test
-    @Order(7)
+    @Order(9)
     public void updateCarrello() throws Exception{
         log.debug("updateCarrello Test");
         
@@ -204,7 +238,7 @@ public class CarrelloTest {
     }
     
     @Test
-	@Order(8)
+	@Order(10)
 	public void delete() throws Exception{
 		log.debug("delete");
 		
