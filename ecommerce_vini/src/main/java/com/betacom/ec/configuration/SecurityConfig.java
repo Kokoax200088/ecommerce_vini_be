@@ -1,31 +1,52 @@
-package com.betacom.ec.config;
+/*package com.betacom.ec.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // 1. Disabilita CSRF per permettere POST/PUT/DELETE da Swagger e Postman
-            .csrf(csrf -> csrf.disable())
-            
-            // 2. Regola le autorizzazioni
+            .csrf(csrf -> csrf.disable()) // si deve disabilitare se si usa jwt
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
             .authorizeHttpRequests(auth -> auth
-                // Consente l'accesso pubblico alle rotte API di sviluppo e Swagger
-                .requestMatchers("/rest/api/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/h2-console/**").permitAll()
-                .anyRequest().authenticated()
-            )
-            
-            // Per abilitare l'interfaccia di H2 console se la usi
-            .headers(headers -> headers.frameOptions(frame -> frame.disable()));
+            	    .requestMatchers("/api/auth/**").permitAll()
+            	    .requestMatchers(
+            	        "/swagger-ui/**",
+            	        "/swagger-ui.html",
+            	        "/v3/api-docs/**",
+            	        "/v3/api-docs.yaml"
+            	    ).permitAll()
+            	    .anyRequest().authenticated()
+            	);
 
         return http.build();
     }
-}
+
+    @Bean
+     AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+    
+    WebMvcConfigurer corsConfigurer() { //Configurazione security CORS
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**")
+				.allowedOrigins("http://localhost:4200")
+				.allowedMethods("GET", "POST", "PATCH", "DELETE", "PUT")
+				.allowedHeaders("*")
+				.allowCredentials(true);
+			}
+		};
+	}
+} */
