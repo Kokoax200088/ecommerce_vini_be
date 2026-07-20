@@ -17,7 +17,7 @@ public class PosizioneMap {
 				.latitudine(posizione.getLatitudine())
 				.longitudine(posizione.getLongitudine())
 				.descrizione(posizione.getDescrizione())
-				.id_cantina(posizione.getCantina().getId())
+				.id_cantina(posizione.getCantina() != null ? posizione.getCantina().getId() : null)
 				.build();
 	}
 }

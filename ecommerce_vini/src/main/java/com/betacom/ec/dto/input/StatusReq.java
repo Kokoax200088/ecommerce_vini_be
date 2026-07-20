@@ -1,11 +1,5 @@
 package com.betacom.ec.dto.input;
 
-
-import java.util.List;
-
-import com.betacom.ec.models.Ordine;
-import com.betacom.ec.models.OrdineAlcolico;
-
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
