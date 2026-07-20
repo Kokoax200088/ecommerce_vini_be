@@ -45,7 +45,7 @@ public class BoxImpl implements IBoxService{
 		box.setCantina(cantina);
 //		box.setListBoxAlcolico(req.getListBoxAlcolico());
 //		box.setListImmagine(req.getListImmagine());
-		
+	
 		boxR.save(box);
 		
 	}

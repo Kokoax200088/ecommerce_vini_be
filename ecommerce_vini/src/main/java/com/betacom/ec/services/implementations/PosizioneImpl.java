@@ -31,8 +31,8 @@ public class PosizioneImpl implements IPosizioneService{
 		log.debug("Create PosizioneRequest: {}", req);
 		
 		Posizione posizione = new Posizione();
-		posizione.setCantina(cantinaRepository.findById(req.getCantinaId())
-										.orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found")));
+		
+		posizione.setCantina((req.getCantinaId() != null) ? cantinaRepository.findById(req.getCantinaId()).orElse(null) : null);
 		posizione.setDescrizione(req.getDescrizione());
 		posizione.setLatitudine(req.getLatitudine());
 		posizione.setLongitudine(req.getLongitudine());
