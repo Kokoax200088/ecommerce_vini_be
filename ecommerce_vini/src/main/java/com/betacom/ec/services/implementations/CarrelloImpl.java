@@ -11,10 +11,8 @@ import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.CarrelloMap;
 import com.betacom.ec.models.Carrello;
 import com.betacom.ec.models.Cliente;
-import com.betacom.ec.repository.IBoxRepository;
 import com.betacom.ec.repository.ICarrelloRepository;
 import com.betacom.ec.repository.IClienteRepository;
-import com.betacom.ec.repository.IDegustazioneRepository;
 import com.betacom.ec.services.interfaces.ICarrelloService;
 
 import jakarta.transaction.Transactional;
