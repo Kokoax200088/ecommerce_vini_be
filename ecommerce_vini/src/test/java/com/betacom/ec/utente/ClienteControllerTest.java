@@ -19,6 +19,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -75,6 +76,7 @@ public class ClienteControllerTest {
 	
 	@Test
 	@Order (2)
+	@WithMockUser(roles = "ADMIN")
 	public void updateCliente() {
 		log.debug("update cliente test");
 		
@@ -117,6 +119,7 @@ public class ClienteControllerTest {
 	
 	@Test
 	@Order (4)
+	@WithMockUser(roles = "ADMIN")
 	public void deleteClienteTest() throws Exception {
 		log.debug("deleteClienteTest");
 		

@@ -1,6 +1,7 @@
 package com.betacom.ec.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;  // <-- JPA Query
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,6 @@ public interface IUtenteRepository extends JpaRepository<Utente, Integer> {
 			@Param("dataNascita") String dataNascita, //CHECK se funziona come stringa tbh
 			@Param("ruolo") String ruolo
 			);
+	
+	Optional<Utente> findByEmail(String email); //IN TEORIA fa in automatico perchè è una query generata in base all'attributo email
 }
