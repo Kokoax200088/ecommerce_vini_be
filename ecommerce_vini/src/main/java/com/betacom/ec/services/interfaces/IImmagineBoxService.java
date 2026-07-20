@@ -2,11 +2,13 @@ package com.betacom.ec.services.interfaces;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.betacom.ec.dto.input.ImmagineBoxReq;
 import com.betacom.ec.dto.output.ImmagineBoxDTO;
 
 public interface IImmagineBoxService {
-	void create(ImmagineBoxReq req) throws Exception;
+	void create(MultipartFile file, Integer id_box) throws Exception;
 	void update(ImmagineBoxReq req)throws Exception;
 	void delete(Integer id)throws Exception;
 	

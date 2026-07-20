@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.betacom.ec.dto.input.ImmagineCantinaReq;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ImmagineCantinaDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
+import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.services.interfaces.IImmagineCantinaService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,12 +33,18 @@ public class ImmagineCantinaController {
 
 	private final IImmagineCantinaService immS;
 
-	@PostMapping("create")
+	@PostMapping(value = "create", consumes = "multipart/form-data")
 	public ResponseEntity<ResponseDTO> create(
-			@RequestBody(required = true) @Validated(ValidationGroups.Create.class) ImmagineCantinaReq req)
-			throws Exception {
-		immS.create(req);
-		return ResponseEntity.ok(ResponseDTO.builder().msg("created...").build());
+			@RequestParam MultipartFile file,
+			@RequestParam Integer id_cantina) throws Exception{
+		ResponseDTO r = new ResponseDTO();	 
+		if (file.getContentType() == null || !file.getContentType().startsWith("image/")) {
+			throw new EcommerceVinoException("upload_invalid");
+		}	 
+		immS.create(file, id_cantina);
+		return ResponseEntity.ok(ResponseDTO.builder()
+				.msg("created...")
+				.build());
 	}
 
 	@PatchMapping("update")
@@ -54,7 +62,7 @@ public class ImmagineCantinaController {
 	}
 
 	@GetMapping("list")
-	public ResponseEntity<List<ImmagineCantinaDTO>> list(@PathVariable(required = true) Integer idCantina) throws Exception {
+	public ResponseEntity<List<ImmagineCantinaDTO>> list(@RequestParam(required = true) Integer idCantina) throws Exception {
 		return ResponseEntity.ok(immS.listBySearchString(idCantina));
 	}
 
