@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.betacom.ec.dto.input.ImmagineDegustazioneReq;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ImmagineDegustazioneDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
+import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.services.interfaces.IImmagineDegustazioneService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,13 +33,18 @@ public class ImmagineDegustazioneController {
 	
 	private final IImmagineDegustazioneService idS;
 	
-	@PostMapping("create")
+	@PostMapping(value = "create", consumes = "multipart/form-data")
 	public ResponseEntity<ResponseDTO> create(
-			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) ImmagineDegustazioneReq req) throws Exception{
-			idS.create(req);
-			return ResponseEntity.ok(ResponseDTO.builder()
-					.msg("created...")
-					.build());
+			@RequestParam MultipartFile file,
+			@RequestParam Integer id_degustazione) throws Exception{
+		ResponseDTO r = new ResponseDTO();	 
+		if (file.getContentType() == null || !file.getContentType().startsWith("image/")) {
+			throw new EcommerceVinoException("upload_invalid");
+		}	 
+		idS.create(file, id_degustazione);
+		return ResponseEntity.ok(ResponseDTO.builder()
+				.msg("created...")
+				.build());
 	}
 	
 	@PatchMapping("update")
@@ -60,7 +67,7 @@ public class ImmagineDegustazioneController {
 	}
 	
 	@GetMapping("list")
-	public ResponseEntity<List<ImmagineDegustazioneDTO>> list(@PathVariable(required = true) Integer idDegustazione) throws Exception {
+	public ResponseEntity<List<ImmagineDegustazioneDTO>> list(@RequestParam(required = true) Integer idDegustazione) throws Exception {
 		return ResponseEntity.ok(idS.listWithParameters(idDegustazione));
 	}
 	@GetMapping("getImmagineDegustazioneById")

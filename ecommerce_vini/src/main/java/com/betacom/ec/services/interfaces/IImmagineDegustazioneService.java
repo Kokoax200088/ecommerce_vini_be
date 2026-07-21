@@ -2,12 +2,14 @@ package com.betacom.ec.services.interfaces;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.betacom.ec.dto.input.ImmagineDegustazioneReq;
 import com.betacom.ec.dto.output.ImmagineDegustazioneDTO;
 
 
 public interface IImmagineDegustazioneService {
-	public void create(ImmagineDegustazioneReq req) throws Exception;
+	public void create(MultipartFile file, Integer id_deg) throws Exception;
  
 	public void update(ImmagineDegustazioneReq req) throws Exception;
  

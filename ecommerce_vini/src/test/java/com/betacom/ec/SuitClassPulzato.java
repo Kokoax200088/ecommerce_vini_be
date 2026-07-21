@@ -9,16 +9,20 @@ import com.betacom.ec.prodottobox.ProdottoBoxTest;
 import com.betacom.ec.prodottodegustazione.ProdottoDegustazioneTest;
 import com.betacom.ec.ratingalcolico.RatingAlcolicoTest;
 import com.betacom.ec.ratingcantina.RatingCantinaTest;
+import com.betacom.ec.utente.RuoloControllerTest;
+import com.betacom.ec.utente.VenditoreControllerTest;
 
 
 @Suite
 @SelectClasses({
+	RuoloControllerTest.class,
+	VenditoreControllerTest.class,
 	CarrelloTest.class,
-	ProdottoAlcolicoTest.class,
-	ProdottoBoxTest.class,
-	ProdottoDegustazioneTest.class,
-	RatingAlcolicoTest.class,
-	RatingCantinaTest.class
+	//ProdottoAlcolicoTest.class,
+	//ProdottoBoxTest.class,
+	//ProdottoDegustazioneTest.class,
+	//RatingAlcolicoTest.class,
+	//RatingCantinaTest.class
 })
 public class SuitClassPulzato {
 

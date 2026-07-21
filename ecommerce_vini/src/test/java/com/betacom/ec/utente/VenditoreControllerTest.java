@@ -129,4 +129,32 @@ public class VenditoreControllerTest {
 		
 		assertThrows(EcommerceVinoException.class, () -> venditoreController.getById(1));
 	}
+	
+	@Test
+	@Order (5)
+	public void createVenditorePlus (){
+		log.debug("createCliente");
+		
+		VenditoreRequest req = new VenditoreRequest();
+		req.setNome("Mario");
+		req.setCognome("Kart");
+		req.setDataNascita("21/11/2005");
+		req.setEmail("mario.rossi@tiscali.net");
+		req.setIdRuolo(3); //ROLE SELLER
+		req.setPassword("abete1");
+		
+		req.setPartitaIva("IT3435365T34");
+		
+		try {
+			ResponseEntity<ResponseDTO> response = venditoreController.create(req);
+			assertEquals(HttpStatus.OK, response.getStatusCode());
+			
+//			here I just check if can get the clienteDTO object, everything else is part of other stuff I tried
+			ResponseEntity<Object> responseEntity = venditoreController.getById(2);
+//			ClienteDTO cliente= (ClienteDTO) responseEntity.getBody();
+//			Assertions.assertThat(cliente.getIndirizzo()).isEqualTo("via Roma, 1 Torino TO");
+		} catch (Exception e) {
+			throw new AssertionError("Errore: " + e.getMessage());
+		}
+	}
 }

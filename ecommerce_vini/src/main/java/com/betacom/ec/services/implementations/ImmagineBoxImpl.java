@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.betacom.ec.dto.input.ImmagineBoxReq;
 import com.betacom.ec.dto.output.ImmagineBoxDTO;
@@ -30,11 +31,11 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 	private final ImmagineBoxMap immBoxMap;
 
 	@Override
-	public void create(ImmagineBoxReq req) throws Exception {
-		log.debug("create box{}", req);
+	public void create(MultipartFile file, Integer id_box) throws Exception {
+		log.debug("create box");
 		ImmagineBox immB = new ImmagineBox();
-		Box box = boxR.findById(req.getId_box()).orElseThrow(() -> new EcommerceVinoException("box.notFnd"));
-		String fileName = uploadService.saveImage(req.getFile(), req.getId_box());
+		Box box = boxR.findById(id_box).orElseThrow(() -> new EcommerceVinoException("box.notFnd"));
+		String fileName = uploadService.saveImage(file, id_box);
         
         String imageUrl = uploadService.buildUrl(fileName);
 		immB.setBox(box);

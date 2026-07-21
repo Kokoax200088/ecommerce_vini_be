@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.betacom.ec.dto.input.ImmagineDegustazioneReq;
 import com.betacom.ec.dto.output.ImmagineDegustazioneDTO;
@@ -31,12 +32,12 @@ public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 	 
 		@Transactional
 		@Override
-		public void create(ImmagineDegustazioneReq req) throws Exception {
-			log.debug("Create ImmagineCantina {}", req);
+		public void create(MultipartFile file, Integer id_deg) throws Exception {
+			log.debug("Create ImmagineCantina ");
 	 
-			Degustazione d= dR.findById(req.getId_degustazione())
+			Degustazione d= dR.findById(id_deg)
 					.orElseThrow(() -> new EcommerceVinoException("immagine_cantina.id_not_found"));
-			String fileName = uploadService.saveImage(req.getFile(), req.getId_degustazione());
+			String fileName = uploadService.saveImage(file, id_deg);
 	        
 	        String imageUrl = uploadService.buildUrl(fileName);
 			ImmagineDegustazione iC= new ImmagineDegustazione();

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.betacom.ec.dto.input.ImmagineAlcolicoReq;
 import com.betacom.ec.dto.output.ImmagineAlcolicoDTO;
@@ -31,13 +32,13 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 	
 	@Transactional
 	@Override
-	public void create(ImmagineAlcolicoReq req) throws Exception {
-		log.debug("Create ImmagineAlcolico {}", req);
+	public void create(MultipartFile file, Integer id_alcolico) throws Exception {
+		log.debug("Create ImmagineAlcolico");
 		
-		Alcolico alcolico = alcolicoRepository.findById(req.getId_alcolico())
+		Alcolico alcolico = alcolicoRepository.findById(id_alcolico)
 									.orElseThrow(() -> new EcommerceVinoException("alcolico.id_not_found"));
 		
-		String fileName = uploadService.saveImage(req.getFile(), req.getId_alcolico());
+		String fileName = uploadService.saveImage(file, id_alcolico);
         
         
         String imageUrl = uploadService.buildUrl(fileName);
