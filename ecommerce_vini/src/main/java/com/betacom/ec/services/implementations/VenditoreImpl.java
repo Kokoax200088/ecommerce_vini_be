@@ -43,8 +43,6 @@ public class VenditoreImpl implements IVenditoreService{
 		venditore.setPartitaIva(venditoreRequest.getPartitaIva());
 		venditore.setUtente(utente);
 		
-		log.debug("Utente di Venditore : {}",utente);
-		
 		venditoreRepository.save(venditore);
 	}
 	

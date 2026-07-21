@@ -1,5 +1,6 @@
 package com.betacom.ec.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -51,5 +52,5 @@ public class Ruolo {
 	private Boolean canBuy;
 	
 	@OneToMany(mappedBy = "ruolo", fetch = FetchType.LAZY)
-	private List<Utente> listUtente;
+	private List<Utente> listUtente = new ArrayList <Utente> ();
 }

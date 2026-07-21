@@ -1,5 +1,6 @@
 package com.betacom.ec.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -36,5 +37,5 @@ public class Caratteristica {
 	private String descrizione;
 
 	@ManyToMany(mappedBy = "listCaratteristica", fetch = FetchType.LAZY)
-	private List<Alcolico> listAlcolico;
+	private List<Alcolico> listAlcolico = new ArrayList <Alcolico> ();
 }

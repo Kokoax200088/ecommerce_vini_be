@@ -154,11 +154,6 @@
 			<version>6.1.0</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.betacom</groupId>
-			<artifactId>projectJPA</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 
 	<build>

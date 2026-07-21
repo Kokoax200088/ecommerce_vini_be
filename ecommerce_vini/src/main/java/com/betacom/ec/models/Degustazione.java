@@ -1,6 +1,7 @@
 package com.betacom.ec.models;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -79,11 +80,11 @@ public class Degustazione {
 			joinColumns = @JoinColumn(name = "id_degustazione"),
 			inverseJoinColumns = @JoinColumn (name = "id_alcolico")
 			)
-	private List <Alcolico> listAlcolico;
+	private List <Alcolico> listAlcolico = new ArrayList <Alcolico> ();
 	
 	//collegamento con immagini
 	@OneToMany(
 			mappedBy = "degustazione",
 			fetch = FetchType.LAZY)
-	private List <ImmagineDegustazione> listImmagine;	
+	private List <ImmagineDegustazione> listImmagine = new ArrayList <ImmagineDegustazione> ();	
 }

@@ -1,5 +1,6 @@
 package com.betacom.ec.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -43,49 +44,49 @@ public class Cantina {
 
 	// collegeamneto al rating Cantina
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<RatingCantina> listRatingCantina;
+	private List<RatingCantina> listRatingCantina = new ArrayList <RatingCantina> ();
 
 	// collegamento con Box
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<Box> listBox;
+	private List<Box> listBox = new ArrayList <Box> ();
 
 	// collegamento alla degustazione
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<Degustazione> listDegustazione;
+	private List<Degustazione> listDegustazione = new ArrayList <Degustazione> ();
 
 	// collegamento con OrdineAlcolico
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<OrdineAlcolico> listOrdineAlcolico;
+	private List<OrdineAlcolico> listOrdineAlcolico = new ArrayList <OrdineAlcolico> ();
 	
 	// collegamento
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<OrdineBox> listOrdineBox;
+	private List<OrdineBox> listOrdineBox = new ArrayList <OrdineBox> ();
 
 	// collegamento al rating alcolico
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<RatingAlcolico> listRatingAlcolico;
+	private List<RatingAlcolico> listRatingAlcolico = new ArrayList <RatingAlcolico> ();
 
 	// collegamento ad immagine
 
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<ImmagineCantina> listImmagine;
+	private List<ImmagineCantina> listImmagine = new ArrayList <ImmagineCantina> ();
 
 	// collegamento con ProdottoAlcolico
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<ProdottoAlcolico> listProdottoAlcolico;
+	private List<ProdottoAlcolico> listProdottoAlcolico = new ArrayList <ProdottoAlcolico> ();
 
 	// collegamento con ProdottoBox
 		@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-		private List<ProdottoBox> listProdottoBox;
+		private List<ProdottoBox> listProdottoBox = new ArrayList <ProdottoBox> ();
 	
 	// collegamento a spedizione
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<SpedizioneAlcolico> listSpedizione;
+	private List<SpedizioneAlcolico> listSpedizione = new ArrayList <SpedizioneAlcolico> ();
 
 	
 	// collegamento cantina alcolico
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
-	private List<CantinaAlcolico> listCantinaAlcolico;
+	private List<CantinaAlcolico> listCantinaAlcolico = new ArrayList <CantinaAlcolico> ();
 
 	// collegamento con Posizione
 	@OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)

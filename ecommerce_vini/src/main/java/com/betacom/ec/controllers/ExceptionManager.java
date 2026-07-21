@@ -1,5 +1,6 @@
 package com.betacom.ec.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -10,6 +11,7 @@ import com.betacom.ec.services.interfaces.IMessaggioService;
 
 public class ExceptionManager {
 	
+	@Autowired
 	private IMessaggioService msgS;
 	
 	@ExceptionHandler(Exception.class)

@@ -48,5 +48,5 @@ public class Venditore {
 	
 	//collegato con Alcolico
 	@OneToMany(mappedBy = "venditore", fetch = FetchType.LAZY)
-	private List<Alcolico> listAlcolico;
+	private List<Alcolico> listAlcolico = new ArrayList <Alcolico> ();
 }

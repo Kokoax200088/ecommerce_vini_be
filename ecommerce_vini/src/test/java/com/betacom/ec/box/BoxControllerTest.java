@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -42,6 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class BoxControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -55,12 +58,13 @@ public class BoxControllerTest {
     @Autowired private CantinaController cantinaC;
     @Autowired private PosizioneController PosizioneC;
 
+    
     @BeforeEach
     public void setupDatabase() throws Exception {
-        log.debug("Setup DB inizio per BoxController");
-
-        RuoloRequest rUser = new RuoloRequest();
-        rUser.setId(1);
+        log.debug("{} - Setup DB inizio per BoxController",this.getClass().getName());
+        
+    	RuoloRequest rUser = new RuoloRequest();
+    	rUser.setId(1);
         rUser.setNome("user");
         rUser.setCanBuy(true);
         rUser.setCanManage(false);
@@ -90,7 +94,7 @@ public class BoxControllerTest {
 		ruoloC.create(rSeller);
 		
         VenditoreRequest vendReq = new VenditoreRequest();
-        vendReq.setId(2);
+        vendReq.setId(1);
         vendReq.setNome("Caio");
         vendReq.setCognome("Ilario");
         vendReq.setEmail("c.maio.service@gmail.com");
@@ -117,28 +121,22 @@ public class BoxControllerTest {
         log.debug("Creazione cantina: {}", cantinaReq);
         cantinaC.create(cantinaReq);
         
-        createBox();
-        
-        
-    }
-    
-    public void createBox() throws Exception {
-    	log.debug("Test: createBox");
-        BoxReq req = new BoxReq();
-        req.setId(1);
-        req.setNome("Box Degustazione Lusso");
-        req.setSconto(15.0);
-        req.setCantinaId(1);
+        log.debug("Test: createBox");
+        BoxReq boxReq = new BoxReq();
+        boxReq.setId(1);
+        boxReq.setNome("Box Degustazione Lusso");
+        boxReq.setSconto(15.0);
+        boxReq.setCantinaId(cantinaReq.getId());
     	
     	MvcResult result = mockMvc.perform(post("/rest/api/box/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(req)))
+                .content(objectMapper.writeValueAsString(boxReq)))
                 .andDo(log())
                 .andReturn(); 
         
         int statusCode = result.getResponse().getStatus();
         assertEquals(201,result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
-        
+            
         log.debug("Setup DB completo per BoxController");
     }
 
@@ -152,41 +150,63 @@ public class BoxControllerTest {
         req.setSconto(25.0);
         req.setCantinaId(1);
         
-        mockMvc.perform(put("/rest/api/box/update")
+        MvcResult result = mockMvc.perform(put("/rest/api/box/update")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(req))
-                ).andExpect(status().isOk());
+                .content(objectMapper.writeValueAsString(req)))
+                .andDo(log())
+                .andReturn(); 
+        
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200,result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
     }
 
     @Test
     public void getBoxById() throws Exception {
-        log.debug("Test: getBoxById");
-        mockMvc.perform(get("/rest/api/box/get")
-        						.param("id", "1"))
-                .andExpect(status().isOk());
+    	log.debug("Test: getBoxById");    	
+    	MvcResult result = mockMvc.perform(
+    			get("/rest/api/box/get/1"))
+                .andDo(log())
+                .andReturn(); 
+        
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200,result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
     }
 
     @Test
     public void listBox() throws Exception {
         log.debug("Test: listBox (senza filtri)");
-        mockMvc.perform(get("/rest/api/box/list"))
-                .andExpect(status().isOk());
+
+        MvcResult result = mockMvc.perform(get("/rest/api/box/list"))
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
     }
 
     @Test
     public void listBoxFiltered() throws Exception {
         log.debug("Test: listBox (con filtri param)");
-        mockMvc.perform(get("/rest/api/box/list")
+
+        MvcResult result = mockMvc.perform(get("/rest/api/box/list")
                 .param("nome", "Lusso")
                 .param("idCantina", "1"))
-                .andExpect(status().isOk());
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
     }
 
     @Test
     public void deleteBox() throws Exception {
         log.debug("Test: deleteBox");
-        mockMvc.perform(delete("/rest/api/box/delete")
-        						.param("id", "1"))
-                .andExpect(status().isOk());
+        
+        MvcResult result = mockMvc.perform(delete("/rest/api/box/delete/1"))
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
     }
 }
