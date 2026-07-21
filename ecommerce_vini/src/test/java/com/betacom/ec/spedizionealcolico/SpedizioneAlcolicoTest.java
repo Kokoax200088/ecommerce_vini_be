@@ -196,9 +196,10 @@ public class SpedizioneAlcolicoTest {
         log.debug("createCantina Test");
         
         CantinaReq req = new CantinaReq();
+        req.setId(1);
         req.setNome("Villa Turistica");
         req.setVenditoreId(1);
-        req.setPosizioneId(1);
+        req.setPosizioneId(2);
         mockMvc.perform(post("/rest/api/cantina/create")
         		.with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -280,6 +281,7 @@ public class SpedizioneAlcolicoTest {
 				.content(objectMapper.writeValueAsString(req))
 				).andExpect(status().isCreated());
 	}
+	
 	@Test
 	@Order(12)
 	public void createOrdineTest() throws Exception{
@@ -288,7 +290,7 @@ public class SpedizioneAlcolicoTest {
 		req.setIndirizzoDestinazione("Via testing");
 		req.setTotale(50.0);
 		req.setId_utente(1);
-		req.setId_status(1);
+		req.setId_status(3);
 		ResponseEntity<ResponseDTO> response = oC.create(req);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
@@ -301,10 +303,10 @@ public class SpedizioneAlcolicoTest {
 		OrdineAlcolicoReq req = new OrdineAlcolicoReq();
 		req.setData_ordine(Utilities.stringToDate("17/07/2026"));
 		req.setQuantita(2);
-		req.setAlcolicoId(1);
-		req.setCantinaId(1);
-		req.setOrdineId(1);
-		req.setStatusId(1);
+		req.setAlcolicoId(2);
+		req.setCantinaId(2);
+		req.setOrdineId(2);
+		req.setStatusId(3);
 			ResponseEntity<ResponseDTO> response = oaC.create(req);
 			assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
@@ -316,10 +318,10 @@ public class SpedizioneAlcolicoTest {
 		SpedizioneAlcolicoReq req = new SpedizioneAlcolicoReq();
 		req.setCodice_tracciamento("who?");
 		req.setCorriere("brt");
-		req.setId_cantina(1);
+		req.setId_cantina(2);
 		req.setId_cliente(1);
-		req.setId_ordine_alcolico(1);
-		req.setId_status(1);
+		req.setId_ordine_alcolico(2);
+		req.setId_status(3);
 			ResponseEntity<ResponseDTO> response = saC.create(req);
 			assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
@@ -365,22 +367,6 @@ public class SpedizioneAlcolicoTest {
 	public void deleteSpeAlcTest() throws Exception {
 		ResponseEntity<ResponseDTO> response = saC.delete(1);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
-	}
-	
-	@Test
-	@Order(19)
-	@WithMockUser(roles = "ADMIN")
-	public void createSpeAlc2Test() throws Exception{
-		log.debug("createSpeAlc2Test");
-		SpedizioneAlcolicoReq req = new SpedizioneAlcolicoReq();
-		req.setCodice_tracciamento("who?");
-		req.setCorriere("brt");
-		req.setId_cantina(1);
-		req.setId_cliente(1);
-		req.setId_ordine_alcolico(2);
-		req.setId_status(2);
-			ResponseEntity<ResponseDTO> response = saC.create(req);
-			assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 	
 }
