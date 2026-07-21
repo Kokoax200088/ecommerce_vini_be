@@ -1,4 +1,4 @@
-package com.betacom.ec.services.implementations;
+package com.betacom.ec.security.implementations;
 
 import java.time.Instant;
 import java.util.Date;
@@ -11,9 +11,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import com.betacom.ec.security.interfaces.JwtService;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
-import com.betacom.ec.services.interfaces.JwtService;
 import io.jsonwebtoken.security.Keys;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +31,7 @@ public class JwtImpl implements JwtService {
 
 	@Value("${app.jwt.access-token-expiration-seconds}")
 	private long accessTokenExpirationSeconds;
+	
 	@Value("${app.jwt.refresh-token-expiration-days}")
 	private long refreshTokenExpirationDays;
 
@@ -57,7 +61,7 @@ public class JwtImpl implements JwtService {
 	                .signWith(key, Jwts.SIG.HS512)
 	                .compact();
 		 
-		 log.debug("Token generatp : {}", token);
+		 log.debug("Token generato : {}", token);
 	        
 	     return token;
 		 
@@ -81,6 +85,37 @@ public class JwtImpl implements JwtService {
 	        
 	     return t;
 		 
+	}
+	
+	private Claims extractAllClaims(String token) {
+	    return Jwts.parser()
+	            .verifyWith(key)
+	            .build()
+	            .parseSignedClaims(token)
+	            .getPayload();
+	}
+	
+	@Override
+	public String extractUsername(String token) {
+		return extractAllClaims(token).getSubject();
+	}
+	
+	@Override
+	public boolean isValidRefreshToken(String token) throws Exception {
+		try {
+	        Claims claims = extractAllClaims(token);
+
+	        String tokenType = claims.get(
+	                "tokenType",
+	                String.class
+	        );
+
+	        return "REFRESH".equals(tokenType)
+	                && claims.getExpiration().after(new Date());
+
+	    } catch (JwtException | IllegalArgumentException e) {
+	        return false;
+	    }
 	}
 
 }

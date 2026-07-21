@@ -26,7 +26,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // si deve disabilitare se si usa jwt
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
             .authorizeHttpRequests(auth -> auth
-            	    .requestMatchers("/api/auth/**").permitAll()
+//            	    .requestMatchers("/rest/api/auth/**").permitAll()
+            	    .requestMatchers("/rest/**").permitAll()
             	    .requestMatchers(
             	        "/swagger-ui/**",
             	        "/swagger-ui.html",
