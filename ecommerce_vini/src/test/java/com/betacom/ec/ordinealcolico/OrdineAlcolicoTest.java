@@ -59,6 +59,7 @@ public class OrdineAlcolicoTest {
 	
 	@Autowired
 	private IPosizioneService posS;
+	
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -227,8 +228,8 @@ public class OrdineAlcolicoTest {
 		req.setQuantita(2);
 		req.setAlcolicoId(1);
 		req.setCantinaId(1);
-		req.setOrdineId(2);
-		req.setStatusId(2);
+		req.setOrdineId(1);
+		req.setStatusId(1);
 			ResponseEntity<ResponseDTO> response = oaC.create(req);
 			assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
@@ -270,5 +271,5 @@ public class OrdineAlcolicoTest {
 	public void deleteOrdAlcTest() throws Exception {
 		ResponseEntity<ResponseDTO> response = oaC.delete(1);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
-	}
+	} 
 }
