@@ -17,12 +17,12 @@ import com.betacom.ec.utente.VenditoreControllerTest;
 @SelectClasses({
 	RuoloControllerTest.class,
 	VenditoreControllerTest.class,
+	ProdottoAlcolicoTest.class,
+	ProdottoBoxTest.class,
+	ProdottoDegustazioneTest.class,
 	CarrelloTest.class,
-	//ProdottoAlcolicoTest.class,
-	//ProdottoBoxTest.class,
-	//ProdottoDegustazioneTest.class,
-	//RatingAlcolicoTest.class,
-	//RatingCantinaTest.class
+	RatingAlcolicoTest.class,
+	RatingCantinaTest.class
 })
 public class SuitClassPulzato {
 
