@@ -35,6 +35,13 @@ public class Cantina {
 	// nome della cantina non opzionale
 	@Column(name = "nome", nullable = false)
 	private String nome;
+	
+	//descrizione posizione tipo stringa opzionale
+		@Column(
+				name = "descrizione",
+				nullable = true
+				)
+		private String posizione;
 
 	// collegamento al venditore
 	@ToString.Exclude
@@ -88,8 +95,4 @@ public class Cantina {
 	@OneToMany(mappedBy = "cantina", fetch = FetchType.LAZY)
 	private List<CantinaAlcolico> listCantinaAlcolico = new ArrayList <CantinaAlcolico> ();
 
-	// collegamento con Posizione
-	@OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
-	@JoinColumn(name = "id_posizione", referencedColumnName = "id", foreignKey = @ForeignKey(name = "fk_cantina_posizione"))
-	private Posizione posizione;
 }

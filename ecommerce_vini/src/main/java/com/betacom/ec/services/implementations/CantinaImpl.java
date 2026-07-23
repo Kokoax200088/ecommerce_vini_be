@@ -13,7 +13,6 @@ import com.betacom.ec.mapping.CantinaMap;
 import com.betacom.ec.models.Cantina;
 import com.betacom.ec.models.Venditore;
 import com.betacom.ec.repository.ICantinaRepository;
-import com.betacom.ec.repository.IPosizioneRepository;
 import com.betacom.ec.repository.IVenditoreRepository;
 import com.betacom.ec.services.interfaces.ICantinaService;
 
@@ -26,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class CantinaImpl implements ICantinaService {
 	private final ICantinaRepository cantinaRepository;
-	private final IPosizioneRepository posizioneRepository;
 	private final IVenditoreRepository venditoreRepository;
 	private final CantinaMap cantinaMap;
 	
@@ -45,10 +43,9 @@ public class CantinaImpl implements ICantinaService {
 		
 		cantina.setNome(req.getNome());
 		
-		cantina.setPosizione(posizioneRepository.findById(req.getPosizioneId())
-								.orElseThrow(() -> new EcommerceVinoException("posizione.id_not_found")));
+		cantina.setPosizione(req.getPosizione());
+	
 		Cantina savedCantina = cantinaRepository.save(cantina);
-		log.debug("posizione trovata: {}", cantina.getPosizione().getId());
 		
 		venditore.getListCantina().add(savedCantina);
 		Venditore saved = venditoreRepository.save(venditore); // DOVREBBE fare la update della cantina con relativa lista alcolici
@@ -62,10 +59,9 @@ public class CantinaImpl implements ICantinaService {
 		
 		Cantina cantina = cantinaRepository.findById(req.getId()).orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"));
 		Optional.ofNullable(req.getNome()).ifPresent(cantina::setNome);
+		Optional.ofNullable(req.getPosizione()).ifPresent(cantina::setPosizione);
 		Optional.ofNullable(req.getVenditoreId()).ifPresent(data -> cantina.setVenditore(venditoreRepository.findById(data)
 														.orElseThrow(() -> new EcommerceVinoException("venditore.id_not_found"))));
-		Optional.ofNullable(req.getPosizioneId()).ifPresent(data -> cantina.setPosizione(posizioneRepository.findById(data)
-															.orElseThrow(() -> new EcommerceVinoException("posizione.id_not_found"))));
 	}
 	
 	@Transactional

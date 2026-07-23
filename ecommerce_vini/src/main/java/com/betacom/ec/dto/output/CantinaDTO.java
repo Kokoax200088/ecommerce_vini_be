@@ -13,7 +13,7 @@ public class CantinaDTO {
     private Integer id;
     private String nome;
     private Integer idVenditore;
-    private PosizioneDTO posizione;
+    private String posizione;
     private List<CantinaAlcolicoDTO> listCantinaAlcolico;
     private List<RatingCantinaDTO> listRatingCantina;
     private List<BoxDTO>listBox;
