@@ -105,7 +105,7 @@ public class ImmagineDegustazioneServiceTest {
                     "contenuto fittizio".getBytes());
             req.setFile(mockFile);
 
-            immagineDegustazioneS.create(req);
+            immagineDegustazioneS.create(mockFile, 1);
             
             List<ImmagineDegustazioneDTO> list = immagineDegustazioneS.listWithParameters(1);
             assertNotNull(list);
@@ -123,7 +123,7 @@ public class ImmagineDegustazioneServiceTest {
             createReq.setId_degustazione(1);
             MockMultipartFile mockFile1 = new MockMultipartFile("file", "degustazione.jpg", "image/jpeg", "contenuto".getBytes());
             createReq.setFile(mockFile1);
-            immagineDegustazioneS.create(createReq);
+            immagineDegustazioneS.create(mockFile1, 1);
 
             List<ImmagineDegustazioneDTO> list = immagineDegustazioneS.listWithParameters(1);
             Integer generatedId = list.get(0).getId();
@@ -151,7 +151,7 @@ public class ImmagineDegustazioneServiceTest {
             createReq.setId_degustazione(1);
             MockMultipartFile mockFile = new MockMultipartFile("file", "degustazione.jpg", "image/jpeg", "contenuto".getBytes());
             createReq.setFile(mockFile);
-            immagineDegustazioneS.create(createReq);
+            immagineDegustazioneS.create(mockFile, 1);
             
             List<ImmagineDegustazioneDTO> list = immagineDegustazioneS.listWithParameters(1);
             Integer generatedId = list.get(0).getId();
