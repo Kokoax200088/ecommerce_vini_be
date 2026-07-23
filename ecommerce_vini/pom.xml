@@ -160,13 +160,6 @@
 			<version>6.1.0</version>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
-=======
-		<dependency>
-			<groupId>com.betacom</groupId>
-			<artifactId>projectJPA</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 		<!--
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -187,7 +180,6 @@
 			<artifactId>spring-boot-starter-security-oauth2-resource-server-test</artifactId>
 			<scope>test</scope>
 		</dependency>
->>>>>>> dd49a2a5a2baef6654b9d8fdf1bd233bcfc9e7be
 	</dependencies>
 
 	<build>
