@@ -109,7 +109,7 @@ public class ImmagineAlcolicoServiceTest {
                     "contenuto fittizio".getBytes());
             req.setFile(mockFile);
             
-            immS.create(req);
+            immS.create(mockFile, 1);
             
             List<ImmagineAlcolicoDTO> list = immS.listBySearch(1);
             assertNotNull(list);
@@ -127,7 +127,7 @@ public class ImmagineAlcolicoServiceTest {
             createReq.setId_alcolico(1);
             MockMultipartFile mockFile1 = new MockMultipartFile("file", "bottiglia.jpg", "image/jpeg", "contenuto".getBytes());
             createReq.setFile(mockFile1);
-            immS.create(createReq);
+            immS.create(mockFile1, 1);
 
             List<ImmagineAlcolicoDTO> list = immS.listBySearch(1);
             Integer generatedId = list.get(0).getId();
@@ -155,7 +155,7 @@ public class ImmagineAlcolicoServiceTest {
             createReq.setId_alcolico(1);
             MockMultipartFile mockFile = new MockMultipartFile("file", "bottiglia.jpg", "image/jpeg", "contenuto".getBytes());
             createReq.setFile(mockFile);
-            immS.create(createReq);
+            immS.create(mockFile, 1);
             
             List<ImmagineAlcolicoDTO> list = immS.listBySearch(1);
             Integer generatedId = list.get(0).getId();

@@ -24,6 +24,6 @@ public class SpedizioneBoxReq {
 	private Integer id_cliente;
 	@NotNull(groups=ValidationGroups.Create.class, message="status_missing")
 	private Integer id_status;
-	@NotNull(groups=ValidationGroups.Create.class, message="box_missing")
-	private Integer id_box;
+	@NotNull(groups=ValidationGroups.Create.class, message="ordbox_missing")
+	private Integer id_ordbox;
 }

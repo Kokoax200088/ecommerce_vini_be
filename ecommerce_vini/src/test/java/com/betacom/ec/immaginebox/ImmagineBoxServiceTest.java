@@ -113,7 +113,7 @@ public class ImmagineBoxServiceTest {
                     "contenuto fittizio".getBytes());
             req.setFile(mockFile);
             
-            immS.create(req);
+            immS.create(mockFile, 1);
             
             List<ImmagineBoxDTO> list = immS.list(1);
             assertNotNull(list);
@@ -131,7 +131,7 @@ public class ImmagineBoxServiceTest {
             createReq.setId_box(1);
             MockMultipartFile mockFile1 = new MockMultipartFile("file", "bottiglia.jpg", "image/jpeg", "contenuto".getBytes());
             createReq.setFile(mockFile1);
-            immS.create(createReq);
+            immS.create(mockFile1, 1);
 
             List<ImmagineBoxDTO> list = immS.list(1);
             Integer generatedId = list.get(0).getId();
@@ -159,7 +159,7 @@ public class ImmagineBoxServiceTest {
             createReq.setId_box(1);
             MockMultipartFile mockFile = new MockMultipartFile("file", "bottiglia.jpg", "image/jpeg", "contenuto".getBytes());
             createReq.setFile(mockFile);
-            immS.create(createReq);
+            immS.create(mockFile, 1);
             
             List<ImmagineBoxDTO> list = immS.list(1);
             Integer generatedId = list.get(0).getId();

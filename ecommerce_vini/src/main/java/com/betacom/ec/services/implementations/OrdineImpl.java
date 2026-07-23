@@ -71,12 +71,20 @@ public class OrdineImpl implements IOrdineService{
 		Optional.ofNullable(req.getData_ordine()).ifPresent(o::setData_ordine);;
 		Optional.ofNullable(req.getTotale()).ifPresent(o::setTotale);
 		
-		Utente u = uR.findById(req.getId_utente()).orElseThrow(() -> new EcommerceVinoException("utente.ntfnd"));
-		o.setUtente(u);
-		
-		Status s = sR.findById(req.getId_status()).orElseThrow(() -> new EcommerceVinoException("status.ntfnd"));
-		o.setStatus(s);
-		
+		/*if (req.getId_utente() != null) {
+	        Utente u = uR.findById(req.getId_utente()).orElseThrow(() -> new EcommerceVinoException("utente.ntfnd"));
+	        o.setUtente(u);
+	    }*/
+		Optional.ofNullable(req.getId_utente())
+        .map(id -> uR.findById(id).orElseThrow(() -> new EcommerceVinoException("utente.ntfnd")))
+        .ifPresent(o::setUtente);
+	    /*if (req.getId_status() != null) {
+	        Status s = sR.findById(req.getId_status()).orElseThrow(() -> new EcommerceVinoException("status.ntfnd"));
+	        o.setStatus(s);
+	    }*/
+	    Optional.ofNullable(req.getId_status())
+        .map(id -> sR.findById(id).orElseThrow(() -> new EcommerceVinoException("status.ntfnd")))
+        .ifPresent(o::setStatus);
 		Optional.ofNullable(req.getIndirizzoDestinazione()).ifPresent(o::setIndirizzoDestinazione);
 		
 		oR.save(o);
@@ -94,7 +102,7 @@ public class OrdineImpl implements IOrdineService{
 				.orElseThrow(()-> new EcommerceVinoException("ordine.ntfnd"));
 		return mapper.buildOrdineDTO(o);
 	}	
-	
+/*	
 	@Transactional
 	public void addListOrdineAlcolico(Integer id_ordine_alcolico,Integer id_ordine) throws Exception{
 		OrdineAlcolico oa = oaR.findById(id_ordine_alcolico).orElseThrow( () -> new EcommerceVinoException("ordalc.ntfnd"));
@@ -116,5 +124,5 @@ public class OrdineImpl implements IOrdineService{
 		Ordine o = oR.findById(id_ordine).orElseThrow( () -> new EcommerceVinoException("ordine.ntfnd"));
 		o.getListPrenotazioneDegustazione().add(pd);
 		oR.save(o);
-	}
+	} */
 }

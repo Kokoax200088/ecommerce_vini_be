@@ -4,10 +4,10 @@ Documentazione del backend per il progetto E-Commerce dedicato alla vendita di v
 
 ---
 
-## 📌 Descrizione del Progetto
+##  Descrizione del Progetto
 Il progetto consiste nello sviluppo di una piattaforma e-commerce focalizzata sulla vendita di vini ed alcolici di altro tipo. Il sistema gestisce il catalogo prodotti, gli ordini e le interazioni principali tipiche di un negozio online.
 
-## 🛠️ Tecnologie & Strumenti
+##  Tecnologie & Strumenti
 * **Linguaggio:** Java
 * **Framework:** Spring Boot
 * **Database Principale:** PostgreSQL (`db_ecommerce_vini`)
@@ -16,7 +16,7 @@ Il progetto consiste nello sviluppo di una piattaforma e-commerce focalizzata su
 
 ---
 
-## 📦 Dipendenze del Progetto (Maven)
+##  Dipendenze del Progetto (Maven)
 
 Il progetto utilizza i seguenti moduli e librerie principali, configurati nel file `pom.xml`:
 

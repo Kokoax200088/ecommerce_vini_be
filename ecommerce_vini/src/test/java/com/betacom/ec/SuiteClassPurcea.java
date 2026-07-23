@@ -28,27 +28,17 @@ import com.betacom.ec.prenotazionedegustazione.PrenotazioneDegustazioneServiceTe
 
 @Suite
 @SelectClasses({
-	BoxServiceTest.class,
 	BoxControllerTest.class,
 	PosizioneControllerTest.class,
 	PosizioneServiceTest.class,
-	BoxAlcolicoServiceTest.class,
 	BoxAlcolicoControllerTest.class,
-	CantinaServiceTest.class,
 	CantinaControllerTest.class,
-	CantinaAlcolicoServiceTest.class,
 	CantinaAlcolicoControllerTest.class,
-	DegustazioneServiceTest.class,
 	DegustazioneControllerTest.class,
-	ImmagineBoxServiceTest.class,
 	ImmagineBoxControllerTest.class,
-	ImmagineCantinaServiceTest.class,
 	ImmagineCantinaControllerTest.class,
-	ImmagineDegustazioneServiceTest.class,
 	ImmagineDegustazioneControllerTest.class,
-	ImmagineAlcolicoServiceTest.class,
 	ImmagineAlcolicoControllerTest.class,
-	PrenotazioneDegustazioneServiceTest.class,
 	PrenotazioneDegustazioneControllerTest.class
 })
 public class SuiteClassPurcea {

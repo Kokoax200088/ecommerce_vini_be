@@ -3,9 +3,12 @@ package com.betacom.ec.services.implementations;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.betacom.ec.dto.input.ChangePasswordRequest;
 import com.betacom.ec.dto.input.UtenteRequest;
+import com.betacom.ec.dto.output.MeDTO;
 import com.betacom.ec.dto.output.UtenteDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.UtenteMap;
@@ -27,6 +30,8 @@ public class UtenteImpl implements IUtenteService {
 	private final IRuoloRepository ruoloRepository;
 	
 	private final UtenteMap mapper;
+	
+	private final PasswordEncoder encoder;
 	
 	@Transactional
 	@Override
@@ -97,5 +102,41 @@ public class UtenteImpl implements IUtenteService {
 		
 		return mapper.buildUtenteDTO(utente);
 	}
+	
+	@Transactional
+	@Override
+	public void changePassword(ChangePasswordRequest req) throws Exception {
+		log.debug("changePwd {}", req);
+		
+		Utente ut = utenteRepository.findByEmail(req.getEmail())
+				.orElseThrow(() -> new EcommerceVinoException("user_ntfnd"));
+
+		if (!encoder.matches(req.getOldPassword(), ut.getPassword()))
+			throw new Exception("login_invalid");
+		
+		Optional.ofNullable(req.getNewPassword())
+			.ifPresentOrElse(pwd -> {
+				ut.setPassword((encoder.encode(pwd))) ;
+			}, () -> { 
+				throw new RuntimeException("user_no_newpwd");
+			});
+		
+		utenteRepository.save(ut);
+		
+	}
+
+	@Transactional
+	@Override
+	public MeDTO me(UtenteRequest req) throws Exception {
+		log.debug("login {}", req);
+		Utente ut = utenteRepository.findByEmail(req.getEmail())
+				.orElseThrow(() -> new EcommerceVinoException("user_invalid_pwd"));
+		
+		return MeDTO.builder()
+				.id(ut.getEmail())
+				.role(ut.getRuolo().getNome())
+//				.mailValidate(ut.getValidate())
+				.build();
+}
 	
 }
