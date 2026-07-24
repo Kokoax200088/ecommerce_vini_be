@@ -1,5 +1,6 @@
 package com.betacom.ec.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -43,9 +44,9 @@ public class Venditore {
 	private Utente utente;
 
 	@OneToMany(mappedBy = "venditore", fetch = FetchType.LAZY)
-	private List<Cantina> listCantina;
+	private List<Cantina> listCantina = new ArrayList<Cantina>();
 	
 	//collegato con Alcolico
 	@OneToMany(mappedBy = "venditore", fetch = FetchType.LAZY)
-	private List<Alcolico> listAlcolico;
+	private List<Alcolico> listAlcolico = new ArrayList <Alcolico> ();
 }

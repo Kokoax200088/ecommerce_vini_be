@@ -1,5 +1,6 @@
 package com.betacom.ec.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -47,19 +48,19 @@ public class Carrello {
 			mappedBy = "carrello",
 			fetch = FetchType.EAGER
 			)
-	private List<ProdottoAlcolico> listaProdottoAlcolico;
+	private List<ProdottoAlcolico> listaProdottoAlcolico = new ArrayList <ProdottoAlcolico> ();
 	
 	@OneToMany(
 			mappedBy = "carrello",
 			fetch = FetchType.EAGER
 			)
-	private List<ProdottoBox> listaProdottoBox;
+	private List<ProdottoBox> listaProdottoBox = new ArrayList <ProdottoBox> ();
 	
 	@OneToMany(
 			mappedBy = "carrello",
 			fetch = FetchType.EAGER
 			)
-	private List<ProdottoDegustazione> listaProdottoDegustazione;
+	private List<ProdottoDegustazione> listaProdottoDegustazione = new ArrayList <ProdottoDegustazione> ();
 	
 	@Column (
 			name="quantita",

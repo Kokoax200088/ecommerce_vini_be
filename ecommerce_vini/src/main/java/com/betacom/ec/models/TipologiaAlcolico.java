@@ -1,5 +1,6 @@
 package com.betacom.ec.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -37,5 +38,5 @@ public class TipologiaAlcolico {
 	
 	//collegato con Alcolico
 	@OneToMany(mappedBy = "tipologia_alcolico", fetch = FetchType.LAZY)
-	private List<Alcolico> listAlcolico;
+	private List<Alcolico> listAlcolico = new ArrayList <Alcolico> ();
 }

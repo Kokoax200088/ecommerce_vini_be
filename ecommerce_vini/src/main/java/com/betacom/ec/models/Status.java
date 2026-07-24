@@ -1,5 +1,6 @@
 package com.betacom.ec.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -35,8 +36,8 @@ public class Status {
 	private String descrizione;
 	
 	@OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
-	private List<Ordine> listOrdine;
+	private List<Ordine> listOrdine = new ArrayList <Ordine> ();
 	
 	@OneToMany(mappedBy = "status", fetch = FetchType.LAZY)
-	private List<OrdineAlcolico> listOrdineAlcolico;
+	private List<OrdineAlcolico> listOrdineAlcolico = new ArrayList <OrdineAlcolico> ();
 }

@@ -1,6 +1,7 @@
 package com.betacom.ec.models;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -44,13 +45,13 @@ public class Ordine {
 	private Status status;
 
 	@OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
-	private List<OrdineAlcolico> listOrdineAlcolico;
+	private List<OrdineAlcolico> listOrdineAlcolico = new ArrayList <OrdineAlcolico> ();
 	
 	@OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
-	private List<OrdineBox> listOrdineBox;
+	private List<OrdineBox> listOrdineBox = new ArrayList <OrdineBox> ();
 	
 	@OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
-	private List<PrenotazioneDegustazione> listPrenotazioneDegustazione;
+	private List<PrenotazioneDegustazione> listPrenotazioneDegustazione = new ArrayList <PrenotazioneDegustazione> ();
 
 	@Column(name = "indirizzo_destinazione", nullable = false)
 	private String indirizzoDestinazione;

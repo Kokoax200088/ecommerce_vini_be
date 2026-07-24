@@ -1,5 +1,6 @@
 package com.betacom.ec.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /* il venditore mette un box a cantina per vendere più vini insieme, può inserire uno sconto incentuvando l'acquisto  */
@@ -52,25 +53,25 @@ public class Box {
 			mappedBy = "box",
 			fetch = FetchType.LAZY
 			)
-	private List <BoxAlcolico> listBoxAlcolico;
+	private List <BoxAlcolico> listBoxAlcolico = new ArrayList <BoxAlcolico> ();
 	
 	//collegamento con immagine
 	@OneToMany(
 			mappedBy = "box",
 			fetch = FetchType.LAZY)
-	private List <ImmagineBox> listImmagine;	
+	private List <ImmagineBox> listImmagine = new ArrayList <ImmagineBox> ();	
 	
 	//collegamento con OrdineBox
 	@OneToMany(
 			mappedBy = "box",
 			fetch = FetchType.LAZY)
-	private List<OrdineBox> listOrdineBox;
+	private List<OrdineBox> listOrdineBox = new ArrayList <OrdineBox> ();
 	
 	//collegamento con ProdottoBox
 	@OneToMany(
 			mappedBy = "box",
 			fetch = FetchType.LAZY)
-	private List <ProdottoBox> listProdottoBox;	
+	private List <ProdottoBox> listProdottoBox = new ArrayList <ProdottoBox> ();	
 	
 	
 }

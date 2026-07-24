@@ -10,11 +10,13 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Setter
 @Getter
 @Entity
 @Table(name = "posizione")
+@ToString
 public class Posizione {
 	//id posizione generato automaticamente
 	@Id
@@ -43,6 +45,7 @@ public class Posizione {
 	private String descrizione;
 
 	//collegamento con Cantina
+	@ToString.Exclude
 	@OneToOne(
 			mappedBy = "posizione",
 			fetch = FetchType.LAZY 

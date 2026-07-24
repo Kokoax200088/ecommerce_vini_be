@@ -21,6 +21,7 @@ import com.betacom.ec.repository.ISpedizioneAlcolicoRepository;
 import com.betacom.ec.repository.IStatusRepository;
 import com.betacom.ec.services.interfaces.ISpedizioneAlcolicoService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,7 +37,7 @@ public class SpedizioneAlcolicoImpl implements ISpedizioneAlcolicoService{
 	private final IOrdineAlcolicoRepository oaR;
 	
 	private final SpedizioneAlcolicoMap mapper;
-	
+	@Transactional
 	public void create(SpedizioneAlcolicoReq req) throws Exception{
 		SpedizioneAlcolico sa = new SpedizioneAlcolico();
 		Optional.ofNullable(req.getId()).ifPresent(sa::setId);
@@ -50,27 +51,35 @@ public class SpedizioneAlcolicoImpl implements ISpedizioneAlcolicoService{
 		saR.save(sa);
 	}
 
+	@Transactional
 	public void update(SpedizioneAlcolicoReq req) throws Exception{
 		SpedizioneAlcolico sa= saR.findById(req.getId()).orElseThrow( () -> new EcommerceVinoException("spedalc.ntfnd"));
 		Optional.ofNullable(req.getId()).ifPresent(sa::setId);
-		Cantina c = cR.findById(req.getId_cantina()).orElseThrow(() -> new EcommerceVinoException("cantina.ntfnd"));
-		sa.setCantina(c);
-		Cliente cli = cliR.findById(req.getId_cliente()).orElseThrow( () -> new EcommerceVinoException("cliente.ntfnd"));
-		sa.setCliente(cli);
+		Optional.ofNullable(req.getId_cantina())
+        .map(id -> cR.findById(id).orElseThrow(() -> new EcommerceVinoException("cantina.ntfnd")))
+        .ifPresent(sa::setCantina);
+		Optional.ofNullable(req.getId_cliente())
+        .map(id -> cliR.findById(id).orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd")))
+        .ifPresent(sa::setCliente);
 		Optional.ofNullable(req.getCorriere()).ifPresent(sa::setCorriere);
 		Optional.ofNullable(req.getCodice_tracciamento()).ifPresent(sa::setCodice_tracciamento);
-		Status s = sR.findById(req.getId_status()).orElseThrow(() -> new EcommerceVinoException("status.ntfnd"));
-		sa.setStatus(s);
-		OrdineAlcolico oa = oaR.findById(req.getId_ordine_alcolico()).orElseThrow( () -> new EcommerceVinoException("ordalc.ntfnd"));
-		sa.setOrdineAlcolico(oa);
+		Optional.ofNullable(req.getId_status())
+        .map(id -> sR.findById(id).orElseThrow(() -> new EcommerceVinoException("utente.ntfnd")))
+        .ifPresent(sa::setStatus);
+		Optional.ofNullable(req.getId_ordine_alcolico())
+        .map(id -> oaR.findById(id).orElseThrow(() -> new EcommerceVinoException("ordalc.ntfnd")))
+        .ifPresent(sa::setOrdineAlcolico);
 		saR.save(sa);
 	}
 
+	@Transactional
 	public void delete(Integer id_spedizione) throws Exception{
 		SpedizioneAlcolico sa= saR.findById(id_spedizione)
 				.orElseThrow(() -> new EcommerceVinoException("spedalc.ntfnd"));
 		saR.delete(sa);
 	}
+	
+	@Transactional
 	public List<SpedizioneAlcolicoDTO> listWithParameters(String corriere,
 			String codice_tracciamento,
 			Integer id_cantina, 
@@ -81,6 +90,7 @@ public class SpedizioneAlcolicoImpl implements ISpedizioneAlcolicoService{
 		return mapper.buildSpedizioneAlcolicoDTOList(lS);
 	}
 
+	@Transactional
 	public SpedizioneAlcolicoDTO getById(Integer id_spedizione) throws Exception{
 		SpedizioneAlcolico sa = saR.findById(id_spedizione)
 				.orElseThrow(()-> new EcommerceVinoException("status.ntfnd"));

@@ -1,5 +1,6 @@
 package com.betacom.ec.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -85,7 +86,7 @@ public class Alcolico {
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
-	private List<ImmagineAlcolico> listImmagine;	
+	private List<ImmagineAlcolico> listImmagine = new ArrayList <ImmagineAlcolico> ();	
 
 	@Column(
 			name = "prezzo",
@@ -97,43 +98,43 @@ public class Alcolico {
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
-	private List <BoxAlcolico> listBoxAlcolico;	
+	private List <BoxAlcolico> listBoxAlcolico = new ArrayList <BoxAlcolico> ();	
 	
 	//collegato con cantinaAlcolico
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
-	private List<CantinaAlcolico> listCantinaAlcolico;
+	private List<CantinaAlcolico> listCantinaAlcolico = new ArrayList <CantinaAlcolico> ();
 	
 	//collegamento con Degustazione 
 	@ManyToMany (
             mappedBy = "listAlcolico",
             fetch = FetchType.LAZY
             )
-	private List<Degustazione> listDegustazione;
+	private List<Degustazione> listDegustazione = new ArrayList <Degustazione> ();
 	
 	//collegamento con ordineAlcolico
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
-	private List<OrdineAlcolico> listOrdineAlcolico;
+	private List<OrdineAlcolico> listOrdineAlcolico = new ArrayList <OrdineAlcolico> ();
 	
 	//collega,ento con ProdottoAlcolico
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
-	private List <ProdottoAlcolico> listProdottoAlcolico;	
+	private List <ProdottoAlcolico> listProdottoAlcolico = new ArrayList <ProdottoAlcolico> ();	
 	
 	//collegato ocn RatingAlcolico
 	@OneToMany(
 			mappedBy = "alcolico",
 			fetch = FetchType.LAZY)
-	private List <RatingAlcolico> listRatingAlcolico;
+	private List <RatingAlcolico> listRatingAlcolico = new ArrayList <RatingAlcolico> ();
 
 	@ManyToMany
 	@JoinTable(
 			name = "alcolico_caratteristica",
 			joinColumns = @JoinColumn(name = "id_alcolico"),
 			inverseJoinColumns = @JoinColumn(name = "id_caratteristica"))
-	private List<Caratteristica> listCaratteristica;
+	private List<Caratteristica> listCaratteristica = new ArrayList <Caratteristica> ();
 }

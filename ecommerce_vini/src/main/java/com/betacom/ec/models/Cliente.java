@@ -1,5 +1,6 @@
 package com.betacom.ec.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -60,11 +61,11 @@ public class Cliente {
 			mappedBy = "cliente",
 			fetch = FetchType.LAZY
 			)
-	private List<RatingAlcolico> listRatingAlcolico;
+	private List<RatingAlcolico> listRatingAlcolico = new ArrayList <RatingAlcolico> ();
 
 	@OneToMany (
 		mappedBy = "cliente",
 		           fetch = FetchType.LAZY
 	)
-	private List<RatingCantina> listRatingCantina;
+	private List<RatingCantina> listRatingCantina = new ArrayList <RatingCantina> ();
 }

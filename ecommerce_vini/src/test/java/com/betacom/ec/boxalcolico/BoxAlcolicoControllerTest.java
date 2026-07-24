@@ -4,7 +4,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.ec.controllers.AlcolicoController;
@@ -40,6 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class BoxAlcolicoControllerTest {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -57,7 +63,7 @@ public class BoxAlcolicoControllerTest {
     
     @BeforeEach
     public void setupDatabase() throws Exception {
-        log.debug("Setup DB isolato per BoxAlcolico (Controller)");
+        log.debug("{} - Setup DB inizio per BoxAlcolicoController", this.getClass().getName());
 
         RuoloRequest rSeller = new RuoloRequest();
         rSeller.setId(1);
@@ -65,6 +71,7 @@ public class BoxAlcolicoControllerTest {
         rSeller.setCanManage(false);
         rSeller.setCanBuy(false);
         rSeller.setCanSell(true);
+        log.debug("Creazione ruolo seller: {}", rSeller);
         ruoloC.create(rSeller);
 
         VenditoreRequest vReq = new VenditoreRequest();
@@ -76,6 +83,7 @@ public class BoxAlcolicoControllerTest {
         vReq.setPartitaIva("A99");
         vReq.setPassword("password123");
         vReq.setDataNascita("08/08/1996");
+        log.debug("Creazione venditore: {}", vReq);
         venditoreC.create(vReq);
         
         PosizioneReq posReq = new PosizioneReq();
@@ -83,6 +91,7 @@ public class BoxAlcolicoControllerTest {
         posReq.setLatitudine(11.1111);
         posReq.setLongitudine(22.2222);
         posReq.setDescrizione("Torino Service");
+        log.debug("Creazione posizione: {}", posReq);
         PosizioneC.create(posReq);
 
         CantinaReq cReq = new CantinaReq();
@@ -90,6 +99,7 @@ public class BoxAlcolicoControllerTest {
         cReq.setPosizioneId(posReq.getId());
         cReq.setNome("Cantina Test");
         cReq.setVenditoreId(vReq.getId());
+        log.debug("Creazione cantina: {}", cReq);
         cantinaC.create(cReq);
 
         BoxReq bReq = new BoxReq();
@@ -97,18 +107,21 @@ public class BoxAlcolicoControllerTest {
         bReq.setNome("Box Test");
         bReq.setSconto(10.0);
         bReq.setCantinaId(cReq.getId());
+        log.debug("Creazione box: {}", bReq);
         BoxC.create(bReq);
         
         TipologiaAlcolicoReq tReq = new TipologiaAlcolicoReq();
         tReq.setId(1);
         tReq.setNome("Vino");
         tReq.setDescrizione("Vino Test");
+        log.debug("Creazione tipologia alcolico: {}", tReq);
         tipologiaC.create(tReq);
         
         ColoreReq coReq = new ColoreReq();
         coReq.setId(1);
         coReq.setNome("Rosso");
         coReq.setDescrizione("Vino Rosso");
+        log.debug("Creazione colore: {}", coReq);
         coloreC.create(coReq);
 
         AlcolicoReq aReq = new AlcolicoReq();
@@ -121,36 +134,31 @@ public class BoxAlcolicoControllerTest {
         aReq.setPrezzo(15.0);
         aReq.setId_tipologia_alcolico(1);
         aReq.setId_colore(1);
+        log.debug("Creazione alcolico: {}", aReq);
         AlcolicoC.create(aReq);
-    }
 
-    @Test
-    public void createBoxAlcolico() throws Exception {
-        log.debug("Test: createBoxAlcolico");
-        BoxAlcolicoReq req = new BoxAlcolicoReq();
-        req.setId(1); 
-        req.setBoxId(1);
-        req.setAlcolicoId(1);
-        req.setQuantita(5);
+        log.debug("Test: createBoxAlcolico (durante setup)");
+        BoxAlcolicoReq boxAlcolicoReq = new BoxAlcolicoReq();
+        boxAlcolicoReq.setId(1); 
+        boxAlcolicoReq.setBoxId(1);
+        boxAlcolicoReq.setAlcolicoId(1);
+        boxAlcolicoReq.setQuantita(5);
 
-        mockMvc.perform(post("/rest/api/boxalcolico/create")
+        MvcResult result = mockMvc.perform(post("/rest/api/boxalcolico/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isOk());
+                .content(objectMapper.writeValueAsString(boxAlcolicoReq)))
+                .andDo(log())
+                .andReturn();
+
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
+
+        log.debug("Setup DB completo per BoxAlcolicoController");
     }
 
     @Test
     public void updateBoxAlcolico() throws Exception {
         log.debug("Test: updateBoxAlcolico");
-        
-        BoxAlcolicoReq createReq = new BoxAlcolicoReq();
-        createReq.setId(1);
-        createReq.setBoxId(1);
-        createReq.setAlcolicoId(1);
-        createReq.setQuantita(5);
-        mockMvc.perform(post("/rest/api/boxalcolico/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createReq)));
 
         BoxAlcolicoReq updateReq = new BoxAlcolicoReq();
         updateReq.setId(1); 
@@ -158,53 +166,51 @@ public class BoxAlcolicoControllerTest {
         updateReq.setAlcolicoId(1);
         updateReq.setQuantita(15);
 
-        mockMvc.perform(patch("/rest/api/boxalcolico/update")
+        MvcResult result = mockMvc.perform(patch("/rest/api/boxalcolico/update")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateReq)))
-                .andExpect(status().isOk());
+                .andDo(log())
+                .andReturn();
+
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 
     @Test
     public void getBoxAlcolicoById() throws Exception {
         log.debug("Test: getBoxAlcolicoById");
-        
-        BoxAlcolicoReq createReq = new BoxAlcolicoReq();
-        createReq.setId(1);
-        createReq.setBoxId(1);
-        createReq.setAlcolicoId(1);
-        createReq.setQuantita(5);
-        mockMvc.perform(post("/rest/api/boxalcolico/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createReq)));
 
-        mockMvc.perform(get("/rest/api/boxalcolico/getBoxAlcolicoById")
+        MvcResult result = mockMvc.perform(get("/rest/api/boxalcolico/getBoxAlcolicoById")
                 .param("id", "1"))
-                .andExpect(status().isOk());
+                .andDo(log())
+                .andReturn();
+
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 
     @Test
     public void listBoxAlcolico() throws Exception {
         log.debug("Test: listBoxAlcolico");
-        mockMvc.perform(get("/rest/api/boxalcolico/list")
+
+        MvcResult result = mockMvc.perform(get("/rest/api/boxalcolico/list")
                 .param("quantita", "5"))
-                .andExpect(status().isOk());
+                .andDo(log())
+                .andReturn();
+
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 
     @Test
     public void deleteBoxAlcolico() throws Exception {
         log.debug("Test: deleteBoxAlcolico");
-        
-        BoxAlcolicoReq createReq = new BoxAlcolicoReq();
-        createReq.setId(1);
-        createReq.setBoxId(1);
-        createReq.setAlcolicoId(1);
-        createReq.setQuantita(5);
-        mockMvc.perform(post("/rest/api/boxalcolico/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(createReq)));
 
-        mockMvc.perform(delete("/rest/api/boxalcolico/delete")
-        						.param("id", "1"))
-                .andExpect(status().isOk());
+        MvcResult result = mockMvc.perform(delete("/rest/api/boxalcolico/delete/1"))
+                .andDo(log())
+                .andReturn();
+
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 }
