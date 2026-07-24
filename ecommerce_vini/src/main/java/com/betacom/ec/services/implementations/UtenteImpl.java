@@ -43,7 +43,7 @@ public class UtenteImpl implements IUtenteService {
 		utente.setCognome(utenteRequest.getCognome());
 		utente.setDataNascita(Utilities.stringToDate(utenteRequest.getDataNascita()));
 		utente.setEmail(utenteRequest.getEmail());
-		utente.setPassword(utenteRequest.getPassword());
+		utente.setPassword(encoder.encode(utenteRequest.getPassword())); //ENCODING PASSWORD
 		utente.setRuolo(ruoloRepository.findById(utenteRequest.getIdRuolo()).orElseThrow(() -> new EcommerceVinoException("ruolo.id_not_found")));
 		//CHECK non salviamo qui le info su cliente e venditore giusto?
 		
@@ -72,7 +72,7 @@ public class UtenteImpl implements IUtenteService {
 		Optional.ofNullable(utenteRequest.getCognome()).ifPresent(utente::setCognome);
 		Optional.ofNullable(utenteRequest.getNome()).ifPresent(utente::setNome);
 		Optional.ofNullable(utenteRequest.getEmail()).ifPresent(utente::setEmail);
-		Optional.ofNullable(utenteRequest.getPassword()).ifPresent(utente::setPassword); //CHECK security issues? dovrei fare un metodo a parte?
+		//Optional.ofNullable(utenteRequest.getPassword()).ifPresent(utente::setPassword); //il cambio password ha un metodo dedicato
 		Optional.ofNullable(utenteRequest.getDataNascita()).ifPresent(data -> utente.setDataNascita(Utilities.stringToDate(data)));
 		if (utenteRequest.getIdRuolo() != null)
 			utente.setRuolo(ruoloRepository.findById(utenteRequest.getIdRuolo()).orElseThrow(() -> new EcommerceVinoException("ruolo.id_not_found")));
@@ -135,7 +135,7 @@ public class UtenteImpl implements IUtenteService {
 		return MeDTO.builder()
 				.id(ut.getEmail())
 				.role(ut.getRuolo().getNome())
-//				.mailValidate(ut.getValidate())
+//				.mailValidate(true)
 				.build();
 }
 	

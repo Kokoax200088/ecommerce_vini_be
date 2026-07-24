@@ -10,5 +10,5 @@ import lombok.Setter;
 public class MeDTO {
 	private String id;
 	private String role;
-//	private Boolean mailValidate; //not sure about the usage, just copied from the repo
+	private Boolean mailValidate; //not sure about the usage, just copied from the repo
 }

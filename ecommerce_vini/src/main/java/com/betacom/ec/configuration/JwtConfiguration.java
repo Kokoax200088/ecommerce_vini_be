@@ -15,7 +15,7 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
 @Configuration
-public class JwtConfiguration {
+public class JwtConfiguration { //questo è il ponte fra JWT e la security di spring
 	 /*
      * converter per dire a Spring Security di leggere roles
      */  

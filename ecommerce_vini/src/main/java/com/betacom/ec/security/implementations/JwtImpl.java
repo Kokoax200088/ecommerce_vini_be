@@ -58,7 +58,7 @@ public class JwtImpl implements JwtService {
 	                .claim("roles", roles)
 	                .issuedAt(Date.from(now))
 	                .expiration(Date.from(now.plusSeconds(accessTokenExpirationSeconds)))
-	                .signWith(key, Jwts.SIG.HS512)
+	                .signWith(key, Jwts.SIG.HS512) // deve essere uguale a quello in JwtConfiguration
 	                .compact();
 		 
 		 log.debug("Token generato : {}", token);
