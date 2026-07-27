@@ -43,7 +43,7 @@ public class ImmagineCantinaImpl implements IImmagineCantinaService{
         String imageUrl = uploadService.buildUrl(fileName);
 		ImmagineCantina immagineCantina = new ImmagineCantina();
 		immagineCantina.setCantina(cantina);
-		immagineCantina.setUrl(imageUrl);
+		 immagineCantina.setUrl(fileName);
 		
 		cantina.getListImmagine().add(immagineCantina);
 		cantinaRepository.save(cantina);
@@ -63,8 +63,7 @@ public class ImmagineCantinaImpl implements IImmagineCantinaService{
 										.orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"))));
 		String fileName = uploadService.saveImage(req.getFile(), req.getId_cantina());
         
-        String imageUrl = uploadService.buildUrl(fileName);
-		Optional.ofNullable(imageUrl).ifPresent(immagineCantina::setUrl);
+		Optional.ofNullable(fileName).ifPresent(immagineCantina::setUrl); 
 		
 		immagineCantinaRepository.save(immagineCantina);
 	}

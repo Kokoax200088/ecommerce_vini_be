@@ -33,7 +33,7 @@ public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 		@Transactional
 		@Override
 		public void create(MultipartFile file, Integer id_deg) throws Exception {
-			log.debug("Create ImmagineCantina ");
+			log.debug("Create immagine Degustazione ");
 	 
 			Degustazione d= dR.findById(id_deg)
 					.orElseThrow(() -> new EcommerceVinoException("immagine_cantina.id_not_found"));
@@ -42,7 +42,7 @@ public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 	        String imageUrl = uploadService.buildUrl(fileName);
 			ImmagineDegustazione iC= new ImmagineDegustazione();
 			iC.setDegustazione(d);
-			iC.setUrl(imageUrl);
+			 iC.setUrl(fileName);
 	 
 			d.getListImmagine().add(iC);
 			dR.save(d);
@@ -63,8 +63,7 @@ public class ImmagineDegustazioneImpl implements IImmagineDegustazioneService{
 			
 			String fileName = uploadService.saveImage(req.getFile(), req.getId_degustazione());
 	        
-	        String imageUrl = uploadService.buildUrl(fileName);
-			Optional.ofNullable(imageUrl).ifPresent(imgD::setUrl);
+			Optional.ofNullable(fileName).ifPresent(imgD::setUrl); 
 			
 			idR.save(imgD);
 		}

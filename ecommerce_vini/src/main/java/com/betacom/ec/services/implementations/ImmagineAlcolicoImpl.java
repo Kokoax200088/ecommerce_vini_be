@@ -45,7 +45,7 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
         
 		ImmagineAlcolico immagineAlcolico = new ImmagineAlcolico();
 		immagineAlcolico.setAlcolico(alcolico);
-		immagineAlcolico.setUrl(imageUrl);
+		 immagineAlcolico.setUrl(fileName);
 		
 		alcolico.getListImmagine().add(immagineAlcolico);
 		alcolicoRepository.save(alcolico);
@@ -65,8 +65,7 @@ public class ImmagineAlcolicoImpl implements IImmagineAlcolicoService{
 				.orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"))));
 		
 		String fileName = uploadService.saveImage(req.getFile(), req.getId_alcolico());
-		String imageUrl = uploadService.buildUrl(fileName);
-		Optional.ofNullable(imageUrl).ifPresent(immagineAlcolico::setUrl);
+		Optional.ofNullable(fileName).ifPresent(immagineAlcolico::setUrl); 
 		immagineAlcolicoRepository.save(immagineAlcolico);
 	}
 	

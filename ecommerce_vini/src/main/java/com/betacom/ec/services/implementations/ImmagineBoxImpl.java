@@ -38,8 +38,8 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 		String fileName = uploadService.saveImage(file, id_box);
         
         String imageUrl = uploadService.buildUrl(fileName);
-		immB.setBox(box);
-		immB.setUrl(imageUrl);
+		immB.setBox(box); 
+		immB.setUrl(fileName);
 		
 		box.getListImmagine().add(immB);
 		boxR.save(box);
@@ -54,8 +54,7 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 		ImmagineBox immB = immBR.findById(req.getId()).orElseThrow(() -> new EcommerceVinoException("imm_box.notFnd"));
 		String fileName = uploadService.saveImage(req.getFile(), req.getId_box());
         
-        String imageUrl = uploadService.buildUrl(fileName);
-		Optional.ofNullable(imageUrl).ifPresent(immB::setUrl);
+		Optional.ofNullable(fileName).ifPresent(immB::setUrl); 
 
 		Box box = boxR.findById(req.getId_box()).orElseThrow(() -> new EcommerceVinoException("box.notFnd"));
 		Optional.ofNullable(box).ifPresent(immB::setBox);
