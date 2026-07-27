@@ -24,7 +24,7 @@ public class StatusImpl implements IStatusService{
 	
 	public void create(StatusReq req) throws Exception{
 		Status s = new Status();
-		s.setId(req.getId());
+		// s.setId(req.getId());
 		s.setDescrizione(req.getDescrizione());
 		s.setNome(req.getNome());
 		

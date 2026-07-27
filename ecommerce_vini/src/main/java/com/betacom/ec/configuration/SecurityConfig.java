@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,23 +27,24 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 	
-    @Bean
+	@Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationConverter jwtAuthenticationConverter) throws Exception {
         http
+            .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable()) // si deve disabilitare se si usa jwt
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
             .authorizeHttpRequests(auth -> auth
-//            	    .requestMatchers("/rest/api/auth/**").permitAll()
-            	    .requestMatchers("/rest/**").permitAll()
-            	    .requestMatchers(
-            	        "/swagger-ui/**",
-            	        "/swagger-ui.html",
-            	        "/v3/api-docs/**",
-            	        "/v3/api-docs.yaml"
-            	    ).permitAll()
-            	    .anyRequest().authenticated())
-            .oauth2ResourceServer( //bisogna caricare anche qui la logica di jwt
-            		oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)));
+//                    .requestMatchers("/rest/api/auth/").permitAll()
+                    .requestMatchers("/rest/").permitAll()
+                    .requestMatchers(
+                        "/swagger-ui/",
+                        "/swagger-ui.html",
+                        "/v3/api-docs/",
+                        "/v3/api-docs.yaml"
+                    ).permitAll()
+                    .anyRequest().permitAll());//.authenticated())
+//            .oauth2ResourceServer( //bisogna caricare anche qui la logica di jwt
+//                    oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)));
 
         return http.build();
     }
