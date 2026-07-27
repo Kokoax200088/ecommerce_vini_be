@@ -26,9 +26,6 @@
        drop constraint if exists fk_boxAlcolico_box;
 
     alter table if exists cantina 
-       drop constraint if exists fk_cantina_posizione;
-
-    alter table if exists cantina 
        drop constraint if exists fk_cantina_venditore;
 
     alter table if exists cantina_alcolico 
@@ -234,8 +231,6 @@
     drop table if exists ordine_box cascade;
 
     drop table if exists ordine_degustazione cascade;
-
-    drop table if exists posizione cascade;
 
     drop table if exists prenotazione_degustazione cascade;
 
