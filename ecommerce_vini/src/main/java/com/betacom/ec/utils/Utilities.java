@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Utilities {
 	private final static String PATTERN_DATE = "dd/MM/yyyy";
+	private final static String PATTERN_DATETIME = "dd/MM/yyyy HH:mm:ss";
 	
 	/*
 	 * TRANSFORM DATE TO FORMAT STRING
@@ -60,5 +61,27 @@ public class Utilities {
 	public static String buildClassName(String par) {
 		return par.substring(0, 1).toUpperCase() + par.substring(1).toLowerCase() + "Manager";
 	}
+	
+		public static LocalDateTime stringToDateTime(String myDate) {
+			return stringToDateTime(PATTERN_DATETIME, myDate);
+		}
+		
+		public static LocalDateTime stringToDateTime(String pattern, String myDate) {
+			LocalDateTime localDateTime = null;
+			
+			try {
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.ITALIAN);
+				localDateTime = LocalDateTime.parse(myDate, formatter);
+			} catch (DateTimeException e) {
+				throw new EcommerceVinoException("Formato della data e ora invalido: " + myDate + " .Formato previsto: " + pattern);
+			}
+			
+			return localDateTime; 
+		}
+		
+		public static String dateToString(LocalDateTime myDate) {
+			return dateToString(PATTERN_DATETIME, myDate);
+		}
+		
 	
 }

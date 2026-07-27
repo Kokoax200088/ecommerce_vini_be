@@ -24,7 +24,6 @@ import com.betacom.ec.controllers.AlcolicoController;
 import com.betacom.ec.controllers.BoxController;
 import com.betacom.ec.controllers.CantinaController;
 import com.betacom.ec.controllers.ColoreController;
-import com.betacom.ec.controllers.PosizioneController;
 import com.betacom.ec.controllers.RuoloController;
 import com.betacom.ec.controllers.TipologiaAlcolicoController;
 import com.betacom.ec.controllers.VenditoreController;
@@ -33,7 +32,6 @@ import com.betacom.ec.dto.input.BoxAlcolicoReq;
 import com.betacom.ec.dto.input.BoxReq;
 import com.betacom.ec.dto.input.CantinaReq;
 import com.betacom.ec.dto.input.ColoreReq;
-import com.betacom.ec.dto.input.PosizioneReq;
 import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.input.TipologiaAlcolicoReq;
 import com.betacom.ec.dto.input.VenditoreRequest;
@@ -57,7 +55,6 @@ public class BoxAlcolicoControllerTest {
     @Autowired private CantinaController cantinaC;
     @Autowired private BoxController BoxC;
     @Autowired private AlcolicoController AlcolicoC;
-    @Autowired private PosizioneController PosizioneC;
     @Autowired private TipologiaAlcolicoController tipologiaC;
     @Autowired private ColoreController coloreC;
     
@@ -85,18 +82,10 @@ public class BoxAlcolicoControllerTest {
         vReq.setDataNascita("08/08/1996");
         log.debug("Creazione venditore: {}", vReq);
         venditoreC.create(vReq);
-        
-        PosizioneReq posReq = new PosizioneReq();
-        posReq.setId(1);
-        posReq.setLatitudine(11.1111);
-        posReq.setLongitudine(22.2222);
-        posReq.setDescrizione("Torino Service");
-        log.debug("Creazione posizione: {}", posReq);
-        PosizioneC.create(posReq);
 
         CantinaReq cReq = new CantinaReq();
         cReq.setId(1);
-        cReq.setPosizioneId(posReq.getId());
+        cReq.setPosizione("indirizzo");
         cReq.setNome("Cantina Test");
         cReq.setVenditoreId(vReq.getId());
         log.debug("Creazione cantina: {}", cReq);

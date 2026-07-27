@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.betacom.ec.dto.input.ImmagineCantinaReq;
 import com.betacom.ec.dto.input.ImmagineDegustazioneReq;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ImmagineDegustazioneDTO;
@@ -47,13 +49,19 @@ public class ImmagineDegustazioneController {
 				.build());
 	}
 	
-	@PatchMapping("update")
+	@PatchMapping(value = "update", consumes = "multipart/form-data")
 	public ResponseEntity<ResponseDTO> update(
-			@RequestBody (required = true) @Validated(ValidationGroups.Update.class) ImmagineDegustazioneReq req) throws Exception {
-		idS.update(req);
-			return ResponseEntity.ok(ResponseDTO.builder()
-					.msg("updated...")
-					.build());
+	        @ModelAttribute @Validated(ValidationGroups.Update.class) ImmagineDegustazioneReq req) throws Exception {
+	    
+	    if (req.getFile() == null || req.getFile().getContentType() == null || !req.getFile().getContentType().startsWith("image/")) {
+	        throw new EcommerceVinoException("upload_invalid");
+	    }
+	    
+	    idS.update(req);
+	    
+	    return ResponseEntity.ok(ResponseDTO.builder()
+	            .msg("updated...")
+	            .build());
 	}
 	
 	@DeleteMapping("delete/{id}")

@@ -2,9 +2,9 @@ package com.betacom.ec.immaginebox;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,43 +12,40 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.ec.controllers.BoxController;
 import com.betacom.ec.controllers.CantinaController;
-import com.betacom.ec.controllers.PosizioneController;
 import com.betacom.ec.controllers.RuoloController;
 import com.betacom.ec.controllers.VenditoreController;
 import com.betacom.ec.dto.input.BoxReq;
 import com.betacom.ec.dto.input.CantinaReq;
-import com.betacom.ec.dto.input.ImmagineBoxReq;
-import com.betacom.ec.dto.input.PosizioneReq;
 import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.input.VenditoreRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class ImmagineBoxControllerTest {
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired private MockMvc mockMvc;
     
     @Autowired private RuoloController ruoloC;
     @Autowired private VenditoreController venditoreC;
-    @Autowired private PosizioneController posizioneC;
     @Autowired private CantinaController cantinaC;
     @Autowired private BoxController boxC;
 
     @BeforeEach
     public void setupDatabase() throws Exception {
-        log.debug("Setup DB isolato per ImmagineBox (Controller)");
+        log.debug("{} - Setup DB inizio per ImmagineBoxControllerTest", this.getClass().getName());
         
         RuoloRequest rSeller = new RuoloRequest();
         rSeller.setId(1);
@@ -69,18 +66,11 @@ public class ImmagineBoxControllerTest {
         vendReq.setDataNascita("08/08/1996");
         venditoreC.create(vendReq);
 
-        PosizioneReq posReq = new PosizioneReq();
-        posReq.setId(1);
-        posReq.setLatitudine(11.11);
-        posReq.setLongitudine(22.22);
-        posReq.setDescrizione("Posizione Base Controller");
-        posizioneC.create(posReq);
-
         CantinaReq cantinaReq = new CantinaReq();
         cantinaReq.setId(1);
         cantinaReq.setNome("Cantina Base Controller");
         cantinaReq.setVenditoreId(vendReq.getId());
-        cantinaReq.setPosizioneId(posReq.getId());
+        cantinaReq.setPosizione("indirizzo cantina");
         cantinaC.create(cantinaReq);
 
         BoxReq boxReq = new BoxReq();
@@ -89,60 +79,104 @@ public class ImmagineBoxControllerTest {
         boxReq.setSconto(10.0);
         boxReq.setCantinaId(cantinaReq.getId());
         boxC.create(boxReq);
+
+        MockMultipartFile file = new MockMultipartFile(
+                "file", 
+                "test-base-box.jpg", 
+                MediaType.IMAGE_JPEG_VALUE, 
+                "dummy box image".getBytes()
+        );
+
+        mockMvc.perform(multipart("/rest/api/immagine-box/create")
+                .file(file)
+                .param("id_box", "1"))
+                .andDo(log());
+
+        log.debug("Setup DB completo per ImmagineBoxControllerTest");
     }
 
     @Test
     public void createImmagineBox() throws Exception {
         log.debug("Test: createImmagineBox (Controller)");
         
-        ImmagineBoxReq req = new ImmagineBoxReq();
-        req.setId(1);
-        req.setId_box(1);
+        MockMultipartFile file = new MockMultipartFile(
+                "file", 
+                "nuova-immagine-box.png", 
+                MediaType.IMAGE_PNG_VALUE, 
+                "contenuto fittizio png".getBytes()
+        );
 
-        mockMvc.perform(post("/rest/api/immagine-box/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isOk());
+        MvcResult result = mockMvc.perform(multipart("/rest/api/immagine-box/create")
+                .file(file)
+                .param("id_box", "1"))
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 
     @Test
     public void updateImmagineBox() throws Exception {
         log.debug("Test: updateImmagineBox (Controller)");
         
-        ImmagineBoxReq req = new ImmagineBoxReq();
-        req.setId(1);
-        req.setId_box(1);
+        MockMultipartFile file = new MockMultipartFile(
+                "file", 
+                "immagine-box-aggiornata.jpg", 
+                MediaType.IMAGE_JPEG_VALUE, 
+                "contenuto aggiornato".getBytes()
+        );
 
-        mockMvc.perform(patch("/rest/api/immagine-box/update")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isOk());
+        MvcResult result = mockMvc.perform(multipart("/rest/api/immagine-box/update")
+                .file(file)
+                .param("id", "1")
+                .param("id_box", "1")
+                .with(request -> {
+                    request.setMethod("PATCH");
+                    return request;
+                }))
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 
     @Test
     public void getImmagineBoxById() throws Exception {
         log.debug("Test: getImmagineBoxById (Controller)");
         
-        mockMvc.perform(get("/rest/api/immagine-box/getById")
+        MvcResult result = mockMvc.perform(get("/rest/api/immagine-box/getById")
                 .param("id", "1"))
-                .andExpect(status().isOk());
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 
     @Test
     public void listImmagineBox() throws Exception {
         log.debug("Test: listImmagineBox (Controller)");
         
-        mockMvc.perform(get("/rest/api/immagine-box/list")
+        MvcResult result = mockMvc.perform(get("/rest/api/immagine-box/list")
                 .param("idBox", "1"))
-                .andExpect(status().isOk());
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 
     @Test
     public void deleteImmagineBox() throws Exception {
         log.debug("Test: deleteImmagineBox (Controller)");
         
-        mockMvc.perform(delete("/rest/api/immagine-box/delete")
-                .param("id", "1"))
-                .andExpect(status().isOk());
+        MvcResult result = mockMvc.perform(delete("/rest/api/immagine-box/delete/1"))
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 }

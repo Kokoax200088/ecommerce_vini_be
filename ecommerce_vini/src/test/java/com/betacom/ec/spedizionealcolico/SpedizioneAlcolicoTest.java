@@ -39,7 +39,6 @@ import com.betacom.ec.dto.input.ClienteRequest;
 import com.betacom.ec.dto.input.ColoreReq;
 import com.betacom.ec.dto.input.OrdineAlcolicoReq;
 import com.betacom.ec.dto.input.OrdineReq;
-import com.betacom.ec.dto.input.PosizioneReq;
 import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.input.SpedizioneAlcolicoReq;
 import com.betacom.ec.dto.input.StatusReq;
@@ -47,7 +46,6 @@ import com.betacom.ec.dto.input.TipologiaAlcolicoReq;
 import com.betacom.ec.dto.input.VenditoreRequest;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.dto.output.SpedizioneAlcolicoDTO;
-import com.betacom.ec.services.interfaces.IPosizioneService;
 import com.betacom.ec.utils.Utilities;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -70,8 +68,6 @@ public class SpedizioneAlcolicoTest {
 	@Autowired
 	private ClienteController clienteController;
 	
-	@Autowired
-	private IPosizioneService posS;
 	
 	@Autowired
     private MockMvc mockMvc;
@@ -175,22 +171,9 @@ public class SpedizioneAlcolicoTest {
 			throw new AssertionError("Errore: " + e.getMessage());
 		}
     }
+
     @Test
     @Order(5)
-    @WithMockUser(roles = "ADMIN")
-    public void createPosizioneTest() {
-        try {
-            PosizioneReq req = new PosizioneReq();
-            req.setLatitudine(45.5);
-            req.setLongitudine(9.5);
-            req.setDescrizione("Location Test");
-            posS.create(req);
-        } catch (Exception e) {
-            throw new AssertionError("Errore in createPosizioneTest: " + e.getMessage());
-        }
-    }
-    @Test
-    @Order(6)
     @WithMockUser(roles = "ADMIN")
     public void createCantina() throws Exception {
         log.debug("createCantina Test");
@@ -199,7 +182,7 @@ public class SpedizioneAlcolicoTest {
         req.setId(1);
         req.setNome("Villa Turistica");
         req.setVenditoreId(1);
-        req.setPosizioneId(2);
+        req.setPosizione("indirizzo");
         mockMvc.perform(post("/rest/api/cantina/create")
         		.with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -208,7 +191,7 @@ public class SpedizioneAlcolicoTest {
     }
     
     @Test
-	@Order(7)
+	@Order(6)
     @WithMockUser(roles = "ADMIN")
 	public void createStatusTest() throws Exception{
 		log.debug("createStatusTest");
@@ -220,7 +203,7 @@ public class SpedizioneAlcolicoTest {
 	}
     
     @Test
-	@Order(8)
+	@Order(7)
 	@WithMockUser(roles = "ADMIN")
 	public void createColoreTest() throws Exception {
 		log.debug("createColoreTest");
@@ -235,7 +218,7 @@ public class SpedizioneAlcolicoTest {
 	}
 	
 	@Test
-	@Order(9)
+	@Order(8)
 	@WithMockUser(roles = "ADMIN")
 	public void createTipologiaAlcolicoTest() throws Exception {
 		log.debug("createTipologiaAlcolicoTest");
@@ -250,7 +233,7 @@ public class SpedizioneAlcolicoTest {
 	}
 
 	@Test
-	@Order(10)
+	@Order(9)
 	@WithMockUser(roles = "ADMIN")
 	public void createCaratteristicaTest() throws Exception {
 		log.debug("createCaratteristicaTest");
@@ -265,7 +248,7 @@ public class SpedizioneAlcolicoTest {
 	}
 	
 	@Test
-	@Order(11)
+	@Order(10)
 	@WithMockUser(roles = "ADMIN")
 	public void createAlcolicoTest() throws Exception {
 		log.debug("createAlcolicoTest");
@@ -283,7 +266,7 @@ public class SpedizioneAlcolicoTest {
 	}
 	
 	@Test
-	@Order(12)
+	@Order(11)
 	public void createOrdineTest() throws Exception{
 		OrdineReq req = new OrdineReq();
 		req.setData_ordine(Utilities.stringToDate("19/03/2020"));
@@ -296,7 +279,7 @@ public class SpedizioneAlcolicoTest {
 	}
 	
 	@Test
-	@Order(13)
+	@Order(12)
 	@WithMockUser(roles = "ADMIN")
 	public void createOrdAlcTest() throws Exception{
 		log.debug("createOrdAlcTest");
@@ -311,7 +294,7 @@ public class SpedizioneAlcolicoTest {
 			assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
 	@Test
-	@Order(14)
+	@Order(13)
 	@WithMockUser(roles = "ADMIN")
 	public void createSpeAlcTest() throws Exception{
 		log.debug("createSpeAlcTest");
@@ -327,7 +310,7 @@ public class SpedizioneAlcolicoTest {
 	}
 	
 	@Test
-	@Order(15)
+	@Order(14)
 	@WithMockUser(roles = "ADMIN")
 	public void updateSpeAlcTest() throws Exception{
 		SpedizioneAlcolicoReq req = new SpedizioneAlcolicoReq();
@@ -338,7 +321,7 @@ public class SpedizioneAlcolicoTest {
 	}
 	
 	@Test
-	@Order(16)
+	@Order(15)
 	@WithMockUser(roles = "ADMIN")
 	public void listSpeAlcTest() throws Exception {
 		ResponseEntity<?> response = saC.list("NO",null, null,null,null,null);
@@ -350,7 +333,7 @@ public class SpedizioneAlcolicoTest {
 	}
 	
 	@Test
-	@Order (17)
+	@Order (16)
 	@WithMockUser(roles = "ADMIN")
 	public void getByIdTest() throws Exception {
 		log.debug("getByIdTest");
@@ -362,7 +345,7 @@ public class SpedizioneAlcolicoTest {
 	}
 	
 	@Test
-	@Order(18)
+	@Order(17)
 	@WithMockUser(roles = "ADMIN")
 	public void deleteSpeAlcTest() throws Exception {
 		ResponseEntity<ResponseDTO> response = saC.delete(1);

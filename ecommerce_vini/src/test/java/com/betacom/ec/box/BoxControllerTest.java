@@ -4,16 +4,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -22,18 +17,15 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.ec.controllers.CantinaController;
 import com.betacom.ec.controllers.ClienteController;
-import com.betacom.ec.controllers.PosizioneController;
 import com.betacom.ec.controllers.RuoloController;
 import com.betacom.ec.controllers.VenditoreController;
 import com.betacom.ec.dto.input.BoxReq;
 import com.betacom.ec.dto.input.CantinaReq;
 import com.betacom.ec.dto.input.ClienteRequest;
-import com.betacom.ec.dto.input.PosizioneReq;
 import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.input.VenditoreRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,8 +48,6 @@ public class BoxControllerTest {
     @Autowired private ClienteController clienteC;
     @Autowired private VenditoreController venditoreC;
     @Autowired private CantinaController cantinaC;
-    @Autowired private PosizioneController PosizioneC;
-
     
     @BeforeEach
     public void setupDatabase() throws Exception {
@@ -104,20 +94,12 @@ public class BoxControllerTest {
         vendReq.setDataNascita("08/08/1996");
         log.debug("Creazione venditore: {}", vendReq);
         venditoreC.create(vendReq);
-
-        PosizioneReq posReq = new PosizioneReq();
-        posReq.setId(1);
-        posReq.setLatitudine(11.1111);
-        posReq.setLongitudine(22.2222);
-        posReq.setDescrizione("Torino Service");
-        log.debug("Creazione posizione: {}", posReq);
-        PosizioneC.create(posReq);
         
         CantinaReq cantinaReq = new CantinaReq();
         cantinaReq.setId(1);
         cantinaReq.setNome("Cantina di Prova Service");
         cantinaReq.setVenditoreId(vendReq.getId());
-        cantinaReq.setPosizioneId(posReq.getId());
+        cantinaReq.setPosizione("posizione");
         log.debug("Creazione cantina: {}", cantinaReq);
         cantinaC.create(cantinaReq);
         

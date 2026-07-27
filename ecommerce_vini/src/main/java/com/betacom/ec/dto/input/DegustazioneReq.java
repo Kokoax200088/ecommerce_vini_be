@@ -30,10 +30,10 @@ public class DegustazioneReq {
 	private Double prezzo;
 	
 	@NotNull(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class}, message="degustazione_data_inizio_missing")
-	private LocalDateTime dataInizio;
+	private String dataInizio;
 	
 	@NotNull(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class}, message="degustazione_data_fine_missing")
-	private LocalDateTime dataFine;
+	private String dataFine;
 	
 	@NotNull(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class}, message="degustazione_id_cantina_missing")
 	private Integer cantinaId;

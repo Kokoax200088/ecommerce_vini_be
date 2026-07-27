@@ -19,7 +19,6 @@ import com.betacom.ec.dto.input.BoxReq;
 import com.betacom.ec.dto.input.CantinaReq;
 import com.betacom.ec.dto.input.OrdineBoxRequest;
 import com.betacom.ec.dto.input.OrdineReq;
-import com.betacom.ec.dto.input.PosizioneReq;
 import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.input.StatusReq;
 import com.betacom.ec.dto.input.UtenteRequest;
@@ -27,7 +26,6 @@ import com.betacom.ec.dto.input.VenditoreRequest;
 import com.betacom.ec.dto.output.BoxDTO;
 import com.betacom.ec.dto.output.CantinaDTO;
 import com.betacom.ec.dto.output.OrdineDTO;
-import com.betacom.ec.dto.output.PosizioneDTO;
 import com.betacom.ec.dto.output.RuoloDTO;
 import com.betacom.ec.dto.output.StatusDTO;
 import com.betacom.ec.dto.output.VenditoreDTO;
@@ -35,7 +33,6 @@ import com.betacom.ec.models.Utente;
 import com.betacom.ec.services.interfaces.IBoxService;
 import com.betacom.ec.services.interfaces.ICantinaService;
 import com.betacom.ec.services.interfaces.IOrdineService;
-import com.betacom.ec.services.interfaces.IPosizioneService;
 import com.betacom.ec.services.interfaces.IRuoloService;
 import com.betacom.ec.services.interfaces.IStatusService;
 import com.betacom.ec.services.interfaces.IUtenteService;
@@ -61,10 +58,7 @@ public class OrdineBoxTest {
 
 	@Autowired
 	private IVenditoreService venditoreS;
-
-	@Autowired
-	private IPosizioneService posizioneS;
-
+	
 	@Autowired
 	private ICantinaService cantinaS;
 
@@ -108,17 +102,11 @@ public class OrdineBoxTest {
 		venditoreS.create(venditore);
 		Integer venditoreId = venditoreS.list().stream().mapToInt(VenditoreDTO::getId).max().getAsInt();
 
-		PosizioneReq posizione = new PosizioneReq();
-		posizione.setLatitudine(11.11);
-		posizione.setLongitudine(22.22);
-		posizione.setDescrizione("Posizione Test");
-		posizioneS.create(posizione);
-		Integer posizioneId = posizioneS.listBySearchString(null).stream().mapToInt(PosizioneDTO::getId).max().getAsInt();
 
 		CantinaReq cantina = new CantinaReq();
 		cantina.setNome("Cantina Test");
 		cantina.setVenditoreId(venditoreId);
-		cantina.setPosizioneId(posizioneId);
+		cantina.setPosizione("indirizzo");
 		cantinaS.create(cantina);
 		cantinaId = cantinaS.listBySearchString(null, null).stream().mapToInt(CantinaDTO::getId).max().getAsInt();
 

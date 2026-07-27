@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,13 +48,19 @@ public class ImmagineBoxController {
 				.build());
 	}
 	
-	@PatchMapping("update")
+	@PatchMapping(value = "update", consumes = "multipart/form-data")
 	public ResponseEntity<ResponseDTO> update(
-			@RequestBody (required = true) @Validated(ValidationGroups.Update.class) ImmagineBoxReq req) throws Exception {
-		immS.update(req);
-			return ResponseEntity.ok(ResponseDTO.builder()
-					.msg("updated...")
-					.build());
+	        @ModelAttribute @Validated(ValidationGroups.Update.class) ImmagineBoxReq req) throws Exception {
+	    
+	    if (req.getFile() == null || req.getFile().getContentType() == null || !req.getFile().getContentType().startsWith("image/")) {
+	        throw new EcommerceVinoException("upload_invalid");
+	    }
+	    
+	    immS.update(req);
+	    
+	    return ResponseEntity.ok(ResponseDTO.builder()
+	            .msg("updated...")
+	            .build());
 	}
 	
 	@DeleteMapping("delete/{id}")

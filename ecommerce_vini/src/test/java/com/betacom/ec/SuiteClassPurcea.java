@@ -12,13 +12,11 @@ import com.betacom.ec.immaginealcolico.ImmagineAlcolicoControllerTest;
 import com.betacom.ec.immaginebox.ImmagineBoxControllerTest;
 import com.betacom.ec.immaginecantina.ImmagineCantinaControllerTest;
 import com.betacom.ec.immaginedegustazione.ImmagineDegustazioneControllerTest;
-import com.betacom.ec.posizione.PosizioneControllerTest;
 import com.betacom.ec.prenotazionedegustazione.PrenotazioneDegustazioneControllerTest;
 
 @Suite
 @SelectClasses({
 	BoxControllerTest.class,
-	PosizioneControllerTest.class,
 	BoxAlcolicoControllerTest.class,
 	CantinaControllerTest.class,
 	CantinaAlcolicoControllerTest.class,

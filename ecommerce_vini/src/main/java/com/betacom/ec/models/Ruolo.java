@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.ToString.Exclude;
 
 @Setter
 @Getter
@@ -52,5 +53,6 @@ public class Ruolo {
 	private Boolean canBuy;
 	
 	@OneToMany(mappedBy = "ruolo", fetch = FetchType.LAZY)
+	@Exclude
 	private List<Utente> listUtente = new ArrayList <Utente> ();
 }

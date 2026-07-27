@@ -16,6 +16,7 @@ import com.betacom.ec.repository.IAlcolicoRepository;
 import com.betacom.ec.repository.ICantinaRepository;
 import com.betacom.ec.repository.IDegustazioneRepository;
 import com.betacom.ec.services.interfaces.IDegustazioneService;
+import com.betacom.ec.utils.Utilities;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -37,22 +38,27 @@ public class DegustazioneImpl implements IDegustazioneService{
 		Degustazione d = new Degustazione();
 		Optional.ofNullable(req.getId()).ifPresent(d::setId);
 		d.setCantina(cR.findById(req.getCantinaId()).orElseThrow(()-> new EcommerceVinoException("cantina.ntfnd")));
-		d.setDataFine(req.getDataFine());
-		d.setDataInizio(req.getDataInizio());
+		d.setDataFine(Utilities.stringToDateTime(req.getDataFine()));
+		d.setDataInizio(Utilities.stringToDateTime(req.getDataInizio()));
 		d.setDescrizione(req.getDescrizione());
 		d.setNome(req.getNome());
 		d.setPrezzo(req.getPrezzo());
+		
+		dR.save(d);
 	}
 	
 	@Transactional
 	public void update(DegustazioneReq req) throws Exception{
 		Degustazione d = dR.findById(req.getId()).orElseThrow( () -> new EcommerceVinoException("degustazione.ntfnd"));
-		Optional.ofNullable(req.getDataInizio()).ifPresent(d::setDataInizio);
-		Optional.ofNullable(req.getDataFine()).ifPresent(d::setDataFine);
+		Optional.ofNullable(req.getDataInizio()).ifPresent(data -> d.setDataInizio(Utilities.stringToDateTime(data)));
+		Optional.ofNullable(req.getDataFine()).ifPresent(data -> d.setDataFine(Utilities.stringToDateTime(data)));
 		Optional.ofNullable(req.getDescrizione()).ifPresent(d::setDescrizione);
 		Optional.ofNullable(req.getNome()).ifPresent(d::setNome);
 		Optional.ofNullable(req.getPrezzo()).ifPresent(d::setPrezzo);
+		
+		dR.save(d);
 	}
+	
 	@Transactional
 	public void delete(Integer id_degustazione) throws Exception{
 		Degustazione d= dR.findById(id_degustazione)

@@ -35,14 +35,12 @@ import com.betacom.ec.dto.input.CantinaReq;
 import com.betacom.ec.dto.input.ClienteRequest;
 import com.betacom.ec.dto.input.OrdineBoxRequest;
 import com.betacom.ec.dto.input.OrdineReq;
-import com.betacom.ec.dto.input.PosizioneReq;
 import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.input.SpedizioneBoxReq;
 import com.betacom.ec.dto.input.StatusReq;
 import com.betacom.ec.dto.input.VenditoreRequest;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.dto.output.SpedizioneBoxDTO;
-import com.betacom.ec.services.interfaces.IPosizioneService;
 import com.betacom.ec.utils.Utilities;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -67,9 +65,6 @@ public class SpedizioneBoxTest {
 	
 	@Autowired
 	private ClienteController clienteController;
-	
-	@Autowired
-	private IPosizioneService posS;
 	
 	@Autowired
     private MockMvc mockMvc;
@@ -171,22 +166,9 @@ public class SpedizioneBoxTest {
 			throw new AssertionError("Errore: " + e.getMessage());
 		}
     }
+    
     @Test
     @Order(5)
-    @WithMockUser(roles = "ADMIN")
-    public void createPosizioneTest() {
-        try {
-            PosizioneReq req = new PosizioneReq();
-            req.setLatitudine(45.5);
-            req.setLongitudine(9.5);
-            req.setDescrizione("Location Test");
-            posS.create(req);
-        } catch (Exception e) {
-            throw new AssertionError("Errore in createPosizioneTest: " + e.getMessage());
-        }
-    }
-    @Test
-    @Order(6)
     @WithMockUser(roles = "ADMIN")
     public void createCantina() throws Exception {
         log.debug("createCantina Test");
@@ -195,7 +177,7 @@ public class SpedizioneBoxTest {
         req.setId(1);
         req.setNome("Villa Turistica");
         req.setVenditoreId(1);
-        req.setPosizioneId(3);
+        req.setPosizione("indirizzo");
         mockMvc.perform(post("/rest/api/cantina/create")
         		.with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -204,7 +186,7 @@ public class SpedizioneBoxTest {
     }
     
     @Test
-	@Order(7)
+	@Order(6)
     @WithMockUser(roles = "ADMIN")
 	public void createStatusTest() throws Exception{
 		log.debug("createStatusTest");
@@ -216,7 +198,7 @@ public class SpedizioneBoxTest {
 	}
 	
 	@Test
-    @Order(8)
+    @Order(7)
     public void createBox() throws Exception {
         log.debug("createBox Test");
         
@@ -230,7 +212,7 @@ public class SpedizioneBoxTest {
     }
 	
 	@Test
-	@Order(9)
+	@Order(8)
 	public void createOrdineTest() throws Exception{
 		OrdineReq req = new OrdineReq();
 		req.setData_ordine(Utilities.stringToDate("19/03/2020"));
@@ -243,7 +225,7 @@ public class SpedizioneBoxTest {
 	}
 	
 	@Test
-	@Order(10)
+	@Order(9)
 	public void createOrdineBoxTest() throws Exception {
 		log.debug("createOrdineBoxTest");
 		OrdineBoxRequest req = new OrdineBoxRequest();
@@ -258,7 +240,7 @@ public class SpedizioneBoxTest {
 				).andExpect(status().isCreated());
 	}
 	@Test
-	@Order(11)
+	@Order(10)
 	public void createSpedizioneBoxTest() throws Exception{
 		log.debug("createSpeBoxTest");
 		SpedizioneBoxReq req = new SpedizioneBoxReq();
@@ -273,7 +255,7 @@ public class SpedizioneBoxTest {
 	}
 	
 	@Test
-	@Order(12)
+	@Order(11)
 	public void updateSpedizioneBoxTest() throws Exception{
 		SpedizioneBoxReq req = new SpedizioneBoxReq();
 		req.setId(1);
@@ -283,7 +265,7 @@ public class SpedizioneBoxTest {
 	}
 	
 	@Test
-	@Order(13)
+	@Order(12)
 	public void listSpedizioneBoxTest() throws Exception {
 		ResponseEntity<?> response = sbC.list(null,"UPDATE",null,null,null,null);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -294,7 +276,7 @@ public class SpedizioneBoxTest {
 	}
 	
 	@Test
-	@Order (14)
+	@Order (13)
 	public void getByIdSpedizioneBoxTest() throws Exception {
 		log.debug("getByIdTest");
 		
@@ -305,7 +287,7 @@ public class SpedizioneBoxTest {
 	}
 	
 	@Test
-	@Order(15)
+	@Order(14)
 	public void deleteSpedizioneBoxTest() throws Exception {
 		ResponseEntity<ResponseDTO> response = sbC.delete(1);
 		assertEquals(HttpStatus.OK, response.getStatusCode());

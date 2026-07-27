@@ -1,7 +1,6 @@
 package com.betacom.ec.ordinealcolico;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -20,7 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.stereotype.Service;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.betacom.ec.controllers.OrdineAlcolicoController;
@@ -30,16 +28,12 @@ import com.betacom.ec.dto.input.CantinaReq;
 import com.betacom.ec.dto.input.CaratteristicaReq;
 import com.betacom.ec.dto.input.ColoreReq;
 import com.betacom.ec.dto.input.OrdineAlcolicoReq;
-import com.betacom.ec.dto.input.PosizioneReq;
 import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.input.StatusReq;
 import com.betacom.ec.dto.input.TipologiaAlcolicoReq;
 import com.betacom.ec.dto.input.VenditoreRequest;
 import com.betacom.ec.dto.output.OrdineAlcolicoDTO;
-import com.betacom.ec.dto.output.PosizioneDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
-import com.betacom.ec.dto.output.StatusDTO;
-import com.betacom.ec.services.interfaces.IPosizioneService;
 import com.betacom.ec.utils.Utilities;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -57,8 +51,6 @@ public class OrdineAlcolicoTest {
 	@Autowired
 	private StatusController sC;
 	
-	@Autowired
-	private IPosizioneService posS;
 	@Autowired
 	private MockMvc mockMvc;
 
@@ -150,28 +142,9 @@ public class OrdineAlcolicoTest {
                 .content(objectMapper.writeValueAsString(req))
                 ).andExpect(status().isOk());
     }
+    
     @Test
     @Order(6)
-    @WithMockUser(roles = "ADMIN")
-    public void createPosizioneTest() {
-        try {
-            PosizioneReq req = new PosizioneReq();
-            req.setId(1);
-            req.setLatitudine(45.5);
-            req.setLongitudine(9.5);
-            req.setDescrizione("Location Test");
-            posS.create(req);
-            
-            List<PosizioneDTO> list = posS.listBySearchString("Location");
-            assertNotNull(list);
-            assertEquals(1, list.size());
-            assertEquals("Location Test", list.get(0).getDescrizione());
-        } catch (Exception e) {
-            throw new AssertionError("Errore in createPosizioneTest: " + e.getMessage());
-        }
-    }
-    @Test
-    @Order(7)
     @WithMockUser(roles = "ADMIN")
     public void createCantina() throws Exception {
         log.debug("createCantina Test");
@@ -180,7 +153,7 @@ public class OrdineAlcolicoTest {
         req.setId(1);
         req.setNome("Villa Turistica");
         req.setVenditoreId(1);
-        req.setPosizioneId(1);
+        req.setPosizione("indirizzo");
         mockMvc.perform(post("/rest/api/cantina/create")
         		.with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -189,7 +162,7 @@ public class OrdineAlcolicoTest {
     }
 	
     @Test
-	@Order(8)
+	@Order(7)
     @WithMockUser(roles = "ADMIN")
 	public void createStatusTest() throws Exception{
 		log.debug("createStatusTest");
@@ -200,7 +173,7 @@ public class OrdineAlcolicoTest {
 			assertEquals(HttpStatus.OK, response.getStatusCode());
 	}
     @Test
-	@Order(9)
+	@Order(8)
 	@WithMockUser(roles = "ADMIN")
 	public void createAlcolicoTest() throws Exception {
 		log.debug("createAlcolicoTest");
@@ -218,7 +191,7 @@ public class OrdineAlcolicoTest {
 	}
     //TODO CAMBIARE I NUMERI 
 	@Test
-	@Order(10)
+	@Order(9)
 	@WithMockUser(roles = "ADMIN")
 	public void createOrdAlcTest() throws Exception{
 		log.debug("createOrdAlcTest");
@@ -234,7 +207,7 @@ public class OrdineAlcolicoTest {
 	}
 	
 	@Test
-	@Order(11)
+	@Order(10)
 	public void updateOrdAlcTest() throws Exception{
 		OrdineAlcolicoReq req = new OrdineAlcolicoReq();
 		req.setId(1);
@@ -244,7 +217,7 @@ public class OrdineAlcolicoTest {
 	}
 	
 	@Test
-	@Order(12)
+	@Order(11)
 	public void listOrdAlcTest() throws Exception {
 		ResponseEntity<?> response = oaC.list(4, null,null,null,null);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -255,7 +228,7 @@ public class OrdineAlcolicoTest {
 	}
 	
 	@Test
-	@Order (13)
+	@Order (12)
 	public void getByIdTest() throws Exception {
 		log.debug("getByIdTest");
 		
@@ -266,7 +239,7 @@ public class OrdineAlcolicoTest {
 	}
 	
 	@Test
-	@Order(14)
+	@Order(13)
 	public void deleteOrdAlcTest() throws Exception {
 		ResponseEntity<ResponseDTO> response = oaC.delete(1);
 		assertEquals(HttpStatus.OK, response.getStatusCode());

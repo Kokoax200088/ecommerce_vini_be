@@ -2,9 +2,9 @@ package com.betacom.ec.immaginealcolico;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.betacom.ec.controllers.AlcolicoController;
@@ -22,33 +26,28 @@ import com.betacom.ec.controllers.TipologiaAlcolicoController;
 import com.betacom.ec.controllers.VenditoreController;
 import com.betacom.ec.dto.input.AlcolicoReq;
 import com.betacom.ec.dto.input.ColoreReq;
-import com.betacom.ec.dto.input.ImmagineAlcolicoReq;
 import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.input.TipologiaAlcolicoReq;
 import com.betacom.ec.dto.input.VenditoreRequest;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class ImmagineAlcolicoControllerTest {
-
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired private MockMvc mockMvc;
     
     @Autowired private RuoloController ruoloC;
     @Autowired private VenditoreController venditoreC;
-    @Autowired private AlcolicoController alcolicoC;
     @Autowired private TipologiaAlcolicoController tipologiaC;
     @Autowired private ColoreController coloreC;
-
+    @Autowired private AlcolicoController alcolicoC;
     @BeforeEach
     public void setupDatabase() throws Exception {
-        log.debug("Setup DB isolato per ImmagineAlcolico (Controller)");
+        log.debug("{} - Setup DB inizio per ImmagineAlcolicoControllerTest", this.getClass().getName());
         
         RuoloRequest rSeller = new RuoloRequest();
         rSeller.setId(1);
@@ -58,17 +57,17 @@ public class ImmagineAlcolicoControllerTest {
         rSeller.setCanSell(true);
         ruoloC.create(rSeller);
 
-        VenditoreRequest vReq = new VenditoreRequest();
-        vReq.setId(1);
-        vReq.setNome("Caio");
-        vReq.setCognome("Ilario");
-        vReq.setEmail("venditore.immagine@controller.com");
-        vReq.setIdRuolo(rSeller.getId());
-        vReq.setPartitaIva("A99");
-        vReq.setPassword("password123");
-        vReq.setDataNascita("08/08/1996");
-        venditoreC.create(vReq);
-        
+        VenditoreRequest vendReq = new VenditoreRequest();
+        vendReq.setId(1);
+        vendReq.setNome("Caio");
+        vendReq.setCognome("Ilario");
+        vendReq.setEmail("venditore.imgalcolico@controller.com");
+        vendReq.setIdRuolo(rSeller.getId());
+        vendReq.setPartitaIva("A99");
+        vendReq.setPassword("password123");
+        vendReq.setDataNascita("08/08/1996");
+        venditoreC.create(vendReq);
+
         TipologiaAlcolicoReq tReq = new TipologiaAlcolicoReq();
         tReq.setId(1);
         tReq.setNome("Vino");
@@ -80,75 +79,116 @@ public class ImmagineAlcolicoControllerTest {
         coReq.setNome("Rosso");
         coReq.setDescrizione("Vino Rosso");
         coloreC.create(coReq);
-
+        
         AlcolicoReq aReq = new AlcolicoReq();
         aReq.setId_alcolico(1);
-        aReq.setImmagine("immagine_vino_controller.jpg");
-        aReq.setId_caratteristiche(null);
-        aReq.setProvenienza("Italia");
-        aReq.setAnnata(2023);
-        aReq.setDescrizione("Vino Test Immagine Controller");
-        aReq.setId_venditore(vReq.getId());
-        aReq.setGradazione(13);
-        aReq.setNome("Vino Controller");
+        aReq.setAnnata(2022);
+        aReq.setDescrizione("Vino per Immagine Test");
+        aReq.setId_venditore(vendReq.getId());
+        aReq.setGradazione(12);
+        aReq.setNome("Vino Controller Immagine");
         aReq.setPrezzo(20.0);
         aReq.setId_tipologia_alcolico(1);
         aReq.setId_colore(1);
         alcolicoC.create(aReq);
+        
+        MockMultipartFile file = new MockMultipartFile(
+                "file", 
+                "test-base.jpg", 
+                MediaType.IMAGE_JPEG_VALUE, 
+                "dummy image content".getBytes()
+        );
+
+        mockMvc.perform(multipart("/rest/api/immagine-alcolico/create")
+                .file(file)
+                .param("id_alcolico", "1"))
+                .andDo(log());
+
+        log.debug("Setup DB completo per ImmagineAlcolicoControllerTest");
     }
 
     @Test
     public void createImmagineAlcolico() throws Exception {
         log.debug("Test: createImmagineAlcolico (Controller)");
         
-        ImmagineAlcolicoReq req = new ImmagineAlcolicoReq();
-        req.setId_alcolico(1);
-        // NOTA: 'file' viene lasciato nullo intenzionalmente per evitare il crash di serializzazione JSON con Jackson
+        MockMultipartFile file = new MockMultipartFile(
+                "file", 
+                "nuova-immagine.png", 
+                MediaType.IMAGE_PNG_VALUE, 
+                "contenuto fittizio png".getBytes()
+        );
 
-        mockMvc.perform(post("/rest/api/immagine-alcolico/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isOk());
+        MvcResult result = mockMvc.perform(multipart("/rest/api/immagine-alcolico/create")
+                .file(file)
+                .param("id_alcolico", "1"))
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 
     @Test
     public void updateImmagineAlcolico() throws Exception {
         log.debug("Test: updateImmagineAlcolico (Controller)");
         
-        ImmagineAlcolicoReq req = new ImmagineAlcolicoReq();
-        req.setId(1);
-        req.setId_alcolico(1);
+        MockMultipartFile file = new MockMultipartFile(
+                "file", 
+                "immagine-aggiornata.jpg", 
+                MediaType.IMAGE_JPEG_VALUE, 
+                "contenuto aggiornato".getBytes()
+        );
 
-        mockMvc.perform(patch("/rest/api/immagine-alcolico/update")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(req)))
-                .andExpect(status().isOk());
+        MvcResult result = mockMvc.perform(multipart("/rest/api/immagine-alcolico/update")
+                .file(file)
+                .param("id", "1")
+                .param("id_alcolico", "1")
+                .with(request -> {
+                    request.setMethod("PATCH"); 
+                    return request;
+                }))
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 
     @Test
     public void getImmagineAlcolicoById() throws Exception {
         log.debug("Test: getImmagineAlcolicoById (Controller)");
         
-        mockMvc.perform(get("/rest/api/immagine-alcolico/getById")
+        MvcResult result = mockMvc.perform(get("/rest/api/immagine-alcolico/getById")
                 .param("id", "1"))
-                .andExpect(status().isOk());
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 
     @Test
     public void listImmagineAlcolico() throws Exception {
         log.debug("Test: listImmagineAlcolico (Controller)");
         
-         mockMvc.perform(get("/rest/api/immagine-alcolico/list")
+        MvcResult result = mockMvc.perform(get("/rest/api/immagine-alcolico/list")
                 .param("idAlcolico", "1"))
-                .andExpect(status().isOk());
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 
     @Test
     public void deleteImmagineAlcolico() throws Exception {
         log.debug("Test: deleteImmagineAlcolico (Controller)");
         
-        mockMvc.perform(delete("/rest/api/immagine-alcolico/delete")
-                .param("id", "1"))
-                .andExpect(status().isOk());
+        MvcResult result = mockMvc.perform(delete("/rest/api/immagine-alcolico/delete/1"))
+                .andDo(log())
+                .andReturn();
+                
+        int statusCode = result.getResponse().getStatus();
+        assertEquals(200, statusCode, "Codice HTTP " + statusCode);
     }
 }

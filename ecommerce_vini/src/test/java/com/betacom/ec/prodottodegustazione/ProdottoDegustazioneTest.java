@@ -23,6 +23,7 @@ import com.betacom.ec.dto.input.DegustazioneReq;
 import com.betacom.ec.dto.input.ProdottoDegustazioneReq;
 import com.betacom.ec.dto.input.RuoloRequest;
 import com.betacom.ec.dto.input.VenditoreRequest;
+import com.betacom.ec.utils.Utilities;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.slf4j.Slf4j;
@@ -138,6 +139,7 @@ public class ProdottoDegustazioneTest {
         
         CantinaReq req = new CantinaReq();
         req.setId(1);
+        req.setPosizione("indirizzo");
         req.setNome("Villa Turistica");
         req.setVenditoreId(1);
         
@@ -159,8 +161,8 @@ public class ProdottoDegustazioneTest {
         java.time.LocalDateTime inizio = java.time.LocalDateTime.of(2026, 7, 17, 18, 0, 0);
         java.time.LocalDateTime fine = java.time.LocalDateTime.of(2026, 7, 17, 20, 0, 0);
         
-        req.setDataInizio(inizio);
-        req.setDataFine(fine);
+        req.setDataInizio(Utilities.dateToString(inizio));
+        req.setDataFine(Utilities.dateToString(fine));
         req.setPrezzo(45.0);
         
         mockMvc.perform(post("/rest/api/degustazione/create")

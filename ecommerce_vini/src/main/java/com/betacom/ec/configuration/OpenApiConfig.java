@@ -10,7 +10,7 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 
 @Configuration
-public class OpenApiConfig {
+public class OpenApiConfig { //questo è un altro modo di gestire JWT su swagger, simulandolo
 	@Bean
 	OpenAPI openAPI() {
 		String securitySchemeName = "bearerAuth";
