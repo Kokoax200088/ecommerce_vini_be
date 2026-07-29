@@ -28,21 +28,21 @@ public class SecurityConfig {
 	}
 	
 	@Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationConverter jwtAuthenticationConverter) throws Exception {
+	SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationConverter jwtAuthenticationConverter) throws Exception {
         http
             .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable()) // si deve disabilitare se si usa jwt
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
             .authorizeHttpRequests(auth -> auth
-            	    //.requestMatchers("/rest/api/auth/**").permitAll()
-            	    .requestMatchers("/rest/api/**").permitAll()
+            	    .requestMatchers("/rest/api/auth/**").permitAll()
+            	    //.requestMatchers("/rest/api/**").permitAll()
             	    .requestMatchers(
-            	        "/swagger-ui/**",
+             	        "/swagger-ui/**",
             	        "/swagger-ui.html",
             	        "/v3/api-docs/**",
             	        "/v3/api-docs.yaml"
             	    ).permitAll()
-            	    .anyRequest().authenticated())//.authenticated())
+            	    .anyRequest().authenticated())
             .oauth2ResourceServer( //bisogna caricare anche qui la logica di jwt
             		oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)));
 
