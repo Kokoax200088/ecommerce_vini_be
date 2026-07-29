@@ -27,6 +27,7 @@ public class CantinaMap {
 		return CantinaDTO.builder()
 				.id(cantina.getId())
 				.nome(cantina.getNome())
+				.descrizione(cantina.getDescrizione())
 				.idVenditore(cantina.getVenditore().getId()) //CHECK meglio con il getIdUtente?
 				.posizione(cantina.getPosizione())
 				.listCantinaAlcolico(CantinaAlcolicoMap.buildCantinaAlcolicoDTOList(cantina.getListCantinaAlcolico()))

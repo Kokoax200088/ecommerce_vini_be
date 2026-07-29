@@ -6,6 +6,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileSystemUtils;
 
 import com.betacom.ec.controllers.CantinaController;
 import com.betacom.ec.controllers.RuoloController;
@@ -28,7 +33,7 @@ import com.betacom.ec.dto.input.VenditoreRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SpringBootTest
+@SpringBootTest (properties = {"app.upload.dir=${java.io.tmpdir}/ecommerce-test-uploads"})
 @AutoConfigureMockMvc
 @Transactional
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -84,6 +89,13 @@ public class ImmagineCantinaControllerTest {
                 .andExpect(status().isOk());
 
         log.debug("Setup DB completo per ImmagineCantinaControllerTest");
+    }
+    
+    @AfterEach
+    public void pulisciDisco() throws IOException {
+            String tempDir = System.getProperty("java.io.tmpdir") + "/ecommerce-test-uploads";
+            FileSystemUtils.deleteRecursively(Paths.get(tempDir));
+            log.debug("Cartella temporanea eliminata.");
     }
 
     @Test

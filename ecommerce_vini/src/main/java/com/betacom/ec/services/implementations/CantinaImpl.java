@@ -43,6 +43,8 @@ public class CantinaImpl implements ICantinaService {
 		
 		cantina.setNome(req.getNome());
 		
+		cantina.setDescrizione(req.getDescrizione());
+		
 		cantina.setPosizione(req.getPosizione());
 	
 		Cantina savedCantina = cantinaRepository.save(cantina);
@@ -58,6 +60,7 @@ public class CantinaImpl implements ICantinaService {
 		log.debug("Update Cantina {}", req);
 		
 		Cantina cantina = cantinaRepository.findById(req.getId()).orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"));
+		Optional.ofNullable(req.getDescrizione()).ifPresent(cantina::setNome);
 		Optional.ofNullable(req.getNome()).ifPresent(cantina::setNome);
 		Optional.ofNullable(req.getPosizione()).ifPresent(cantina::setPosizione);
 		Optional.ofNullable(req.getVenditoreId()).ifPresent(data -> cantina.setVenditore(venditoreRepository.findById(data)

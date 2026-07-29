@@ -36,12 +36,19 @@ public class Cantina {
 	@Column(name = "nome", nullable = false)
 	private String nome;
 	
-	//descrizione posizione tipo stringa opzionale
+	// posizione tipo stringa non opzionale
 		@Column(
-				name = "descrizione",
-				nullable = true
+				name = "posizione",
+				nullable = false
 				)
 		private String posizione;
+		
+		// descrizione tipo stringa opzionale
+			@Column(
+				name = "descrizione",
+				nullable = true
+			)
+			private String descrizione = null;
 
 	// collegamento al venditore
 	@ToString.Exclude

@@ -25,5 +25,9 @@ public class CantinaReq {
 	@NotNull(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class}, message="cantina_id_venditore_missing")
 	private Integer venditoreId;
 	
+	private String descrizione;
+	
+	@NotNull(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class}, message="cantina_posizione_missing")
+	@NotBlank(groups= {ValidationGroups.Create.class,ValidationGroups.Update.class}, message="cantina_posizione_empty")
 	private String posizione;
 }

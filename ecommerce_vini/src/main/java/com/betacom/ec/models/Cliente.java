@@ -54,7 +54,7 @@ public class Cliente {
 			name = "id_carrello",
 			referencedColumnName= "id",
 			foreignKey = @ForeignKey (name = "fk_cliente_carrello")
-			)	
+			)
 	private Carrello carrello;
 	
 	@OneToMany (

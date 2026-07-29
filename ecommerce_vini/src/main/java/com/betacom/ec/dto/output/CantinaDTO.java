@@ -14,6 +14,7 @@ public class CantinaDTO {
     private String nome;
     private Integer idVenditore;
     private String posizione;
+    private String descrizione;
     private List<CantinaAlcolicoDTO> listCantinaAlcolico;
     private List<RatingCantinaDTO> listRatingCantina;
     private List<BoxDTO>listBox;

@@ -4,8 +4,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +23,7 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileSystemUtils;
 
 import com.betacom.ec.controllers.AlcolicoController;
 import com.betacom.ec.controllers.ColoreController;
@@ -32,7 +38,7 @@ import com.betacom.ec.dto.input.VenditoreRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SpringBootTest
+@SpringBootTest (properties = {"app.upload.dir=${java.io.tmpdir}/ecommerce-test-uploads"})
 @AutoConfigureMockMvc
 @Transactional
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
@@ -45,6 +51,7 @@ public class ImmagineAlcolicoControllerTest {
     @Autowired private TipologiaAlcolicoController tipologiaC;
     @Autowired private ColoreController coloreC;
     @Autowired private AlcolicoController alcolicoC;
+    
     @BeforeEach
     public void setupDatabase() throws Exception {
         log.debug("{} - Setup DB inizio per ImmagineAlcolicoControllerTest", this.getClass().getName());
@@ -105,6 +112,13 @@ public class ImmagineAlcolicoControllerTest {
                 .andDo(log());
 
         log.debug("Setup DB completo per ImmagineAlcolicoControllerTest");
+    }
+    
+    @AfterEach
+    public void pulisciDisco() throws IOException {
+            String tempDir = System.getProperty("java.io.tmpdir") + "/ecommerce-test-uploads";
+            FileSystemUtils.deleteRecursively(Paths.get(tempDir));
+            log.debug("Cartella temporanea eliminata.");
     }
 
     @Test
