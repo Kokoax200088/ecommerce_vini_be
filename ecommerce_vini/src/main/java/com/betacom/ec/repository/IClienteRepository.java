@@ -13,5 +13,4 @@ public interface IClienteRepository extends JpaRepository<Cliente, Integer> {
 	List<Cliente> searchByFilter(
 			@Param("indirizzo") String indirizzo
 			);
-	Cliente findByEmail(String email);
 }
