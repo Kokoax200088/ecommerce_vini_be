@@ -32,15 +32,8 @@ public class SecurityConfig {
 			throws Exception {
 		http.cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable()) // si deve disabilitare se si usa jwt
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(auth -> auth.requestMatchers("/rest/api/auth/**").permitAll()
-						.requestMatchers("/rest/api/cantina/list", "/rest/api/alcolico/list",
-								"/rest/api/cantina/get/**", "/rest/api/alcolico/get/**",
-								"/rest/api/cantina-alcolico/list")
-						.permitAll()
-						.requestMatchers("/images/**", "/rest/api/immagine-alcolico/getById",
-								"/rest/api/immagine-cantina/getById", "/rest/api/immagine-box/getById",
-								"/rest/api/immagine-degustazione/getById")
-						.permitAll()
+				.authorizeHttpRequests(auth -> auth.requestMatchers("/rest/api/**").permitAll()
+						.requestMatchers("/images/**").permitAll()
 						.requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/v3/api-docs.yaml")
 						.permitAll().anyRequest().authenticated())
 				.oauth2ResourceServer( // bisogna caricare anche qui la logica di jwt
