@@ -26,60 +26,57 @@ public class SecurityConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
-	SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationConverter jwtAuthenticationConverter) throws Exception {
-        http
-            .cors(Customizer.withDefaults())
-            .csrf(csrf -> csrf.disable()) // si deve disabilitare se si usa jwt
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
-            .authorizeHttpRequests(auth -> auth
-            	    .requestMatchers("/rest/api/auth/**").permitAll()
-            	    //.requestMatchers("/rest/api/**").permitAll()
-            	    .requestMatchers(
-             	        "/swagger-ui/**",
-            	        "/swagger-ui.html",
-            	        "/v3/api-docs/**",
-            	        "/v3/api-docs.yaml"
-            	    ).permitAll()
-            	    .anyRequest().authenticated())
-            .oauth2ResourceServer( //bisogna caricare anche qui la logica di jwt
-            		oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)));
+	SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationConverter jwtAuthenticationConverter)
+			throws Exception {
+		http.cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable()) // si deve disabilitare se si usa jwt
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.authorizeHttpRequests(auth -> auth.requestMatchers("/rest/api/auth/**").permitAll()
+						.requestMatchers("/rest/api/cantina/list", "/rest/api/alcolico/list",
+								"/rest/api/cantina/get/**", "/rest/api/alcolico/get/**",
+								"/rest/api/cantina-alcolico/list")
+						.permitAll()
+						.requestMatchers("/images/**", "/rest/api/immagine-alcolico/getById",
+								"/rest/api/immagine-cantina/getById", "/rest/api/immagine-box/getById",
+								"/rest/api/immagine-degustazione/getById")
+						.permitAll()
+						.requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**", "/v3/api-docs.yaml")
+						.permitAll().anyRequest().authenticated())
+				.oauth2ResourceServer( // bisogna caricare anche qui la logica di jwt
+						oauth -> oauth.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)));
 
-        return http.build();
-    }
+		return http.build();
+	}
 
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration config = new CorsConfiguration();
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
+		config.setAllowedOrigins(List.of("http://localhost:4200"));
+		config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+		config.setAllowedHeaders(List.of("*"));
+		config.setAllowCredentials(true);
 
-        config.setAllowedOrigins(List.of("http://localhost:4200"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true);
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", config);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+		return source;
+	}
 
-        return source;
-    }
-    
-    @Bean
-     AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-        return config.getAuthenticationManager();
-    }
-    
-    //quando serve questo?
-    WebMvcConfigurer corsConfigurer() { //Configurazione security CORS
+	@Bean
+	AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+		return config.getAuthenticationManager();
+	}
+
+	// quando serve questo?
+	WebMvcConfigurer corsConfigurer() { // Configurazione security CORS
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-				.allowedOrigins("http://localhost:4200")
-				.allowedMethods("GET", "POST", "PATCH", "DELETE", "PUT")
-				.allowedHeaders("*")
-				.allowCredentials(true);
+				registry.addMapping("/**").allowedOrigins("http://localhost:4200")
+						.allowedMethods("GET", "POST", "PATCH", "DELETE", "PUT").allowedHeaders("*")
+						.allowCredentials(true);
 			}
 		};
 	}
