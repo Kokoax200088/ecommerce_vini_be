@@ -1,6 +1,7 @@
 package com.betacom.ec.services.implementations;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -78,6 +79,15 @@ public class ProdottoBoxImpl implements IProdottoBoxService{
 	public ProdottoBoxDTO getById(Integer id) throws Exception {
 		ProdottoBox pA = pR.findById(id).orElseThrow(() -> new EcommerceVinoException("prod_box.notFnd"));
 		return mapper.buildProdottoBoxDTO(pA);
+	}
+
+	@Override
+	public void update(ProdottoBoxReq req) throws Exception {
+		ProdottoBox pA = pR.findById(req.getId()).orElseThrow(() -> new EcommerceVinoException("prod_box.notFnd"));
+		Optional.ofNullable(req.getQuantità()).ifPresent(pA::setQuantità); 
+		
+		pR.save(pA);
+		
 	}
 
 }

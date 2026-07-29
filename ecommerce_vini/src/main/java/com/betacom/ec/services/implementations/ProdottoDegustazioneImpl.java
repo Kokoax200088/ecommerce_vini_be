@@ -1,6 +1,7 @@
 package com.betacom.ec.services.implementations;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -83,6 +84,15 @@ public class ProdottoDegustazioneImpl implements IProdottoDegustazioneService{
 		ProdottoDegustazione pA= pD.findById(id).orElseThrow(() -> new EcommerceVinoException("prod_deg.notFnd"));
 		
 		return mapper.buildProdottoDegustazioneDTO(pA);
+		
+	}
+
+	@Override
+	public void update(ProdottoDegustazioneReq req) throws Exception {
+		ProdottoDegustazione pA= pD.findById(req.getId()).orElseThrow(() -> new EcommerceVinoException("prod_deg.notFnd"));
+		Optional.ofNullable(req.getQuantità()).ifPresent(pA::setQuantità); 
+		
+		pD.save(pA);
 		
 	}
 

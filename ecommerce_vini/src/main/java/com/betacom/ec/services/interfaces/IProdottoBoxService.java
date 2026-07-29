@@ -7,6 +7,7 @@ import com.betacom.ec.dto.output.ProdottoBoxDTO;
 
 public interface IProdottoBoxService {
 	void create(ProdottoBoxReq req) throws Exception;
+	void update(ProdottoBoxReq req) throws Exception;
 	void delete(Integer id) throws Exception;
 	
 	 List<ProdottoBoxDTO> list();

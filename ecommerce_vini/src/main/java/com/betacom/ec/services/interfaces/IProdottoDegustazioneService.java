@@ -7,6 +7,7 @@ import com.betacom.ec.dto.output.ProdottoDegustazioneDTO;
 
 public interface IProdottoDegustazioneService {
 	void create(ProdottoDegustazioneReq req) throws Exception;
+	void update(ProdottoDegustazioneReq req) throws Exception;
 	void delete(Integer id) throws Exception;
 	
 	 List<ProdottoDegustazioneDTO> list();

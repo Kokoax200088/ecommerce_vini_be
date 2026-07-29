@@ -1,6 +1,7 @@
 package com.betacom.ec.services.implementations;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -82,6 +83,17 @@ public class ProdottoAlcolicoImpl implements IProdottoAlcolicoService{
 		ProdottoAlcolico pA = pR.findById(id).orElseThrow(() -> new EcommerceVinoException("prod_alc.notFnd"));
 		
 		return mapper.buildProdottoAlcolicoDTO(pA);
+		
+	}
+
+	@Override
+	public void update(ProdottoAlcolicoReq req) throws Exception {
+		log.debug("Update prodotto alcolico");
+		
+		ProdottoAlcolico pa = pR.findById(req.getId()).orElseThrow(() -> new EcommerceVinoException("prod_alc.notFnd"));
+		Optional.ofNullable(req.getQuantità()).ifPresent(pa::setQuantità); 
+		
+		pR.save(pa);
 		
 	}
 
