@@ -56,6 +56,7 @@ public class JwtImpl implements JwtService {
 		String token = Jwts.builder()
 	                .subject(authentication.getName())
 	                .claim("roles", roles)
+	                .claim("tokenType", "REFRESH")
 	                .issuedAt(Date.from(now))
 	                .expiration(Date.from(now.plusSeconds(accessTokenExpirationSeconds)))
 	                .signWith(key, Jwts.SIG.HS512) // deve essere uguale a quello in JwtConfiguration
@@ -76,6 +77,7 @@ public class JwtImpl implements JwtService {
 		String t = Jwts.builder()
 	                .subject(authentication.getName())
 	                .claim("roles", roles)
+	                .claim("tokenType", "REFRESH")
 	                .issuedAt(Date.from(now))
 	                .expiration(Date.from(now.plusSeconds(refreshTokenExpirationDays * 86400 )))  // seconds * day
 	                .signWith(key, Jwts.SIG.HS512)

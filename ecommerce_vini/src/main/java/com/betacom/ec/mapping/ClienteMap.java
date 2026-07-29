@@ -23,6 +23,7 @@ public class ClienteMap {
 	public  ClienteDTO buildClienteDTO (Cliente cliente) {
 		return ClienteDTO.builder() //CHECK serve idUtente? nell'esempio non c'era quindi non ho messo
 				.id(cliente.getId())
+				.indirizzo(cliente.getIndirizzo())
 				.carrello(carMap.buildCarrelloDTO(cliente.getCarrello()))
 				.listRatingAlcolico(RatingAlcolicoMap.buildRatingAlcolicoDTOList(cliente.getListRatingAlcolico()))
 				.listRatingCantina(RatingCantinaMap.buildRatingCantinaDTOList(cliente.getListRatingCantina()))
