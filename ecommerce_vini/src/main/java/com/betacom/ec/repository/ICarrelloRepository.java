@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.betacom.ec.models.Carrello;
 @Repository
 public interface ICarrelloRepository extends JpaRepository<Carrello, Integer>{
-
+	Carrello findByCliente_Id(Integer idCliente);
 }

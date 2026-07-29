@@ -75,6 +75,7 @@ public class CantinaControllerTest {
         cantinaReq.setNome("Cantina Base Controller");
         cantinaReq.setVenditoreId(vendReq.getId());
         cantinaReq.setPosizione("indirizzo");
+        cantinaReq.setDescrizione("descrizione");
         log.debug("Creazione cantina: {}", cantinaReq);
         cantinaC.create(cantinaReq);
 
@@ -88,6 +89,7 @@ public class CantinaControllerTest {
         CantinaReq req = new CantinaReq();
         req.setId(2);
         req.setNome("Cantina Controller Nuova");
+        req.setDescrizione("descrizione");
         req.setVenditoreId(1);
         req.setPosizione("indirizzo");
 
@@ -109,7 +111,8 @@ public class CantinaControllerTest {
         req.setId(1);
         req.setNome("Cantina Controller Aggiornata");
         req.setVenditoreId(1);
-        req.setPosizione("posizione");
+        req.setPosizione("posizione nuova");
+        req.setDescrizione("descrizione nuova");
 
         MvcResult result = mockMvc.perform(put("/rest/api/cantina/update")
                 .contentType(MediaType.APPLICATION_JSON)

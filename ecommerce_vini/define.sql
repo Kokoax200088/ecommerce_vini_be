@@ -39,6 +39,7 @@
         id_venditore integer,
         descrizione varchar(255),
         nome varchar(255) not null,
+        posizione varchar(255) not null,
         primary key (id)
     );
 

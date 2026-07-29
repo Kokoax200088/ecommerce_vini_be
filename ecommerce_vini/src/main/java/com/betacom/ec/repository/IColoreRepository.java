@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.betacom.ec.models.Colore;
 
 public interface IColoreRepository extends JpaRepository<Colore, Integer> {
+		Colore findByNome(String nome);
 }

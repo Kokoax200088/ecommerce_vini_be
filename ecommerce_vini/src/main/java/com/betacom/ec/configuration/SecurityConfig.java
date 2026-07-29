@@ -27,10 +27,10 @@ public class SecurityConfig {
 		return new BCryptPasswordEncoder();
 	}
 	
-    @Bean
+	@Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationConverter jwtAuthenticationConverter) throws Exception {
         http
-        	.cors(Customizer.withDefaults())
+            .cors(Customizer.withDefaults())
             .csrf(csrf -> csrf.disable()) // si deve disabilitare se si usa jwt
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
             .authorizeHttpRequests(auth -> auth
