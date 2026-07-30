@@ -37,7 +37,7 @@ public class BoxAlcolicoImpl implements IBoxAlcolicoService{
 		
 		BoxAlcolico boxAlc = new BoxAlcolico();
 		
-		Alcolico alcolico = alcR.findById(req.getId()).orElseThrow(() -> new EcommerceVinoException("alcolico.notFnd"));
+		Alcolico alcolico = alcR.findById(req.getAlcolicoId()).orElseThrow(() -> new EcommerceVinoException("alcolico.notFnd"));
 		Box box = boxR.findById(req.getBoxId()).orElseThrow(() -> new EcommerceVinoException("box.notFnd"));
 		
 		boxAlc.setAlcolico(alcolico);
