@@ -20,8 +20,7 @@ public interface IDegustazioneRepository extends JpaRepository<Degustazione, Int
 	    @Param("prezzo") Double prezzo,
 	    @Param("data_inizio") LocalDateTime dataInizio,
 	    @Param("data_fine") LocalDateTime dataFine,
-	    @Param("id_cantina") Integer id_cantina,
-	    @Param("id_carrello") Integer id_carrello
+	    @Param("id_cantina") Integer id_cantina
 	);
 	
 }

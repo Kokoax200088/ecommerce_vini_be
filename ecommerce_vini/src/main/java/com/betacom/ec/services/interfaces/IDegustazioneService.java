@@ -18,8 +18,7 @@ public interface IDegustazioneService {
 			Double prezzo,
 			LocalDateTime dataInizio,
 			LocalDateTime dataFine,
-			Integer id_cantina,
-			Integer id_carrello);
+			Integer id_cantina);
 
 	DegustazioneDTO getById(Integer id_spedizione) throws Exception;
 }

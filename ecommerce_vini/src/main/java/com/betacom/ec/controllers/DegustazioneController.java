@@ -65,9 +65,8 @@ private final IDegustazioneService dS;
 			@RequestParam(required = false)Double prezzo,
 			@RequestParam(required = false)LocalDateTime dataInizio,
 			@RequestParam(required = false)LocalDateTime dataFine,
-			@RequestParam(required = false)Integer id_cantina,
-			@RequestParam(required = false)Integer id_carrello) {
-		return ResponseEntity.ok(dS.listWithParameters(nome,descrizione,prezzo,dataInizio,dataFine,id_cantina,id_carrello));
+			@RequestParam(required = false)Integer id_cantina) {
+		return ResponseEntity.ok(dS.listWithParameters(nome,descrizione,prezzo,dataInizio,dataFine,id_cantina));
 	}
 	
 	@GetMapping("getDegustazioneById")

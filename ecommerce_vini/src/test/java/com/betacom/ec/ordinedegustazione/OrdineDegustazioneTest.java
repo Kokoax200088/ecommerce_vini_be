@@ -119,7 +119,7 @@ public class OrdineDegustazioneTest {
         degustazione.setDataFine("17/07/2026 20:00:00");
 		degustazione.setCantinaId(cantinaId);
 		degustazioneS.create(degustazione);
-		degustazioneId = degustazioneS.listWithParameters(null, null, null, null, null, null, null).stream().mapToInt(DegustazioneDTO::getId).max().getAsInt();
+		degustazioneId = degustazioneS.listWithParameters(null, null, null, null, null, null).stream().mapToInt(DegustazioneDTO::getId).max().getAsInt();
 
 		StatusReq statusReq = new StatusReq();
 		statusReq.setNome("Creato");

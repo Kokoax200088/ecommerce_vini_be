@@ -36,7 +36,7 @@ public class DegustazioneImpl implements IDegustazioneService{
 	@Transactional
 	public void create(DegustazioneReq req) throws Exception{
 		Degustazione d = new Degustazione();
-		Optional.ofNullable(req.getId()).ifPresent(d::setId);
+		//Optional.ofNullable(req.getId()).ifPresent(d::setId);
 		d.setCantina(cR.findById(req.getCantinaId()).orElseThrow(()-> new EcommerceVinoException("cantina.ntfnd")));
 		d.setDataFine(Utilities.stringToDateTime(req.getDataFine()));
 		d.setDataInizio(Utilities.stringToDateTime(req.getDataInizio()));
@@ -71,9 +71,8 @@ public class DegustazioneImpl implements IDegustazioneService{
 			Double prezzo,
 			LocalDateTime dataInizio,
 			LocalDateTime dataFine,
-			Integer id_cantina,
-			Integer id_carrello)  {
-		List<Degustazione> lD= dR.searchWithParameters(nome,descrizione,prezzo,dataInizio,dataFine,id_cantina,id_carrello);
+			Integer id_cantina)  {
+		List<Degustazione> lD= dR.searchWithParameters(nome,descrizione,prezzo,dataInizio,dataFine,id_cantina);
 		return mapper.buildDegustazioneDTOList(lD);
 	}
 
