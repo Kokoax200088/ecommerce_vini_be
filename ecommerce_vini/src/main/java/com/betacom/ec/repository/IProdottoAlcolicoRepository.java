@@ -9,5 +9,6 @@ import org.springframework.data.repository.query.Param;
 import com.betacom.ec.models.ProdottoAlcolico;
 
 public interface IProdottoAlcolicoRepository extends JpaRepository<ProdottoAlcolico, Integer>{
-	
+	@Query(name = "prodottoAlcolico.searchByFilter")
+	List<ProdottoAlcolico> searchByFilter(@Param("idAlcolico") Integer idAlcolico, @Param("idCarrello") Integer idCarrello);
 }

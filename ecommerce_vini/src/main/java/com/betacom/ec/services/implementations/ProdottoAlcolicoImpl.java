@@ -97,4 +97,10 @@ public class ProdottoAlcolicoImpl implements IProdottoAlcolicoService{
 		
 	}
 
+	@Override
+	public List<ProdottoAlcolicoDTO> searchByFilter(Integer idAlcolico, Integer idCarrello) {
+		List<ProdottoAlcolico> listProd =  pR.searchByFilter(idAlcolico, idCarrello);
+		return mapper.buildProdottoAlcolicoDTOList(listProd);
+	}
+
 }

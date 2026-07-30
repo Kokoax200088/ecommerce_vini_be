@@ -1,5 +1,7 @@
 package com.betacom.ec.controllers;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.betacom.ec.dto.input.DegustazioneReq;
 import com.betacom.ec.dto.input.ProdottoAlcolicoReq;
 import com.betacom.ec.dto.input.ValidationGroups;
+import com.betacom.ec.dto.output.ProdottoAlcolicoDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.services.interfaces.IProdottoAlcolicoService;
 
@@ -38,6 +41,12 @@ public class ProdottoAlcolicoController {
 	public ResponseEntity<Object> getById(@RequestParam (required = true) Integer id) throws Exception {
 		return ResponseEntity.ok(prodS.getById(id));
 	}
+	
+	@GetMapping("/getByAlcolico")
+    public ResponseEntity<List<ProdottoAlcolicoDTO>> getByAlcolicoId(@RequestParam(required = false) Integer idAlcolico,
+			@RequestParam(required = false) Integer idCarrello) {
+        return ResponseEntity.ok(prodS.searchByFilter(idAlcolico, idCarrello));
+    }
 	
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(

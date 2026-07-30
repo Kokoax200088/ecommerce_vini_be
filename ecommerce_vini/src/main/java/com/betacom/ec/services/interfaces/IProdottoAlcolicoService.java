@@ -11,6 +11,7 @@ public interface IProdottoAlcolicoService {
 	void delete(Integer id) throws Exception;
 	
 	List<ProdottoAlcolicoDTO> list();
+	List<ProdottoAlcolicoDTO> searchByFilter(Integer idAlcolico, Integer idCarrello);
 	ProdottoAlcolicoDTO getById(Integer id) throws Exception;
 
 }
