@@ -25,6 +25,7 @@ public class AlcolicoMap {
 				.provenienza(a.getProvenienza())
 				.prezzo(a.getPrezzo())
 				.caratteristiche(CaratteristicaMap.buildCaratteristicaDTOList(a.getListCaratteristica()))
+				.listRatingAlcolico(RatingAlcolicoMap.buildRatingAlcolicoDTOList(a.getListRatingAlcolico()))
 				.build();
 	}
 }

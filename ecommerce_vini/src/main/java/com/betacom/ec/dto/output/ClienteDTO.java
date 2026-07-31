@@ -16,7 +16,7 @@ import lombok.Setter;
 public class ClienteDTO {
 	private Integer id;
 	private String indirizzo;
-	
+    private UtenteDTO utente;
 	//attributi in join
 	private CarrelloDTO carrello;
 	private List<RatingAlcolicoDTO> listRatingAlcolico;

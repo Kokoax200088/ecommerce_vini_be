@@ -36,4 +36,6 @@ public class AlcolicoDTO {
 	private Double prezzo;
 
 	private List<CaratteristicaDTO> caratteristiche;
+
+    private List<RatingAlcolicoDTO> listRatingAlcolico;
 }

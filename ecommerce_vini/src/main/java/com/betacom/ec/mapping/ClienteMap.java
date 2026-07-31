@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.betacom.ec.dto.output.ClienteDTO;
+import com.betacom.ec.dto.output.UtenteDTO;
 import com.betacom.ec.models.Cliente;
+import com.betacom.ec.models.Utente;
 
 @Component
 public class ClienteMap {
@@ -24,9 +26,18 @@ public class ClienteMap {
 		return ClienteDTO.builder() //CHECK serve idUtente? nell'esempio non c'era quindi non ho messo
 				.id(cliente.getId())
 				.indirizzo(cliente.getIndirizzo())
+				.utente(toUtenteDTOSenzaCliente(cliente.getUtente()))
 				.carrello(carMap.buildCarrelloDTO(cliente.getCarrello()))
 				.listRatingAlcolico(RatingAlcolicoMap.buildRatingAlcolicoDTOList(cliente.getListRatingAlcolico()))
 				.listRatingCantina(RatingCantinaMap.buildRatingCantinaDTOList(cliente.getListRatingCantina()))
 				.build();
 	}
+	
+	 private UtenteDTO toUtenteDTOSenzaCliente(Utente utente) {
+	        return UtenteDTO.builder()
+	                .id(utente.getId())
+	                .nome(utente.getNome())
+	                .cognome(utente.getCognome())
+	                .build();
+	    }
 }
