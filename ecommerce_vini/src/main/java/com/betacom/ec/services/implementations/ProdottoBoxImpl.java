@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.betacom.ec.dto.input.ProdottoBoxReq;
+import com.betacom.ec.dto.output.ProdottoAlcolicoDTO;
 import com.betacom.ec.dto.output.ProdottoBoxDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.ProdottoBoxMap;
@@ -13,6 +14,7 @@ import com.betacom.ec.models.Box;
 import com.betacom.ec.models.Cantina;
 import com.betacom.ec.models.Carrello;
 import com.betacom.ec.models.Degustazione;
+import com.betacom.ec.models.ProdottoAlcolico;
 import com.betacom.ec.models.ProdottoBox;
 import com.betacom.ec.models.ProdottoDegustazione;
 import com.betacom.ec.repository.IBoxRepository;
@@ -88,6 +90,12 @@ public class ProdottoBoxImpl implements IProdottoBoxService{
 		
 		pR.save(pA);
 		
+	}
+	
+	@Override
+	public List<ProdottoBoxDTO> searchByFilter(Integer idAlcolico, Integer idCarrello) {
+		List<ProdottoBox> listProd =  pR.searchByFilter(idAlcolico, idCarrello);
+		return mapper.buildProdottoBoxDTOList(listProd);
 	}
 
 }

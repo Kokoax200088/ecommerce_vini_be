@@ -11,5 +11,6 @@ public interface IProdottoBoxService {
 	void delete(Integer id) throws Exception;
 	
 	 List<ProdottoBoxDTO> list();
+	 List<ProdottoBoxDTO> searchByFilter(Integer idBox, Integer idCarrello);
 	 ProdottoBoxDTO getById(Integer id) throws Exception;
 }

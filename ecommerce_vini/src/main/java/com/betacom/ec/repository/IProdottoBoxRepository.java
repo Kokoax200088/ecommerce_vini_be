@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.betacom.ec.models.ProdottoAlcolico;
 import com.betacom.ec.models.ProdottoBox;
 
 public interface IProdottoBoxRepository extends JpaRepository<ProdottoBox, Integer>{
-	
+	@Query(name = "prodottoBox.searchByFilter")
+	List<ProdottoBox> searchByFilter(@Param("idBox") Integer idBox, @Param("idCarrello") Integer idCarrello);
 }
