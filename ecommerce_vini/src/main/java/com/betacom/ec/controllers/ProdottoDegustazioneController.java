@@ -1,5 +1,7 @@
 package com.betacom.ec.controllers;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.betacom.ec.dto.input.ProdottoBoxReq;
 import com.betacom.ec.dto.input.ProdottoDegustazioneReq;
 import com.betacom.ec.dto.input.ValidationGroups;
+import com.betacom.ec.dto.output.ProdottoDegustazioneDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.services.interfaces.IProdottoDegustazioneService;
 
@@ -65,4 +67,10 @@ public class ProdottoDegustazioneController {
 					.msg("deleted...")
 					.build());
 	}
+	
+	@GetMapping("/getByDegustazione")
+    public ResponseEntity<List<ProdottoDegustazioneDTO>> getByDegustazioneId(@RequestParam(required = false) Integer idDegustazione,
+			@RequestParam(required = false) Integer idCarrello) {
+        return ResponseEntity.ok(prodS.searchByFilter(idDegustazione, idCarrello));
+    }
 }

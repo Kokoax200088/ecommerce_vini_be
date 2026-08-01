@@ -23,6 +23,8 @@ public class DegustazioneMap {
 	public  DegustazioneDTO buildDegustazioneDTO(Degustazione p) { // TODO: aggiungere
 		return DegustazioneDTO.builder()
 				.id(p.getId())
+				.nome(p.getNome())
+				.prezzo(p.getPrezzo())
 				.alcolici(AlcolicoMap.buildAlcolicoDTOList(p.getListAlcolico()))
 				.immagini(immMap.buildImmagineDegustazioneDTOList(p.getListImmagine()))
 				.dataInizio(p.getDataInizio())

@@ -11,5 +11,6 @@ public interface IProdottoDegustazioneService {
 	void delete(Integer id) throws Exception;
 	
 	 List<ProdottoDegustazioneDTO> list();
+	 List<ProdottoDegustazioneDTO> searchByFilter(Integer id_degustazione, Integer id_carrello);
 	 ProdottoDegustazioneDTO getById(Integer id) throws Exception;
 }

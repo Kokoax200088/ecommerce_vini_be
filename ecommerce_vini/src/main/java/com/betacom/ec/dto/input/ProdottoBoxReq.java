@@ -1,9 +1,5 @@
 package com.betacom.ec.dto.input;
 
-import com.betacom.ec.models.Box;
-import com.betacom.ec.models.Cantina;
-import com.betacom.ec.models.Carrello;
-
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

@@ -95,5 +95,10 @@ public class ProdottoDegustazioneImpl implements IProdottoDegustazioneService{
 		pD.save(pA);
 		
 	}
+	
+	public List<ProdottoDegustazioneDTO> searchByFilter (Integer id_degustazione,Integer id_carrello) {
+		List<ProdottoDegustazione> listProd =  pD.searchByFilter(id_degustazione, id_carrello);
+		return mapper.buildProdottoDegustazioneDTOList(listProd);
+	}
 
 }
