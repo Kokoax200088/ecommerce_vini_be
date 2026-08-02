@@ -5,9 +5,10 @@ import java.util.List;
 
 import com.betacom.ec.dto.input.OrdineReq;
 import com.betacom.ec.dto.output.OrdineDTO;
+import com.betacom.ec.models.Ordine;
 
 public interface IOrdineService {
-	void create(OrdineReq req) throws Exception;
+	OrdineDTO create(OrdineReq req) throws Exception;
 
 	void update(OrdineReq req) throws Exception;
 

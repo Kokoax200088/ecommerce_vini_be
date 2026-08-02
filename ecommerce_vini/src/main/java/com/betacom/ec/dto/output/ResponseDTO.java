@@ -13,4 +13,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ResponseDTO {
 	private String msg;
+	private Integer id;
 }

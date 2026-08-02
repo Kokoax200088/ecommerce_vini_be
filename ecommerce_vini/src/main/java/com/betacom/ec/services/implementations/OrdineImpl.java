@@ -42,7 +42,7 @@ public class OrdineImpl implements IOrdineService{
 	private final OrdineMap mapper;
 	
 	@Transactional
-	public void create(OrdineReq req) throws Exception {
+	public OrdineDTO create(OrdineReq req) throws Exception {
 		Ordine o = new Ordine();
 		o.setData_ordine(req.getData_ordine());
 		o.setTotale(req.getTotale());
@@ -55,7 +55,8 @@ public class OrdineImpl implements IOrdineService{
 		
 		o.setIndirizzoDestinazione(req.getIndirizzoDestinazione());
 		
-		oR.save(o);
+		Ordine saved = oR.save(o);
+		return mapper.buildOrdineDTO(saved);
 	}
 	
 	@Transactional

@@ -35,9 +35,10 @@ private final IOrdineService oS;
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
 			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) OrdineReq req) throws Exception{
-			oS.create(req);
+			OrdineDTO creato = oS.create(req);
 			return ResponseEntity.ok(ResponseDTO.builder()
 					.msg("created...")
+					.id(creato.getId())
 					.build());
 	}
 	
