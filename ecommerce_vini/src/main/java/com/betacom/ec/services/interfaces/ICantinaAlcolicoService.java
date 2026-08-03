@@ -6,7 +6,7 @@ import com.betacom.ec.dto.input.CantinaAlcolicoReq;
 import com.betacom.ec.dto.output.CantinaAlcolicoDTO;
 
 public interface ICantinaAlcolicoService {
-	public void create(CantinaAlcolicoReq req) throws Exception;
+	public CantinaAlcolicoDTO create(CantinaAlcolicoReq req) throws Exception;
 	public void update(CantinaAlcolicoReq req) throws Exception;
 	public void delete(Integer id) throws Exception;
 	

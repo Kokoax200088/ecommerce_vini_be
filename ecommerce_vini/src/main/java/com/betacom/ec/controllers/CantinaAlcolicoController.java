@@ -37,9 +37,9 @@ public class CantinaAlcolicoController extends ExceptionManager {
 
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> create(@RequestBody (required = true) @Validated(ValidationGroups.Create.class) CantinaAlcolicoReq req) throws Exception {
-		cantinaAlcolicoS.create(req);
+		CantinaAlcolicoDTO creato = cantinaAlcolicoS.create(req);
 		return new ResponseEntity<>(
-				ResponseDTO.builder().msg(msgS.get("cantinaAlcolico_create_ok")).build(),
+				ResponseDTO.builder().msg(msgS.get("cantinaAlcolico_create_ok")).id(creato.getId()).build(),
 				HttpStatus.CREATED);
 	}
 

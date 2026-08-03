@@ -16,6 +16,7 @@ import com.betacom.ec.repository.IAlcolicoRepository;
 import com.betacom.ec.repository.ICaratteristicaRepository;
 import com.betacom.ec.repository.IColoreRepository;
 import com.betacom.ec.repository.ITipologiaAlcolicoRepository;
+import com.betacom.ec.repository.IVenditoreRepository;
 import com.betacom.ec.services.interfaces.IAlcolicoService;
 
 import jakarta.persistence.EntityManager;
@@ -33,13 +34,14 @@ public class AlcolicoImpl implements IAlcolicoService {
 	private final ITipologiaAlcolicoRepository tipologiaR;
 	private final IColoreRepository coloreR;
 	private final ICaratteristicaRepository caratteristicaR;
+	private final IVenditoreRepository venditoreR;
 
 	@PersistenceContext
 	private EntityManager em;
 
 	@Transactional
 	@Override
-	public void create(AlcolicoReq req) throws Exception {
+	public AlcolicoDTO create(AlcolicoReq req) throws Exception {
 		log.debug("create {}", req);
 
 		TipologiaAlcolico tipologia = tipologiaR.findById(req.getId_tipologia_alcolico())
@@ -50,8 +52,11 @@ public class AlcolicoImpl implements IAlcolicoService {
 		Alcolico a = new Alcolico();
 		a.setNome(req.getNome());
 		a.setAnnata(req.getAnnata());
-		if (req.getId_venditore() != null)
-			a.setVenditore(em.getReference(Venditore.class, req.getId_venditore()));
+		if (req.getId_venditore() != null) {
+			Venditore venditore = venditoreR.findById(req.getId_venditore())
+					.orElseThrow(() -> new EcommerceVinoException("venditore.notFnd"));
+			a.setVenditore(venditore);
+		}
 		a.setTipologia_alcolico(tipologia);
 		a.setColore(colore);
 		a.setGradazione(req.getGradazione());
@@ -61,7 +66,7 @@ public class AlcolicoImpl implements IAlcolicoService {
 		if (req.getId_caratteristiche() != null)
 			a.setListCaratteristica(caratteristicaR.findAllById(req.getId_caratteristiche()));
 
-		alcolicoR.save(a);
+		return AlcolicoMap.buildAlcolicoDTO(alcolicoR.save(a));
 	}
 
 	@Transactional

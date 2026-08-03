@@ -7,7 +7,7 @@ import com.betacom.ec.dto.output.AlcolicoDTO;
 
 public interface IAlcolicoService {
 
-	void create(AlcolicoReq req) throws Exception;
+	AlcolicoDTO create(AlcolicoReq req) throws Exception;
 
 	void update(AlcolicoReq req) throws Exception;
 
