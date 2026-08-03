@@ -32,7 +32,7 @@ public class BoxImpl implements IBoxService{
 
 	@Transactional
 	@Override
-	public void create(BoxReq req) throws Exception {
+	public Integer create(BoxReq req) throws Exception {
 		log.debug("create box{}", req);
 		
 		Box box = new Box();
@@ -46,8 +46,8 @@ public class BoxImpl implements IBoxService{
 //		box.setListBoxAlcolico(req.getListBoxAlcolico());
 //		box.setListImmagine(req.getListImmagine());
 	
-		boxR.save(box);
-		
+		Box created = boxR.save(box);
+		return created.getId();
 	}
 
 	@Transactional

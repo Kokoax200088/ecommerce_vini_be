@@ -6,7 +6,7 @@ import com.betacom.ec.dto.input.BoxReq;
 import com.betacom.ec.dto.output.BoxDTO;
 
 public interface IBoxService {
-	void create(BoxReq req) throws Exception;
+	Integer create(BoxReq req) throws Exception;
 	void update(BoxReq req) throws Exception;
 	void delete(Integer id) throws Exception;
 	

@@ -37,9 +37,11 @@ public class BoxController extends ExceptionManager {
 
 	@PostMapping("/create")
 	public ResponseEntity<ResponseDTO> create(@RequestBody (required = true) @Validated(ValidationGroups.Create.class) BoxReq req) throws Exception {
-		boxS.create(req);
+		Integer idCreated = boxS.create(req);
 		return new ResponseEntity<>(
-				ResponseDTO.builder().msg(msgS.get("box_create_ok")).build(),
+				ResponseDTO.builder()
+				.id(idCreated)
+				.msg(msgS.get("box_create_ok")).build(),
 				HttpStatus.CREATED);
 	}
 
