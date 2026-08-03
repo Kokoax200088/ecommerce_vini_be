@@ -36,11 +36,9 @@ public class CantinaController extends ExceptionManager {
 	private final IMessaggioService msgS;
 
 	@PostMapping("/create")
-	public ResponseEntity<ResponseDTO> create(@RequestBody (required = true) @Validated(ValidationGroups.Create.class) CantinaReq req) throws Exception {
-		cantinaS.create(req);
-		return new ResponseEntity<>(
-				ResponseDTO.builder().msg(msgS.get("cantina_create_ok")).build(),
-				HttpStatus.CREATED);
+	public ResponseEntity<CantinaDTO> create(@RequestBody (required = true) @Validated(ValidationGroups.Create.class) CantinaReq req) throws Exception {
+		CantinaDTO nuovaCantina = cantinaS.create(req);
+		return new ResponseEntity<>(nuovaCantina, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/update")
