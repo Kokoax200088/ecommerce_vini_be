@@ -74,7 +74,7 @@ public class ImmagineBoxImpl implements IImmagineBoxService{
 	@Override
 	public List<ImmagineBoxDTO> list(Integer idBox) {
 		log.debug("list imm alcolico");
-		List<ImmagineBox> listImmBox = immBR.findAll();
+		List<ImmagineBox> listImmBox = immBR.searchByFilter(idBox);
 		return immBoxMap.buildImmagineBoxDTOList(listImmBox);
 	}
 
