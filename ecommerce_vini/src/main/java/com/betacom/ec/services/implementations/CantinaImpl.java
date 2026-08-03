@@ -1,6 +1,5 @@
 package com.betacom.ec.services.implementations;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +13,11 @@ import com.betacom.ec.models.Cantina;
 import com.betacom.ec.models.Venditore;
 import com.betacom.ec.repository.ICantinaRepository;
 import com.betacom.ec.repository.IVenditoreRepository;
+import com.betacom.ec.repository.IImmagineCantinaRepository;
+import com.betacom.ec.repository.IBoxRepository;
+import com.betacom.ec.repository.IDegustazioneRepository;
+import com.betacom.ec.repository.IRatingCantinaRepository;
+import com.betacom.ec.repository.ICantinaAlcolicoRepository;
 import com.betacom.ec.services.interfaces.ICantinaService;
 
 import jakarta.transaction.Transactional;
@@ -27,6 +31,12 @@ public class CantinaImpl implements ICantinaService {
 	private final ICantinaRepository cantinaRepository;
 	private final IVenditoreRepository venditoreRepository;
 	private final CantinaMap cantinaMap;
+	
+	private final IImmagineCantinaRepository immagineCantinaRepository;
+	private final IBoxRepository boxRepository;
+	private final IDegustazioneRepository degustazioneRepository;
+	private final IRatingCantinaRepository ratingCantinaRepository;
+	private final ICantinaAlcolicoRepository cantinaAlcolicoRepository;
 	
 	@Transactional
 	@Override
@@ -57,7 +67,8 @@ public class CantinaImpl implements ICantinaService {
 		log.debug("Update Cantina {}", req);
 		
 		Cantina cantina = cantinaRepository.findById(req.getId()).orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"));
-		Optional.ofNullable(req.getDescrizione()).ifPresent(cantina::setNome);
+		
+		Optional.ofNullable(req.getDescrizione()).ifPresent(cantina::setDescrizione);
 		Optional.ofNullable(req.getNome()).ifPresent(cantina::setNome);
 		Optional.ofNullable(req.getPosizione()).ifPresent(cantina::setPosizione);
 		Optional.ofNullable(req.getVenditoreId()).ifPresent(data -> cantina.setVenditore(venditoreRepository.findById(data)
@@ -67,10 +78,21 @@ public class CantinaImpl implements ICantinaService {
 	@Transactional
 	@Override
 	public void delete(Integer id) throws Exception {
-		log.debug("Delete Cantina {}", id);
+		log.debug("Delete Cantina Manuale {}", id);
 		
 		Cantina cantina = cantinaRepository.findById(id).orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"));
 	
+		immagineCantinaRepository.deleteByCantina_Id(id);
+		boxRepository.deleteByCantina_Id(id);
+		degustazioneRepository.deleteByCantina_Id(id);
+		ratingCantinaRepository.deleteByCantina_Id(id);
+		cantinaAlcolicoRepository.deleteByCantina_Id(id);
+		
+		Venditore venditore = cantina.getVenditore();
+		if (venditore != null) {
+			venditore.getListCantina().remove(cantina);
+			}
+
 		cantinaRepository.delete(cantina);
 	}
 	

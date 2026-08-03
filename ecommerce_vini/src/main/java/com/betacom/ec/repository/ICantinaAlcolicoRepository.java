@@ -17,4 +17,6 @@ public interface ICantinaAlcolicoRepository extends JpaRepository<CantinaAlcolic
 			@Param("idCantina") Integer idCantina,
 			@Param("idAlcolico") Integer idAlcolico
 			);
+	
+	void deleteByCantina_Id(Integer idCantina);
 }
