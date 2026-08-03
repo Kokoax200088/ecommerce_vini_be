@@ -6,7 +6,7 @@ import com.betacom.ec.dto.input.CantinaReq;
 import com.betacom.ec.dto.output.CantinaDTO;
 
 public interface ICantinaService {
-	public void create(CantinaReq req) throws Exception;
+	public CantinaDTO create(CantinaReq req) throws Exception;
 	public void update(CantinaReq req) throws Exception;
 	public void delete(Integer id) throws Exception;
 	

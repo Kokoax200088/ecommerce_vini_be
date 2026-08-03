@@ -30,28 +30,25 @@ public class CantinaImpl implements ICantinaService {
 	
 	@Transactional
 	@Override
-	public void create(CantinaReq req) throws Exception {
+	public CantinaDTO create(CantinaReq req) throws Exception {
 		log.debug("Create Cantina {}", req);
 		
 		Cantina cantina = new Cantina();
 		
 		Venditore venditore = venditoreRepository.findById(req.getVenditoreId())
 				.orElseThrow(() -> new EcommerceVinoException("venditore.id_not_found"));
-		log.debug("Venditore trovato: {}", venditore.getId());
 		
 		cantina.setVenditore(venditore);
-		
 		cantina.setNome(req.getNome());
-		
 		cantina.setDescrizione(req.getDescrizione());
-		
 		cantina.setPosizione(req.getPosizione());
 	
 		Cantina savedCantina = cantinaRepository.save(cantina);
 		
 		venditore.getListCantina().add(savedCantina);
-		Venditore saved = venditoreRepository.save(venditore); // DOVREBBE fare la update della cantina con relativa lista alcolici
-		saved.getListCantina().forEach(cantinesaved -> log.debug("Cantina salvata: {}", cantinesaved));
+		venditoreRepository.save(venditore); 
+		
+		return cantinaMap.buildCantinaDTO(savedCantina);
 	}
 	
 	@Transactional
@@ -94,4 +91,5 @@ public class CantinaImpl implements ICantinaService {
 		Cantina cantina = cantinaRepository.findById(id).orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"));
 		return cantinaMap.buildCantinaDTO(cantina);
 	}
+	
 }
