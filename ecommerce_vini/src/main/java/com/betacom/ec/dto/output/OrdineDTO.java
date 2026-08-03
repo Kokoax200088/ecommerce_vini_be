@@ -20,5 +20,7 @@ public class OrdineDTO {
 	private StatusDTO status;
 	private UtenteDTO utente;
 	private List<OrdineAlcolicoDTO> ordineAlcolico;
+	private List<OrdineBoxDTO> ordineBox;
+	private List<OrdineDegustazioneDTO> ordineDeg;
 	private String indirizzo_destinazione;
 }

@@ -1,18 +1,17 @@
 package com.betacom.ec.services.implementations;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.betacom.ec.dto.input.CarrelloReq;
 import com.betacom.ec.dto.output.CarrelloDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.CarrelloMap;
 import com.betacom.ec.models.Carrello;
-import com.betacom.ec.models.Cliente;
 import com.betacom.ec.repository.ICarrelloRepository;
-import com.betacom.ec.repository.IClienteRepository;
+import com.betacom.ec.repository.IProdottoAlcolicoRepository;
+import com.betacom.ec.repository.IProdottoBoxRepository;
+import com.betacom.ec.repository.IProdottoDegustazioneRepository;
 import com.betacom.ec.services.interfaces.ICarrelloService;
 
 import jakarta.transaction.Transactional;
@@ -25,8 +24,9 @@ import lombok.extern.slf4j.Slf4j;
 public class CarrelloImpl implements ICarrelloService{
 	
 	private final ICarrelloRepository carR;
-	private final IClienteRepository cliR;
-	
+	private final IProdottoAlcolicoRepository paR;
+	private final IProdottoBoxRepository pbR;
+	private final IProdottoDegustazioneRepository pdR;
 	private final CarrelloMap mapper;
 	
 
@@ -46,5 +46,21 @@ public class CarrelloImpl implements ICarrelloService{
 				.orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
 		return mapper.buildCarrelloDTO(cart);
 	}
+	
+	@Transactional
+	@Override
+	public void svuota(Integer id) throws Exception {
+		log.debug("svuota Cart {}", id);
+		Carrello cart = carR.findById(id)
+				.orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
+		paR.deleteAll(cart.getListaProdottoAlcolico());
+		pbR.deleteAll(cart.getListaProdottoBox());
+		pdR.deleteAll(cart.getListaProdottoDegustazione());
 
+		cart.getListaProdottoAlcolico().clear();
+		cart.getListaProdottoBox().clear();
+		cart.getListaProdottoDegustazione().clear();
+		cart.setTotale(0.0);
+		cart.setQuantità(0);
+	}
 }

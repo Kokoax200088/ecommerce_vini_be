@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.betacom.ec.models.OrdineAlcolico;
+import com.betacom.ec.models.OrdineBox;
 import com.betacom.ec.models.OrdineDegustazione;
 
 import jakarta.validation.constraints.NotNull;
@@ -29,10 +30,9 @@ public class OrdineReq {
 	private Integer id_utente;
 	@NotNull(groups=ValidationGroups.Create.class, message="status_missing")
 	private Integer id_status;
-	@NotNull(groups=ValidationGroups.Create.class, message="ordine_alcolico_missing")
 	private List<OrdineAlcolico> listOrdineAlcolico;
-	@NotNull(groups=ValidationGroups.Create.class, message="ordine_spedizione_missing")
 	private List<OrdineDegustazione> listOrdineDegustazione;
+	private List<OrdineBox> listOrdineBox;
 	@NotNull(groups=ValidationGroups.Create.class, message="indirizzo_missing")
 	private String indirizzoDestinazione;
 
