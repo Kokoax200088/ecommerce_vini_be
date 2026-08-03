@@ -31,14 +31,14 @@ public class CantinaAlcolicoImpl implements ICantinaAlcolicoService{
 	
 	@Transactional
 	@Override
-	public void create(CantinaAlcolicoReq req) throws Exception {
+	public CantinaAlcolicoDTO create(CantinaAlcolicoReq req) throws Exception {
 		log.debug("Create: {}", req);
-		
+
 		Alcolico alcolico = alcolicoRepository.findById(req.getAlcolicoId())
 								.orElseThrow(() -> new EcommerceVinoException("alcolico.id_not_found"));
 		Cantina cantina = cantinaRepository.findById(req.getCantinaId())
 								.orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"));
-		
+
 		CantinaAlcolico cantinaAlcolico = new CantinaAlcolico();
 		cantinaAlcolico.setAlcolico(alcolico);
 		cantinaAlcolico.setCantina(cantina);
@@ -48,8 +48,8 @@ public class CantinaAlcolicoImpl implements ICantinaAlcolicoService{
 		cantina.getListCantinaAlcolico().add(cantinaAlcolico);
 		alcolicoRepository.save(alcolico);
 		cantinaRepository.save(cantina); // DOVREBBE fare la update della cantina con relativa lista alcolici
-		
-		cantinaAlcolicoRepository.save(cantinaAlcolico);
+
+		return CantinaAlcolicoMap.buildCantinaAlcolicoDTO(cantinaAlcolicoRepository.save(cantinaAlcolico));
 	}
 	
 	@Transactional
