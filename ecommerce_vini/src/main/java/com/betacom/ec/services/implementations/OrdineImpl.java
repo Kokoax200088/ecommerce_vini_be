@@ -53,6 +53,7 @@ public class OrdineImpl implements IOrdineService{
 		Status s = sR.findById(req.getId_status()).orElseThrow(() -> new EcommerceVinoException("status.ntfnd"));
 		o.setStatus(s);
 		
+		log.debug("Valore di indirizzo: " + req.getIndirizzoDestinazione());
 		o.setIndirizzoDestinazione(req.getIndirizzoDestinazione());
 		
 		Ordine saved = oR.save(o);

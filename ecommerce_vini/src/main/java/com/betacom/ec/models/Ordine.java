@@ -51,7 +51,7 @@ public class Ordine {
 	private List<OrdineBox> listOrdineBox = new ArrayList <OrdineBox> ();
 	
 	@OneToMany(mappedBy = "ordine", fetch = FetchType.LAZY)
-	private List<PrenotazioneDegustazione> listPrenotazioneDegustazione = new ArrayList <PrenotazioneDegustazione> ();
+	private List<OrdineDegustazione> listOrdineDegustazione = new ArrayList <OrdineDegustazione> ();
 
 	@Column(name = "indirizzo_destinazione", nullable = false)
 	private String indirizzoDestinazione;

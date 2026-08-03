@@ -30,6 +30,7 @@ public class OrdineMap {
 				.status(StatusMap.buildStatusDTO(o.getStatus()))
 				.utente(utenteMap.buildUtenteDTO(o.getUtente()))
 				.ordineAlcolico(ordAlcMap.buildOrdineAlcolicoDTOList(o.getListOrdineAlcolico()))
+				.indirizzo_destinazione(o.getIndirizzoDestinazione())
 				.build();
 	}
 }

@@ -52,5 +52,5 @@ public class OrdineDegustazione {
 
 	@Column(name="quantita", nullable = false)
 	private Integer quantita;
-
+	
 }
