@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.betacom.ec.dto.input.ChangePasswordRequest;
 import com.betacom.ec.dto.input.UtenteRequest;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ResponseDTO;
@@ -44,6 +45,15 @@ public class UtenteController {
 			return ResponseEntity.ok(ResponseDTO.builder()
 					.msg("updated utente...")
 					.build());
+	}
+	
+	@PatchMapping("changePassword")
+	public ResponseEntity<ResponseDTO> changePassword(@RequestBody (required = true) ChangePasswordRequest req) throws Exception{ //tutti i campi sono considerati not null nella req
+		utenteService.changePassword(req);
+		return ResponseEntity.ok(ResponseDTO.builder()
+				.msg("changed password utente...")
+				.build());
+				
 	}
 	
 	@DeleteMapping("delete/{id}")
