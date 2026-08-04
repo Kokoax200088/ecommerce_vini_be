@@ -11,10 +11,12 @@ import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.BoxMap;
 import com.betacom.ec.models.Box;
 import com.betacom.ec.models.Cantina;
-import com.betacom.ec.models.Carrello;
-import com.betacom.ec.models.Cliente;
 import com.betacom.ec.repository.IBoxRepository;
 import com.betacom.ec.repository.ICantinaRepository;
+import com.betacom.ec.repository.IBoxAlcolicoRepository;
+import com.betacom.ec.repository.IImmagineBoxRepository;
+import com.betacom.ec.repository.IOrdineBoxRepository;
+import com.betacom.ec.repository.IProdottoBoxRepository;
 import com.betacom.ec.services.interfaces.IBoxService;
 
 import jakarta.transaction.Transactional;
@@ -24,11 +26,17 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 @Service
-public class BoxImpl implements IBoxService{
+public class BoxImpl implements IBoxService {
 	
 	private final IBoxRepository boxR;
 	private final ICantinaRepository cR;
 	private final BoxMap mapper;
+	
+	// Nuove dipendenze per disinnescare i vincoli di chiave esterna
+	private final IBoxAlcolicoRepository boxAlcolicoRepository;
+	private final IImmagineBoxRepository immagineBoxRepository;
+	private final IOrdineBoxRepository ordineBoxRepository;
+	private final IProdottoBoxRepository prodottoBoxRepository;
 
 	@Transactional
 	@Override
@@ -43,8 +51,6 @@ public class BoxImpl implements IBoxService{
 		box.setNome(req.getNome());
 		box.setSconto(req.getSconto());
 		box.setCantina(cantina);
-//		box.setListBoxAlcolico(req.getListBoxAlcolico());
-//		box.setListImmagine(req.getListImmagine());
 	
 		Box created = boxR.save(box);
 		return created.getId();
@@ -61,13 +67,9 @@ public class BoxImpl implements IBoxService{
 		
 		Optional.ofNullable(cantina).ifPresent(box::setCantina);
 		Optional.ofNullable(req.getNome()).ifPresent(box::setNome);
-//		Optional.ofNullable(req.getListBoxAlcolico()).ifPresent(box::setListBoxAlcolico);
-//		Optional.ofNullable(req.getListImmagine()).ifPresent(box::setListImmagine);
 		Optional.ofNullable(req.getSconto()).ifPresent(box::setSconto);
 		
 		boxR.save(box);
-		
-		
 	}
 
 	@Transactional
@@ -77,8 +79,24 @@ public class BoxImpl implements IBoxService{
 		Box box = boxR.findById(id)
 				.orElseThrow(() -> new EcommerceVinoException("box_ntfnd"));
 		
+		if (box.getListBoxAlcolico() != null && !box.getListBoxAlcolico().isEmpty()) {
+			boxAlcolicoRepository.deleteAll(box.getListBoxAlcolico());
+			box.getListBoxAlcolico().clear();
+		}
+		if (box.getListImmagine() != null && !box.getListImmagine().isEmpty()) {
+			immagineBoxRepository.deleteAll(box.getListImmagine());
+			box.getListImmagine().clear();
+		}
+		if (box.getListOrdineBox() != null && !box.getListOrdineBox().isEmpty()) {
+			ordineBoxRepository.deleteAll(box.getListOrdineBox());
+			box.getListOrdineBox().clear();
+		}
+		if (box.getListProdottoBox() != null && !box.getListProdottoBox().isEmpty()) {
+			prodottoBoxRepository.deleteAll(box.getListProdottoBox());
+			box.getListProdottoBox().clear();
+		}
+
 		boxR.delete(box);
-		
 	}
 
 	@Transactional
@@ -96,5 +114,4 @@ public class BoxImpl implements IBoxService{
 				.orElseThrow(() -> new EcommerceVinoException("box_ntfnd"));
 		return mapper.buildBoxDTO(box);
 	}
-
 }

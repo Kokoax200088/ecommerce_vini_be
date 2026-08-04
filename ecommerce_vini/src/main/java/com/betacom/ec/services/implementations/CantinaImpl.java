@@ -1,5 +1,6 @@
 package com.betacom.ec.services.implementations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,7 @@ import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.CantinaMap;
 import com.betacom.ec.models.Box;
 import com.betacom.ec.models.Cantina;
+import com.betacom.ec.models.Degustazione;
 import com.betacom.ec.models.Venditore;
 import com.betacom.ec.repository.ICantinaRepository;
 import com.betacom.ec.repository.IVenditoreRepository;
@@ -22,14 +24,13 @@ import com.betacom.ec.repository.IPrenotazioneDegustazioneRepository;
 import com.betacom.ec.repository.IProdottoAlcolicoRepository;
 import com.betacom.ec.repository.IProdottoBoxRepository;
 import com.betacom.ec.repository.IProdottoDegustazioneRepository;
-import com.betacom.ec.repository.IBoxRepository;
-import com.betacom.ec.repository.IDegustazioneRepository;
 import com.betacom.ec.repository.IRatingCantinaRepository;
 import com.betacom.ec.repository.ISpedizioneAlcolicoRepository;
 import com.betacom.ec.repository.ISpedizioneBoxRepository;
 import com.betacom.ec.repository.ICantinaAlcolicoRepository;
 import com.betacom.ec.services.interfaces.IBoxService;
 import com.betacom.ec.services.interfaces.ICantinaService;
+import com.betacom.ec.services.interfaces.IDegustazioneService; 
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,8 @@ public class CantinaImpl implements ICantinaService {
 	private final CantinaMap cantinaMap;
 	
 	private final IBoxService boxService;
+	private final IDegustazioneService degustazioneService; 
+	
 	private final IOrdineAlcolicoRepository ordineAlcolicoRepository;
 	private final IOrdineBoxRepository ordineBoxRepository;
 	private final IOrdineDegustazioneRepository ordineDegustazioneRepository;
@@ -56,8 +59,6 @@ public class CantinaImpl implements ICantinaService {
 	private final IRatingCantinaRepository ratingAlcolicoRepository;
 	
 	private final IImmagineCantinaRepository immagineCantinaRepository;
-	private final IBoxRepository boxRepository;
-	private final IDegustazioneRepository degustazioneRepository;
 	private final IRatingCantinaRepository ratingCantinaRepository;
 	private final ICantinaAlcolicoRepository cantinaAlcolicoRepository;
 	
@@ -107,15 +108,25 @@ public class CantinaImpl implements ICantinaService {
 	            .orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"));
 
 	    if (cantina.getListBox() != null && !cantina.getListBox().isEmpty()) {
-	        for (Box box : cantina.getListBox()) {
+	        List<Box> boxDaEliminare = new ArrayList<>(cantina.getListBox());
+	        for (Box box : boxDaEliminare) {
 	            boxService.delete(box.getId());
 	        }
+	        cantina.getListBox().clear();
+	    }
+	    
+	    if (cantina.getListDegustazione() != null && !cantina.getListDegustazione().isEmpty()) {
+	        List<Degustazione> degustazioniDaEliminare = new ArrayList<>(cantina.getListDegustazione());
+	        for (Degustazione deg : degustazioniDaEliminare) {
+	            degustazioneService.delete(deg.getId()); 
+	        }
+	        cantina.getListDegustazione().clear();
 	    }
 
 	    immagineCantinaRepository.deleteByCantina_Id(id);
 	    ratingCantinaRepository.deleteByCantina_Id(id);
 	    cantinaAlcolicoRepository.deleteByCantina_Id(id);
-	    degustazioneRepository.deleteByCantina_Id(id); 
+	    
 	    ordineAlcolicoRepository.deleteByCantina_Id(id);
 	    ordineBoxRepository.deleteByCantina_Id(id);
 	    ordineDegustazioneRepository.deleteByCantina_Id(id);
@@ -152,5 +163,4 @@ public class CantinaImpl implements ICantinaService {
 		Cantina cantina = cantinaRepository.findById(id).orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"));
 		return cantinaMap.buildCantinaDTO(cantina);
 	}
-	
 }

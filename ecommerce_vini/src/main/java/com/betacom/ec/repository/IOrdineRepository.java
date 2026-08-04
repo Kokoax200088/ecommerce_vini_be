@@ -25,4 +25,6 @@ public interface IOrdineRepository extends JpaRepository<Ordine, Integer>{
 			@Param("id_utente") Integer id_utente,
 			@Param("indirizzo_destinazione") String indirizzo_destinazione,
 			@Param("id_venditore") Integer id_venditore);
+
+	List<Ordine> findByUtente_Id(Integer id);
 }

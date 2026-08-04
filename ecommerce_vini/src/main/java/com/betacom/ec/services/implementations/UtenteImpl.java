@@ -12,9 +12,12 @@ import com.betacom.ec.dto.output.MeDTO;
 import com.betacom.ec.dto.output.UtenteDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.UtenteMap;
+import com.betacom.ec.models.Ordine;
 import com.betacom.ec.models.Utente;
+import com.betacom.ec.repository.IOrdineRepository;
 import com.betacom.ec.repository.IRuoloRepository;
 import com.betacom.ec.repository.IUtenteRepository;
+import com.betacom.ec.services.interfaces.IOrdineService;
 import com.betacom.ec.services.interfaces.IUtenteService;
 import com.betacom.ec.utils.Utilities;
 
@@ -28,6 +31,9 @@ import lombok.extern.slf4j.Slf4j;
 public class UtenteImpl implements IUtenteService {
 	private final IUtenteRepository utenteRepository;
 	private final IRuoloRepository ruoloRepository;
+	
+	private final IOrdineService ordineService;
+	private final IOrdineRepository ordineRepository;
 	
 	private final UtenteMap mapper;
 	
@@ -53,12 +59,31 @@ public class UtenteImpl implements IUtenteService {
 	@Transactional
 	@Override
 	public void delete(Integer id) throws Exception {
-		log.debug("Delete user with id {}", id);
-		
-		Utente utente = utenteRepository.findById(id)
-							.orElseThrow(() -> new EcommerceVinoException("utente.id_not_found"));
-		
-		utenteRepository.delete(utente);
+	    try {
+	        log.debug("Delete user with id {}", id);
+	        
+	        Utente utente = utenteRepository.findById(id)
+	                            .orElseThrow(() -> new EcommerceVinoException("utente.id_not_found"));
+	        
+	        utente.setCliente(null);
+	        utente.setVenditore(null);
+	        
+	        List<Ordine> ordiniUtente = ordineRepository.findByUtente_Id(id);
+	        if (ordiniUtente != null && !ordiniUtente.isEmpty()) {
+	            
+	            for (Ordine ordine : ordiniUtente) {
+	                ordineService.delete(ordine.getId());
+	            }
+	            
+	            ordineRepository.flush(); 
+	        }
+	        
+	        utenteRepository.delete(utente);
+	        
+	    } catch (Exception e) {
+	        log.error("Error deleting user with id {}: {}", id, e.getMessage());
+	        throw new EcommerceVinoException("utente.delete_error");
+	    }
 	}
 	
 	@Transactional
