@@ -23,4 +23,5 @@ public interface IDegustazioneRepository extends JpaRepository<Degustazione, Int
 	    @Param("id_cantina") Integer id_cantina
 	);
 	
+	void deleteByCantina_Id(Integer idCantina);
 }

@@ -13,4 +13,6 @@ public interface IImmagineCantinaRepository extends JpaRepository<ImmagineCantin
 	List<ImmagineCantina> searchByFilter(
 			@Param("idCantina") Integer idCantina
 			);
+	
+	void deleteByCantina_Id(Integer idCantina);
 }

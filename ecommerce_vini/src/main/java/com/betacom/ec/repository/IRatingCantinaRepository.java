@@ -15,4 +15,6 @@ public interface IRatingCantinaRepository extends JpaRepository<RatingCantina, I
 			@Param("utente") Integer utente,
 			@Param("valutazione") Integer valutazione
 			);
+	
+	void deleteByCantina_Id(Integer idCantina);
 }

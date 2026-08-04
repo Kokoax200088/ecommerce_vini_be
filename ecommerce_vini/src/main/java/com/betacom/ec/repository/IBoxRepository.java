@@ -16,4 +16,6 @@ public interface IBoxRepository extends JpaRepository<Box, Integer>{
 			@Param("nome") String nome,
 			@Param("id_cantina") Integer id_cantina
 			);
+	
+	void deleteByCantina_Id(Integer idCantina);
 }
