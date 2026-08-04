@@ -21,4 +21,12 @@ public interface ISpedizioneAlcolicoService {
 			Integer id_venditore);
 
 	SpedizioneAlcolicoDTO getById(Integer id_spedizione) throws Exception;
+	
+	List<SpedizioneAlcolicoDTO> searchByCliente(String corriere,
+			String codice_tracciamento,
+			Integer id_cantina,
+			Integer id_ordine_alcolico,
+			Integer id_status,
+			Integer id_cliente,
+			Integer id_venditore);
 }
