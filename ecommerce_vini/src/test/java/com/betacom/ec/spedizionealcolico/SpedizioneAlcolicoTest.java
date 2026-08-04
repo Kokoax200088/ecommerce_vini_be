@@ -338,7 +338,7 @@ public class SpedizioneAlcolicoTest {
 	public void getByIdTest() throws Exception {
 		log.debug("getByIdTest");
 		
-		ResponseEntity<Object> response = saC.getSpedizioneAlcolicoById(1);
+		ResponseEntity<Object> response = null; //= saC.getSpedizioneAlcolicoById(1);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		SpedizioneAlcolicoDTO dto = (SpedizioneAlcolicoDTO)response.getBody();
 		log.debug(dto.toString());
