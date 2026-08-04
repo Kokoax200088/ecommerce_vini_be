@@ -5,7 +5,6 @@ import java.util.List;
 
 import com.betacom.ec.dto.input.OrdineReq;
 import com.betacom.ec.dto.output.OrdineDTO;
-import com.betacom.ec.models.Ordine;
 
 public interface IOrdineService {
 	OrdineDTO create(OrdineReq req) throws Exception;
@@ -17,4 +16,6 @@ public interface IOrdineService {
 	OrdineDTO getById(Integer id_ordine) throws Exception;
 	
 	List<OrdineDTO> listWithParameters(LocalDate data, Double totale, Integer id_status, Integer id_utente, String indirizzo_destinazione);
+	
+	List<OrdineDTO>searchByVenditore(LocalDate data,Double totale,Integer id_status,Integer id_utente,String indirizzo_destinazione,Integer idVenditore);
 }

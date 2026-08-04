@@ -241,7 +241,7 @@
         id_cantina integer,
         id_cliente integer,
         id_ordine_alcolico integer unique,
-        status integer unique,
+        status integer,
         codice_tracciamento varchar(255) not null,
         corriere varchar(255) not null,
         primary key (id)
@@ -252,7 +252,7 @@
         id_cantina integer,
         id_cliente integer,
         id_ordine_box integer unique,
-        status integer unique,
+        status integer,
         codice_tracciamento varchar(255) not null,
         corriere varchar(255) not null,
         primary key (id)

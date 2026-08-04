@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class OrdineBoxDTO {
 	private Integer id;
-	private OrdineDTO ordine;
+	private Integer id_ordine;
 	private StatusDTO status;
 	private BoxDTO box;
 	private CantinaDTO cantina;
