@@ -7,7 +7,7 @@ import com.betacom.ec.dto.input.DegustazioneReq;
 import com.betacom.ec.dto.output.DegustazioneDTO;
 
 public interface IDegustazioneService {
-	void create(DegustazioneReq req) throws Exception;
+	DegustazioneDTO create(DegustazioneReq req) throws Exception;
 
 	void update(DegustazioneReq req) throws Exception;
 

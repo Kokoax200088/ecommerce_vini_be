@@ -34,9 +34,10 @@ private final IDegustazioneService dS;
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
 			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) DegustazioneReq req) throws Exception{
-			dS.create(req);
+			DegustazioneDTO creato = dS.create(req);
 			return ResponseEntity.ok(ResponseDTO.builder()
 					.msg("created...")
+					.id(creato.getId())
 					.build());
 	}
 	

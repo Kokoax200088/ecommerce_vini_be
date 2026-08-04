@@ -41,7 +41,7 @@ public class DegustazioneImpl implements IDegustazioneService{
 	private final DegustazioneMap mapper;
 	
 	@Transactional
-	public void create(DegustazioneReq req) throws Exception{
+	public DegustazioneDTO create(DegustazioneReq req) throws Exception{
 		Degustazione d = new Degustazione();
 		//Optional.ofNullable(req.getId()).ifPresent(d::setId);
 		d.setCantina(cR.findById(req.getCantinaId()).orElseThrow(()-> new EcommerceVinoException("cantina.ntfnd")));
@@ -50,10 +50,10 @@ public class DegustazioneImpl implements IDegustazioneService{
 		d.setDescrizione(req.getDescrizione());
 		d.setNome(req.getNome());
 		d.setPrezzo(req.getPrezzo());
-		
-		dR.save(d);
+
+		return mapper.buildDegustazioneDTO(dR.save(d));
 	}
-	
+
 	@Transactional
 	public void update(DegustazioneReq req) throws Exception{
 		Degustazione d = dR.findById(req.getId()).orElseThrow( () -> new EcommerceVinoException("degustazione.ntfnd"));
