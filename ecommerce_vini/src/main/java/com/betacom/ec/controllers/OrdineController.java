@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,8 @@ import com.betacom.ec.dto.input.OrdineReq;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.OrdineDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
+import com.betacom.ec.exception.EcommerceVinoException;
+import com.betacom.ec.repository.IVenditoreRepository;
 import com.betacom.ec.services.interfaces.IOrdineService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OrdineController {
 	
 private final IOrdineService oS;
-	
+private final IVenditoreRepository vR;
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
 			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) OrdineReq req) throws Exception{
@@ -68,6 +71,29 @@ private final IOrdineService oS;
 			@RequestParam(required = false)Integer id_utente, 
 			@RequestParam(required = false)String indirizzo_destinazione) {
 		return ResponseEntity.ok(oS.listWithParameters(data,totale,id_status,id_utente,indirizzo_destinazione));
+	}
+	
+	@GetMapping("searchByVenditore")
+	public ResponseEntity<List<OrdineDTO>> searchByVenditore(
+			@RequestParam(required = false) LocalDate data,
+			@RequestParam(required = false) Double totale,
+			@RequestParam(required = false) Integer id_status,
+			@RequestParam(required = false) Integer id_utente,
+			@RequestParam(required = false) String indirizzo_destinazione,
+			Authentication authentication) {
+
+		boolean isVenditore = authentication != null && authentication.isAuthenticated()
+				&& authentication.getAuthorities().stream()
+						.anyMatch(a -> a.getAuthority().equals("ROLE_VENDITORE"));
+
+		Integer idVenditore = null;
+		if (isVenditore) {
+			idVenditore = vR.findIdByUtenteEmail(authentication.getName())
+					.orElseThrow(() -> new EcommerceVinoException("Venditore non trovato"));
+		}
+
+		return ResponseEntity.ok(
+				oS.searchByVenditore(data, totale, id_status, id_utente, indirizzo_destinazione, idVenditore));
 	}
 	@GetMapping("getOrdineById")
 	public ResponseEntity<Object> getOrdineById(@RequestParam (required = true) Integer id) throws Exception{

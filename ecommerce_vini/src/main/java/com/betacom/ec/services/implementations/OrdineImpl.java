@@ -11,15 +11,9 @@ import com.betacom.ec.dto.output.OrdineDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.OrdineMap;
 import com.betacom.ec.models.Ordine;
-import com.betacom.ec.models.OrdineAlcolico;
-import com.betacom.ec.models.OrdineBox;
-import com.betacom.ec.models.PrenotazioneDegustazione;
 import com.betacom.ec.models.Status;
 import com.betacom.ec.models.Utente;
-import com.betacom.ec.repository.IOrdineAlcolicoRepository;
-import com.betacom.ec.repository.IOrdineBoxRepository;
 import com.betacom.ec.repository.IOrdineRepository;
-import com.betacom.ec.repository.IPrenotazioneDegustazioneRepository;
 import com.betacom.ec.repository.IStatusRepository;
 import com.betacom.ec.repository.IUtenteRepository;
 import com.betacom.ec.services.interfaces.IOrdineService;
@@ -35,9 +29,6 @@ public class OrdineImpl implements IOrdineService{
 	private final IOrdineRepository oR;
 	private final IUtenteRepository uR;
 	private final IStatusRepository sR;
-	private final IOrdineAlcolicoRepository oaR;
-	private final IOrdineBoxRepository obR;
-	private final IPrenotazioneDegustazioneRepository pdR;
 	
 	private final OrdineMap mapper;
 	
@@ -103,6 +94,12 @@ public class OrdineImpl implements IOrdineService{
 				.orElseThrow(()-> new EcommerceVinoException("ordine.ntfnd"));
 		return mapper.buildOrdineDTO(o);
 	}	
+	
+	@Transactional
+	public List<OrdineDTO>searchByVenditore(LocalDate data,Double totale,Integer id_status,Integer id_utente,String indirizzo_destinazione,Integer idVenditore){
+		List<Ordine> lO = oR.searchByVenditore(data, totale, id_status, id_utente, indirizzo_destinazione, idVenditore);
+		return mapper.buildOrdineDTOList(lO);
+	}
 /*	
 	@Transactional
 	public void addListOrdineAlcolico(Integer id_ordine_alcolico,Integer id_ordine) throws Exception{

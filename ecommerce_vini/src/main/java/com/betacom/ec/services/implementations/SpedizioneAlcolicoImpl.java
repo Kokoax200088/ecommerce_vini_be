@@ -79,15 +79,14 @@ public class SpedizioneAlcolicoImpl implements ISpedizioneAlcolicoService{
 		saR.delete(sa);
 	}
 	
-	@Transactional
-	public List<SpedizioneAlcolicoDTO> listWithParameters(String corriere,
-			String codice_tracciamento,
-			Integer id_cantina, 
-			Integer id_ordine_alcolico,
-			Integer id_cliente,
-			Integer id_status){
-		List<SpedizioneAlcolico> lS = saR.searchWithParameters(corriere, codice_tracciamento, id_cantina, id_ordine_alcolico, id_status, id_cliente);
-		return mapper.buildSpedizioneAlcolicoDTOList(lS);
+	@Override
+	public List<SpedizioneAlcolicoDTO> listWithParameters(String corriere, String codice_tracciamento,
+			Integer id_cantina, Integer id_ordine_alcolico, Integer id_cliente, Integer id_status,
+			Integer id_venditore) {
+
+		List<SpedizioneAlcolico> lS = saR.searchWithParameters(corriere, codice_tracciamento, id_cantina,
+				id_ordine_alcolico, id_status, id_cliente, id_venditore);
+			return mapper.buildSpedizioneAlcolicoDTOList(lS);
 	}
 
 	@Transactional
