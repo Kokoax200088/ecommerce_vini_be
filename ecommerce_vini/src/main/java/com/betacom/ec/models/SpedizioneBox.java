@@ -41,7 +41,7 @@ public class SpedizioneBox {
 	@JoinColumn(name="id_cliente", referencedColumnName="id")
 	private Cliente cliente;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(
 			name="status",
 			referencedColumnName = "id",
