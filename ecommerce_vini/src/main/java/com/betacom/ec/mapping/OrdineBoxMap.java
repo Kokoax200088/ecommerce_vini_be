@@ -9,16 +9,15 @@ import com.betacom.ec.models.OrdineBox;
 
 @Component
 public class OrdineBoxMap {
-	
+
 	private final CantinaMap cantinaMap;
-	private final OrdineMap ordMap;
 	private final BoxMap boxMap;
 
-    public OrdineBoxMap(CantinaMap cantinaMap, OrdineMap ordMap, BoxMap boxMap) {
+    public OrdineBoxMap(CantinaMap cantinaMap, BoxMap boxMap) {
         this.cantinaMap = cantinaMap;
-        this.ordMap = ordMap;
         this.boxMap = boxMap;
     }
+
 	public  List<OrdineBoxDTO> buildOrdineBoxDTOList(List<OrdineBox> lO){
 		return lO.stream()
 				.map(o -> buildOrdineBoxDTO(o)).toList();
@@ -30,7 +29,7 @@ public class OrdineBoxMap {
 				.status(StatusMap.buildStatusDTO(o.getStatus()))
 				.box(boxMap.buildBoxDTO(o.getBox()))
 				.cantina(cantinaMap.buildCantinaDTO(o.getCantina()))
-				.ordine(ordMap.buildOrdineDTO(o.getOrdine()))
+				.id_ordine(o.getOrdine().getId())
 				.build();
 	}
 }

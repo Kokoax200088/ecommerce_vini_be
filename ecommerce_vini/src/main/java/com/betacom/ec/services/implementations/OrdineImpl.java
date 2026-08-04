@@ -11,9 +11,6 @@ import com.betacom.ec.dto.output.OrdineDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.OrdineMap;
 import com.betacom.ec.models.Ordine;
-import com.betacom.ec.models.OrdineAlcolico;
-import com.betacom.ec.models.OrdineBox;
-import com.betacom.ec.models.PrenotazioneDegustazione;
 import com.betacom.ec.models.Status;
 import com.betacom.ec.models.Utente;
 import com.betacom.ec.repository.IOrdineAlcolicoRepository;
@@ -118,6 +115,12 @@ public class OrdineImpl implements IOrdineService{
 				.orElseThrow(()-> new EcommerceVinoException("ordine.ntfnd"));
 		return mapper.buildOrdineDTO(o);
 	}	
+	
+	@Transactional
+	public List<OrdineDTO>searchByVenditore(LocalDate data,Double totale,Integer id_status,Integer id_utente,String indirizzo_destinazione,Integer idVenditore){
+		List<Ordine> lO = oR.searchByVenditore(data, totale, id_status, id_utente, indirizzo_destinazione, idVenditore);
+		return mapper.buildOrdineDTOList(lO);
+	}
 /*	
 	@Transactional
 	public void addListOrdineAlcolico(Integer id_ordine_alcolico,Integer id_ordine) throws Exception{

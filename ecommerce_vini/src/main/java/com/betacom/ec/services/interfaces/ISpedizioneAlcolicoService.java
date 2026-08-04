@@ -14,10 +14,11 @@ public interface ISpedizioneAlcolicoService {
 	
 	List<SpedizioneAlcolicoDTO> listWithParameters(String corriere,
 			String codice_tracciamento,
-			Integer id_cantina, 
+			Integer id_cantina,
 			Integer id_ordine_alcolico,
 			Integer id_cliente,
-			Integer id_status);
+			Integer id_status,
+			Integer id_venditore);
 
 	SpedizioneAlcolicoDTO getById(Integer id_spedizione) throws Exception;
 }
