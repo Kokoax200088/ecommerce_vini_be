@@ -24,6 +24,7 @@ import com.betacom.ec.repository.IPrenotazioneDegustazioneRepository;
 import com.betacom.ec.repository.IProdottoAlcolicoRepository;
 import com.betacom.ec.repository.IProdottoBoxRepository;
 import com.betacom.ec.repository.IProdottoDegustazioneRepository;
+import com.betacom.ec.repository.IRatingAlcolicoRepository; // <-- NUOVO IMPORT
 import com.betacom.ec.repository.IRatingCantinaRepository;
 import com.betacom.ec.repository.ISpedizioneAlcolicoRepository;
 import com.betacom.ec.repository.ISpedizioneBoxRepository;
@@ -56,10 +57,11 @@ public class CantinaImpl implements ICantinaService {
 	private final IProdottoDegustazioneRepository prodottoDegustazioneRepository;
 	private final ISpedizioneAlcolicoRepository spedizioneAlcolicoRepository;
 	private final ISpedizioneBoxRepository spedizioneBoxRepository;
-	private final IRatingCantinaRepository ratingAlcolicoRepository;
+	
+	private final IRatingAlcolicoRepository ratingAlcolicoRepository; // <-- CORREZIONE QUI
+	private final IRatingCantinaRepository ratingCantinaRepository;
 	
 	private final IImmagineCantinaRepository immagineCantinaRepository;
-	private final IRatingCantinaRepository ratingCantinaRepository;
 	private final ICantinaAlcolicoRepository cantinaAlcolicoRepository;
 	
 	@Transactional
