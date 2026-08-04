@@ -77,12 +77,14 @@ public class SpedizioneAlcolicoController {
 
 		if (isVenditore) {
 			String email = authentication.getName();
-			idVenditore = vR.findIdByUtenteEmail(email).orElseThrow(() -> new EcommerceVinoException("spedalc.ntfnd"));
+			idVenditore = vR.findIdByUtenteEmail(email).orElseThrow(() -> new EcommerceVinoException("utente.ntfnd"));
 		}
 
 		if (isCliente) {
 			String email = authentication.getName();
-			id_cliente = cR.findIdByUtenteEmail(email).orElseThrow(() -> new EcommerceVinoException("spedalc.ntfnd"));
+			log.info("DEBUG isCliente=true email={}", email);
+			int id_utente = cR.findIdByUtenteEmail(email).orElseThrow(() -> new EcommerceVinoException("utenteId.ntfnd"));
+			id_cliente = cR.findIdByUtenteId(id_utente).orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd"));
 			log.info("DEBUG isCliente=true email={} id_cliente_risolto={}", email, id_cliente);
 		}
 

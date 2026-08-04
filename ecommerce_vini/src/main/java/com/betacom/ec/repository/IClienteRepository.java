@@ -15,7 +15,7 @@ public interface IClienteRepository extends JpaRepository<Cliente, Integer> {
 			@Param("indirizzo") String indirizzo
 			);
 
-	@Query("select c.id from Cliente c where c.utente.email = :email")
+	@Query("select u.id from Utente u where u.email = :email")
 	Optional<Integer> findIdByUtenteEmail(@Param("email") String email);
 	
 	@Query("select c.id from Cliente c where c.utente.id = :idUtente")
