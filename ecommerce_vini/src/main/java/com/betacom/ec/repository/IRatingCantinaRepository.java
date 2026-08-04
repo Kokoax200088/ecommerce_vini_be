@@ -17,4 +17,6 @@ public interface IRatingCantinaRepository extends JpaRepository<RatingCantina, I
 			);
 	
 	void deleteByCantina_Id(Integer idCantina);
+
+	void deleteByCliente_Id(Integer id);
 }

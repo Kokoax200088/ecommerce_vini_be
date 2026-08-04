@@ -15,4 +15,8 @@ public interface IOrdineBoxRepository extends JpaRepository<OrdineBox, Integer>{
 			@Param("id_status") Integer id_status,
 			@Param("id_box") Integer id_box,
 			@Param("id_cantina") Integer id_cantina);
+
+	void deleteByCantina_Id(Integer id);
+
+	void deleteByOrdine_Id(Integer id);
 }

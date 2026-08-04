@@ -15,4 +15,10 @@ public interface IOrdineDegustazioneRepository extends JpaRepository<OrdineDegus
 			@Param("id_status") Integer id_status,
 			@Param("id_degustazione") Integer id_degustazione,
 			@Param("id_cantina") Integer id_cantina);
+
+	void deleteByCantina_Id(Integer id);
+
+	void deleteByDegustazione_Id(Integer id_degustazione);
+
+	void deleteByOrdine_Id(Integer id);
 }

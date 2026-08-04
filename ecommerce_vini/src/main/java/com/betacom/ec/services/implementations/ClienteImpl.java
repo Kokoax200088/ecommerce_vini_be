@@ -17,6 +17,10 @@ import com.betacom.ec.models.Cliente;
 import com.betacom.ec.models.Utente;
 import com.betacom.ec.repository.ICarrelloRepository;
 import com.betacom.ec.repository.IClienteRepository;
+import com.betacom.ec.repository.IRatingAlcolicoRepository;
+import com.betacom.ec.repository.IRatingCantinaRepository;
+import com.betacom.ec.repository.ISpedizioneAlcolicoRepository;
+import com.betacom.ec.repository.ISpedizioneBoxRepository;
 import com.betacom.ec.repository.IUtenteRepository;
 import com.betacom.ec.services.interfaces.IClienteService;
 import com.betacom.ec.services.interfaces.IUtenteService;
@@ -38,6 +42,11 @@ public class ClienteImpl implements IClienteService{
 //	private final IRuoloRepository ruoloRepository;
 	private final IUtenteRepository utenteRepository;
 	private final ClienteMap clienteMap;
+	
+	private final IRatingAlcolicoRepository ratingAlcolicoRepository;
+	private final IRatingCantinaRepository ratingCantinaRepository;
+	private final ISpedizioneAlcolicoRepository spedizioneAlcolicoRepository;
+	private final ISpedizioneBoxRepository spedizioneBoxRepository;
 	
 	@Transactional
 	@Override
@@ -70,13 +79,18 @@ public class ClienteImpl implements IClienteService{
 	@Transactional
 	@Override
 	public void delete(Integer id) throws Exception {
-		log.debug("Delete {}", id);
-		
-		Cliente cliente = clienteRepository.findById(id)
-							.orElseThrow(() -> new EcommerceVinoException("cliente.id_not_found"));
-		
-		utenteRepository.delete(cliente.getUtente());
-		clienteRepository.delete(cliente);
+	    log.debug("Delete {}", id);
+	    
+	    Cliente cliente = clienteRepository.findById(id)
+	            .orElseThrow(() -> new EcommerceVinoException("cliente.id_not_found"));
+	    
+	    ratingAlcolicoRepository.deleteByCliente_Id(id);
+	    ratingCantinaRepository.deleteByCliente_Id(id);
+	    spedizioneAlcolicoRepository.deleteByCliente_Id(id);
+	    spedizioneBoxRepository.deleteByCliente_Id(id);
+
+	    utenteRepository.delete(cliente.getUtente());
+	    clienteRepository.delete(cliente);
 	}
 	
 	@Transactional

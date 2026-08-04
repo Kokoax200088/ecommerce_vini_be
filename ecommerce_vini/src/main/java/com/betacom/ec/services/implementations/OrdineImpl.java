@@ -18,6 +18,7 @@ import com.betacom.ec.models.Status;
 import com.betacom.ec.models.Utente;
 import com.betacom.ec.repository.IOrdineAlcolicoRepository;
 import com.betacom.ec.repository.IOrdineBoxRepository;
+import com.betacom.ec.repository.IOrdineDegustazioneRepository;
 import com.betacom.ec.repository.IOrdineRepository;
 import com.betacom.ec.repository.IPrenotazioneDegustazioneRepository;
 import com.betacom.ec.repository.IStatusRepository;
@@ -38,6 +39,7 @@ public class OrdineImpl implements IOrdineService{
 	private final IOrdineAlcolicoRepository oaR;
 	private final IOrdineBoxRepository obR;
 	private final IPrenotazioneDegustazioneRepository pdR;
+	private final IOrdineDegustazioneRepository ordineDegustazioneRepository;
 	
 	private final OrdineMap mapper;
 	
@@ -60,10 +62,23 @@ public class OrdineImpl implements IOrdineService{
 	}
 	
 	@Transactional
+	@Override
 	public void delete(Integer id) throws Exception {
-		Ordine o= oR.findById(id)
-				.orElseThrow(() -> new EcommerceVinoException("ordine.ntfnd"));
-		oR.delete(o);
+	    log.debug("delete ordine: {}", id);
+	    
+	    Ordine o = oR.findById(id)
+	            .orElseThrow(() -> new EcommerceVinoException("ordine.ntfnd"));
+
+	    oaR.deleteByOrdine_Id(id);
+	    obR.deleteByOrdine_Id(id);
+	    ordineDegustazioneRepository.deleteByOrdine_Id(id);
+	    pdR.deleteByOrdine_Id(id);
+
+	    if (o.getStatus() != null) {
+	        o.getStatus().getListOrdine().remove(o);
+	    }
+
+	    oR.delete(o);
 	}
 	
 	@Transactional

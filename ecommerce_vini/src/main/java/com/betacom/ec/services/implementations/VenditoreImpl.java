@@ -10,10 +10,14 @@ import com.betacom.ec.dto.input.VenditoreRequest;
 import com.betacom.ec.dto.output.VenditoreDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.VenditoreMap;
+import com.betacom.ec.models.Alcolico;
+import com.betacom.ec.models.Cantina;
 import com.betacom.ec.models.Utente;
 import com.betacom.ec.models.Venditore;
 import com.betacom.ec.repository.IUtenteRepository;
 import com.betacom.ec.repository.IVenditoreRepository;
+import com.betacom.ec.services.interfaces.IAlcolicoService;
+import com.betacom.ec.services.interfaces.ICantinaService;
 import com.betacom.ec.services.interfaces.IUtenteService;
 import com.betacom.ec.services.interfaces.IVenditoreService;
 
@@ -26,6 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class VenditoreImpl implements IVenditoreService{
 	private final IUtenteService utenteService;
+	
+	private final ICantinaService cantinaService;
+	private final IAlcolicoService alcolicoService;
 	
 	private final IUtenteRepository utenteRepository;
 	private final IVenditoreRepository venditoreRepository;
@@ -53,6 +60,18 @@ public class VenditoreImpl implements IVenditoreService{
 		
 		Venditore venditore = venditoreRepository.findById(id)
 								.orElseThrow(() -> new EcommerceVinoException("venditore.id_not_found"));
+		
+		if(venditore.getListCantina() != null && !venditore.getListCantina().isEmpty()) {
+			for(Cantina cantina : venditore.getListCantina()) {
+				cantinaService.delete(cantina.getId());
+			}
+		}
+		
+		if(venditore.getListAlcolico() != null && !venditore.getListAlcolico().isEmpty()) {
+			for(Alcolico alcolico : venditore.getListAlcolico()) {
+				alcolicoService.remove(alcolico.getId()); 
+			}
+		}
 		
 		utenteRepository.delete(venditore.getUtente());
 		venditoreRepository.delete(venditore);

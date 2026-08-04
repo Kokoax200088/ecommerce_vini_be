@@ -12,4 +12,6 @@ public interface IImmagineDegustazioneRepository extends JpaRepository<ImmagineD
 	
 	@Query (name="imgdeg.searchWithParameters")
 	List<ImmagineDegustazione> searchWithParameters(@Param ("id_cantina") Integer id_cantina );
+
+	void deleteByDegustazione_Id(Integer id_degustazione);
 }

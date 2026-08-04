@@ -16,4 +16,8 @@ public interface IRatingAlcolicoRepository extends JpaRepository<RatingAlcolico,
 			@Param("utente") Integer utente,
 			@Param("valutazione") Integer valutazione
 			);
+
+	void deleteByAlcolico_Id(Integer id_alcolico);
+
+	void deleteByCliente_Id(Integer id);
 }

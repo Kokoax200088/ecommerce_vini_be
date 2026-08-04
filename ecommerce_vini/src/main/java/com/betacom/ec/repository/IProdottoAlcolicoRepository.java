@@ -11,4 +11,8 @@ import com.betacom.ec.models.ProdottoAlcolico;
 public interface IProdottoAlcolicoRepository extends JpaRepository<ProdottoAlcolico, Integer>{
 	@Query(name = "prodottoAlcolico.searchByFilter")
 	List<ProdottoAlcolico> searchByFilter(@Param("idAlcolico") Integer idAlcolico, @Param("idCarrello") Integer idCarrello);
+
+	void deleteByAlcolico_Id(Integer id_alcolico);
+
+	void deleteByCantina_Id(Integer id);
 }

@@ -13,4 +13,8 @@ public interface IProdottoDegustazioneRepository extends JpaRepository<ProdottoD
 	
 	@Query(name="prodottoDegustazione.searchByFilter")
 	List<ProdottoDegustazione> searchByFilter(@Param("idDegustazione")Integer id_degustazione,@Param("idCarrello") Integer id_carrello);
+
+	void deleteByCantina_Id(Integer id);
+
+	void deleteByDegustazione_Id(Integer id_degustazione);
 }
