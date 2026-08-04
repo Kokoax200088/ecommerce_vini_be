@@ -17,4 +17,10 @@ public interface IPrenotazioneDegustazioneRepository extends JpaRepository<Preno
 	    @Param("id_status") Integer id_status,
 	    @Param("id_cantina") Integer id_cantina
 	);
+
+	void deleteByCantina_Id(Integer id);
+
+	void deleteByDegustazione_Id(Integer id_degustazione);
+
+	void deleteByOrdine_Id(Integer id);
 }

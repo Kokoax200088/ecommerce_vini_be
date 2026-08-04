@@ -13,8 +13,14 @@ import com.betacom.ec.models.Colore;
 import com.betacom.ec.models.TipologiaAlcolico;
 import com.betacom.ec.models.Venditore;
 import com.betacom.ec.repository.IAlcolicoRepository;
+import com.betacom.ec.repository.IBoxAlcolicoRepository;
+import com.betacom.ec.repository.ICantinaAlcolicoRepository;
 import com.betacom.ec.repository.ICaratteristicaRepository;
 import com.betacom.ec.repository.IColoreRepository;
+import com.betacom.ec.repository.IImmagineAlcolicoRepository;
+import com.betacom.ec.repository.IOrdineAlcolicoRepository;
+import com.betacom.ec.repository.IProdottoAlcolicoRepository;
+import com.betacom.ec.repository.IRatingAlcolicoRepository;
 import com.betacom.ec.repository.ITipologiaAlcolicoRepository;
 import com.betacom.ec.repository.IVenditoreRepository;
 import com.betacom.ec.services.interfaces.IAlcolicoService;
@@ -35,6 +41,13 @@ public class AlcolicoImpl implements IAlcolicoService {
 	private final IColoreRepository coloreR;
 	private final ICaratteristicaRepository caratteristicaR;
 	private final IVenditoreRepository venditoreR;
+	
+	private final IImmagineAlcolicoRepository immagineAlcolicoRepository;
+	private final IBoxAlcolicoRepository boxAlcolicoRepository;
+	private final ICantinaAlcolicoRepository cantinaAlcolicoRepository;
+	private final IOrdineAlcolicoRepository ordineAlcolicoRepository;
+	private final IProdottoAlcolicoRepository prodottoAlcolicoRepository;
+	private final IRatingAlcolicoRepository ratingAlcolicoRepository;
 
 	@PersistenceContext
 	private EntityManager em;
@@ -112,6 +125,26 @@ public class AlcolicoImpl implements IAlcolicoService {
 
 		Alcolico a = alcolicoR.findById(id_alcolico)
 				.orElseThrow(() -> new EcommerceVinoException("alcolico.notFnd"));
+
+		immagineAlcolicoRepository.deleteByAlcolico_Id(id_alcolico);
+		boxAlcolicoRepository.deleteByAlcolico_Id(id_alcolico);
+		cantinaAlcolicoRepository.deleteByAlcolico_Id(id_alcolico);
+		ordineAlcolicoRepository.deleteByAlcolico_Id(id_alcolico);
+		prodottoAlcolicoRepository.deleteByAlcolico_Id(id_alcolico);
+		ratingAlcolicoRepository.deleteByAlcolico_Id(id_alcolico);
+
+		if (a.getListDegustazione() != null) {
+			a.getListDegustazione().forEach(degustazione -> degustazione.getListAlcolico().remove(a));
+		}
+		
+		if (a.getListCaratteristica() != null) {
+			a.getListCaratteristica().clear();
+		}
+
+		Venditore venditore = a.getVenditore();
+		if (venditore != null) {
+			venditore.getListAlcolico().remove(a);
+		}
 
 		alcolicoR.delete(a);
 	}

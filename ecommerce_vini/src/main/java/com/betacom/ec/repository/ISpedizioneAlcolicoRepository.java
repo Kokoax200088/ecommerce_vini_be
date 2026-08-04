@@ -18,4 +18,7 @@ public interface ISpedizioneAlcolicoRepository extends JpaRepository<SpedizioneA
 				@Param("id_status") Integer id_status,
 				@Param("id_cliente") Integer id_cliente,
 				@Param("id_venditore") Integer id_venditore); // <-- nuovo
+	void deleteByCantina_Id(Integer id);
+
+	void deleteByCliente_Id(Integer id);
 }

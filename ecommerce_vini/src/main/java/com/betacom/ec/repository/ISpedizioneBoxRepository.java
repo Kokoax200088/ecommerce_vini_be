@@ -18,4 +18,8 @@ public interface ISpedizioneBoxRepository extends JpaRepository<SpedizioneBox, I
 	    @Param("id_status") Integer id_status,
 	    @Param("id_ordine_box") Integer id_ordine_box
 	);
+
+	void deleteByCantina_Id(Integer id);
+
+	void deleteByCliente_Id(Integer id);
 }

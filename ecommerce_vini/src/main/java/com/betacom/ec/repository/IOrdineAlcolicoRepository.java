@@ -15,4 +15,10 @@ public interface IOrdineAlcolicoRepository extends JpaRepository<OrdineAlcolico,
 			@Param("id_status") Integer id_status,
 			@Param("id_alcolico") Integer id_alcolico,
 			@Param("id_cantina") Integer id_cantina);
+
+	void deleteByAlcolico_Id(Integer id_alcolico);
+
+	void deleteByCantina_Id(Integer id);
+
+	void deleteByOrdine_Id(Integer id);
 }

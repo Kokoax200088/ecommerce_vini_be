@@ -19,4 +19,6 @@ public interface IBoxAlcolicoRepository extends JpaRepository<BoxAlcolico, Integ
 			@Param("id_alcolico") Integer id_alcolico,
 			@Param("id_cantina") Integer id_cantina
 			);
+
+	void deleteByAlcolico_Id(Integer id_alcolico);
 }

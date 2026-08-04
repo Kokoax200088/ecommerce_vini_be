@@ -9,15 +9,26 @@ import com.betacom.ec.dto.input.CantinaReq;
 import com.betacom.ec.dto.output.CantinaDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.CantinaMap;
+import com.betacom.ec.models.Box;
 import com.betacom.ec.models.Cantina;
 import com.betacom.ec.models.Venditore;
 import com.betacom.ec.repository.ICantinaRepository;
 import com.betacom.ec.repository.IVenditoreRepository;
 import com.betacom.ec.repository.IImmagineCantinaRepository;
+import com.betacom.ec.repository.IOrdineAlcolicoRepository;
+import com.betacom.ec.repository.IOrdineBoxRepository;
+import com.betacom.ec.repository.IOrdineDegustazioneRepository;
+import com.betacom.ec.repository.IPrenotazioneDegustazioneRepository;
+import com.betacom.ec.repository.IProdottoAlcolicoRepository;
+import com.betacom.ec.repository.IProdottoBoxRepository;
+import com.betacom.ec.repository.IProdottoDegustazioneRepository;
 import com.betacom.ec.repository.IBoxRepository;
 import com.betacom.ec.repository.IDegustazioneRepository;
 import com.betacom.ec.repository.IRatingCantinaRepository;
+import com.betacom.ec.repository.ISpedizioneAlcolicoRepository;
+import com.betacom.ec.repository.ISpedizioneBoxRepository;
 import com.betacom.ec.repository.ICantinaAlcolicoRepository;
+import com.betacom.ec.services.interfaces.IBoxService;
 import com.betacom.ec.services.interfaces.ICantinaService;
 
 import jakarta.transaction.Transactional;
@@ -31,6 +42,18 @@ public class CantinaImpl implements ICantinaService {
 	private final ICantinaRepository cantinaRepository;
 	private final IVenditoreRepository venditoreRepository;
 	private final CantinaMap cantinaMap;
+	
+	private final IBoxService boxService;
+	private final IOrdineAlcolicoRepository ordineAlcolicoRepository;
+	private final IOrdineBoxRepository ordineBoxRepository;
+	private final IOrdineDegustazioneRepository ordineDegustazioneRepository;
+	private final IPrenotazioneDegustazioneRepository prenotazioneDegustazioneRepository;
+	private final IProdottoAlcolicoRepository prodottoAlcolicoRepository;
+	private final IProdottoBoxRepository prodottoBoxRepository;
+	private final IProdottoDegustazioneRepository prodottoDegustazioneRepository;
+	private final ISpedizioneAlcolicoRepository spedizioneAlcolicoRepository;
+	private final ISpedizioneBoxRepository spedizioneBoxRepository;
+	private final IRatingCantinaRepository ratingAlcolicoRepository;
 	
 	private final IImmagineCantinaRepository immagineCantinaRepository;
 	private final IBoxRepository boxRepository;
@@ -78,22 +101,38 @@ public class CantinaImpl implements ICantinaService {
 	@Transactional
 	@Override
 	public void delete(Integer id) throws Exception {
-		log.debug("Delete Cantina Manuale {}", id);
-		
-		Cantina cantina = cantinaRepository.findById(id).orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"));
-	
-		immagineCantinaRepository.deleteByCantina_Id(id);
-		boxRepository.deleteByCantina_Id(id);
-		degustazioneRepository.deleteByCantina_Id(id);
-		ratingCantinaRepository.deleteByCantina_Id(id);
-		cantinaAlcolicoRepository.deleteByCantina_Id(id);
-		
-		Venditore venditore = cantina.getVenditore();
-		if (venditore != null) {
-			venditore.getListCantina().remove(cantina);
-			}
+	    log.debug("Delete Cantina Manuale {}", id);
+	    
+	    Cantina cantina = cantinaRepository.findById(id)
+	            .orElseThrow(() -> new EcommerceVinoException("cantina.id_not_found"));
 
-		cantinaRepository.delete(cantina);
+	    if (cantina.getListBox() != null && !cantina.getListBox().isEmpty()) {
+	        for (Box box : cantina.getListBox()) {
+	            boxService.delete(box.getId());
+	        }
+	    }
+
+	    immagineCantinaRepository.deleteByCantina_Id(id);
+	    ratingCantinaRepository.deleteByCantina_Id(id);
+	    cantinaAlcolicoRepository.deleteByCantina_Id(id);
+	    degustazioneRepository.deleteByCantina_Id(id); 
+	    ordineAlcolicoRepository.deleteByCantina_Id(id);
+	    ordineBoxRepository.deleteByCantina_Id(id);
+	    ordineDegustazioneRepository.deleteByCantina_Id(id);
+	    prenotazioneDegustazioneRepository.deleteByCantina_Id(id);
+	    prodottoAlcolicoRepository.deleteByCantina_Id(id);
+	    prodottoBoxRepository.deleteByCantina_Id(id);
+	    prodottoDegustazioneRepository.deleteByCantina_Id(id);
+	    ratingAlcolicoRepository.deleteByCantina_Id(id);
+	    spedizioneAlcolicoRepository.deleteByCantina_Id(id);
+	    spedizioneBoxRepository.deleteByCantina_Id(id);
+
+	    Venditore venditore = cantina.getVenditore();
+	    if (venditore != null) {
+	        venditore.getListCantina().remove(cantina);
+	    }
+
+	    cantinaRepository.delete(cantina);
 	}
 	
 	@Transactional

@@ -11,4 +11,6 @@ import com.betacom.ec.models.ProdottoBox;
 public interface IProdottoBoxRepository extends JpaRepository<ProdottoBox, Integer>{
 	@Query(name = "prodottoBox.searchByFilter")
 	List<ProdottoBox> searchByFilter(@Param("idBox") Integer idBox, @Param("idCarrello") Integer idCarrello);
+
+	void deleteByCantina_Id(Integer id);
 }

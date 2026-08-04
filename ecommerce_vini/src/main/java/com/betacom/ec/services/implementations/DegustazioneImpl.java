@@ -15,6 +15,10 @@ import com.betacom.ec.models.Degustazione;
 import com.betacom.ec.repository.IAlcolicoRepository;
 import com.betacom.ec.repository.ICantinaRepository;
 import com.betacom.ec.repository.IDegustazioneRepository;
+import com.betacom.ec.repository.IImmagineDegustazioneRepository;
+import com.betacom.ec.repository.IOrdineDegustazioneRepository;
+import com.betacom.ec.repository.IPrenotazioneDegustazioneRepository;
+import com.betacom.ec.repository.IProdottoDegustazioneRepository;
 import com.betacom.ec.services.interfaces.IDegustazioneService;
 import com.betacom.ec.utils.Utilities;
 
@@ -30,7 +34,10 @@ public class DegustazioneImpl implements IDegustazioneService{
 	private final IAlcolicoRepository aR;
 	private final ICantinaRepository cR;
 	private final IDegustazioneRepository dR;
-	
+	private final IImmagineDegustazioneRepository immagineDegustazioneRepository;
+	private final IOrdineDegustazioneRepository ordineDegustazioneRepository;
+	private final IPrenotazioneDegustazioneRepository prenotazioneDegustazioneRepository;
+	private final IProdottoDegustazioneRepository prodottoDegustazioneRepository;
 	private final DegustazioneMap mapper;
 	
 	@Transactional
@@ -60,11 +67,29 @@ public class DegustazioneImpl implements IDegustazioneService{
 	}
 	
 	@Transactional
-	public void delete(Integer id_degustazione) throws Exception{
-		Degustazione d= dR.findById(id_degustazione)
-				.orElseThrow(() -> new EcommerceVinoException("ordine.ntfnd"));
-		dR.delete(d);
+	@Override
+	public void delete(Integer id_degustazione) throws Exception {
+	    log.debug("delete degustazione: {}", id_degustazione);
+	    
+	    Degustazione d = dR.findById(id_degustazione)
+	            .orElseThrow(() -> new EcommerceVinoException("degustazione.ntfnd"));
+
+	    immagineDegustazioneRepository.deleteByDegustazione_Id(id_degustazione);
+	    ordineDegustazioneRepository.deleteByDegustazione_Id(id_degustazione);
+	    prenotazioneDegustazioneRepository.deleteByDegustazione_Id(id_degustazione);
+	    prodottoDegustazioneRepository.deleteByDegustazione_Id(id_degustazione);
+
+	    if (d.getListAlcolico() != null) {
+	        d.getListAlcolico().clear();
+	    }
+
+	    if (d.getCantina() != null) {
+	        d.getCantina().getListDegustazione().remove(d);
+	    }
+
+	    dR.delete(d);
 	}
+	
 	@Transactional
 	public List<DegustazioneDTO> listWithParameters(String nome,
 			String descrizione,

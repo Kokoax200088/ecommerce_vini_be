@@ -13,4 +13,6 @@ public interface IImmagineAlcolicoRepository extends JpaRepository<ImmagineAlcol
 	List<ImmagineAlcolico> searchByFilter(
 			@Param("idAlcolico") Integer idAlcolico
 			);
+
+	void deleteByAlcolico_Id(Integer id_alcolico);
 }
