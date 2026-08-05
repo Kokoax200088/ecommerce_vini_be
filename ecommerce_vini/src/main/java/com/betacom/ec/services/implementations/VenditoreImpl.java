@@ -17,6 +17,7 @@ import com.betacom.ec.models.Ordine;
 import com.betacom.ec.models.Utente;
 import com.betacom.ec.models.Venditore;
 import com.betacom.ec.repository.IOrdineRepository;
+import com.betacom.ec.repository.IUtenteRepository;
 import com.betacom.ec.repository.IVenditoreRepository;
 import com.betacom.ec.services.interfaces.IAlcolicoService;
 import com.betacom.ec.services.interfaces.ICantinaService;
@@ -40,6 +41,7 @@ public class VenditoreImpl implements IVenditoreService{
 	private final IOrdineService ordineService;
 	private final IOrdineRepository ordineRepository;
 	
+	private final IUtenteRepository utenteRepository;
 	private final IVenditoreRepository venditoreRepository;
 	
 	private final VenditoreMap mapper;
@@ -101,7 +103,8 @@ public class VenditoreImpl implements IVenditoreService{
 	public void update(VenditoreRequest venditoreRequest) throws Exception {
 		log.debug("Update {}", venditoreRequest);
 		
-		Venditore venditore = venditoreRepository.findById(venditoreRequest.getId())
+		Utente utente = utenteRepository.findById(venditoreRequest.getId()).orElseThrow(() -> new EcommerceVinoException("utente.id_not_found"));
+		Venditore venditore = venditoreRepository.findById(utente.getVenditore().getId())
 								.orElseThrow(() -> new EcommerceVinoException("venditore.id_not_found"));
 	
 		Optional.ofNullable(venditoreRequest.getPartitaIva()).ifPresent(venditore::setPartitaIva);
