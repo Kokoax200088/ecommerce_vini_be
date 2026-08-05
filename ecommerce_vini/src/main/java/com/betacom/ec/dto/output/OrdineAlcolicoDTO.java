@@ -12,6 +12,7 @@ import lombok.ToString;
 public class OrdineAlcolicoDTO {
 	private Integer id;
 	private Integer id_ordine;
+	private Integer quantita;
 	private StatusDTO status;
 	private AlcolicoDTO alcolico;
 	private CantinaDTO cantina;

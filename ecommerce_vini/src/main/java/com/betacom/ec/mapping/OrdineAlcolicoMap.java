@@ -27,6 +27,7 @@ public class OrdineAlcolicoMap {
 				.alcolico(AlcolicoMap.buildAlcolicoDTO(o.getAlcolico()))
 				.cantina(cantinaMap.buildCantinaDTO(o.getCantina()))
 				.id_ordine(o.getOrdine().getId())
+				.quantita(o.getQuantita())
 				.build();
 	}
 }

@@ -7,11 +7,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import jakarta.persistence.JoinColumn;
+
+import java.util.List;
 
 @Setter
 @Getter
@@ -53,5 +56,8 @@ public class OrdineBox {
 
 	@Column(name="quantita", nullable = false)
 	private Integer quantita;
+
+	@OneToMany(mappedBy = "ordineBox")
+	private List<SpedizioneBox> spedizioni;
 	
 }
