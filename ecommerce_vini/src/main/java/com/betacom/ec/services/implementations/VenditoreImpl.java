@@ -24,6 +24,7 @@ import com.betacom.ec.services.interfaces.ICantinaService;
 import com.betacom.ec.services.interfaces.IOrdineService;
 import com.betacom.ec.services.interfaces.IUtenteService;
 import com.betacom.ec.services.interfaces.IVenditoreService;
+import com.betacom.ec.utils.Utilities;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -106,7 +107,10 @@ public class VenditoreImpl implements IVenditoreService{
 		Utente utente = utenteRepository.findById(venditoreRequest.getId()).orElseThrow(() -> new EcommerceVinoException("utente.id_not_found"));
 		Venditore venditore = venditoreRepository.findById(utente.getVenditore().getId())
 								.orElseThrow(() -> new EcommerceVinoException("venditore.id_not_found"));
-	
+
+		Optional.ofNullable(venditoreRequest.getCognome()).ifPresent(utente::setCognome);
+		Optional.ofNullable(venditoreRequest.getNome()).ifPresent(utente::setNome);
+		Optional.ofNullable(venditoreRequest.getDataNascita()).ifPresent(data -> utente.setDataNascita(Utilities.stringToDate(data)));
 		Optional.ofNullable(venditoreRequest.getPartitaIva()).ifPresent(venditore::setPartitaIva);
 	}
 	

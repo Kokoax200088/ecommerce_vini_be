@@ -28,6 +28,7 @@ import com.betacom.ec.services.interfaces.ICarrelloService;
 import com.betacom.ec.services.interfaces.IClienteService;
 import com.betacom.ec.services.interfaces.IOrdineService;
 import com.betacom.ec.services.interfaces.IUtenteService;
+import com.betacom.ec.utils.Utilities;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -135,6 +136,9 @@ public class ClienteImpl implements IClienteService{
 		Cliente cliente = clienteRepository.findById(utente.getCliente().getId())
 								.orElseThrow(() -> new EcommerceVinoException("cliente.id_not_found"));
 		
+		Optional.ofNullable(clienteRequest.getCognome()).ifPresent(utente::setCognome);
+		Optional.ofNullable(clienteRequest.getNome()).ifPresent(utente::setNome);
+		Optional.ofNullable(clienteRequest.getDataNascita()).ifPresent(data -> utente.setDataNascita(Utilities.stringToDate(data)));
 		Optional.ofNullable(clienteRequest.getIndirizzo()).ifPresent(cliente::setIndirizzo);
 		// il carrello non si modifica da qui
 		// stesso discorso per rating alcolico e rating cantina
