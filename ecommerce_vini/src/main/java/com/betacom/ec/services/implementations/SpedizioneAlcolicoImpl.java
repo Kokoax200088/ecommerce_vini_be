@@ -9,11 +9,8 @@ import com.betacom.ec.dto.input.SpedizioneAlcolicoReq;
 import com.betacom.ec.dto.output.SpedizioneAlcolicoDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.SpedizioneAlcolicoMap;
-import com.betacom.ec.models.Cantina;
-import com.betacom.ec.models.Cliente;
 import com.betacom.ec.models.OrdineAlcolico;
 import com.betacom.ec.models.SpedizioneAlcolico;
-import com.betacom.ec.models.Status;
 import com.betacom.ec.repository.ICantinaRepository;
 import com.betacom.ec.repository.IClienteRepository;
 import com.betacom.ec.repository.IOrdineAlcolicoRepository;
@@ -38,17 +35,25 @@ public class SpedizioneAlcolicoImpl implements ISpedizioneAlcolicoService{
 	
 	private final SpedizioneAlcolicoMap mapper;
 	@Transactional
-	public void create(SpedizioneAlcolicoReq req) throws Exception{
-		SpedizioneAlcolico sa = new SpedizioneAlcolico();
-		Optional.ofNullable(req.getId()).ifPresent(sa::setId);
-		sa.setCantina(cR.findById(req.getId_cantina()).orElseThrow( () -> new EcommerceVinoException("cantina.ntfnd")));
-		sa.setCliente(cliR.findById(req.getId_cliente()).orElseThrow( () -> new EcommerceVinoException("cliente.ntfnd")));
-		sa.setCodice_tracciamento(req.getCodice_tracciamento());
-		sa.setCorriere(req.getCorriere());
-		sa.setStatus(sR.findById(req.getId_status()).orElseThrow( () -> new EcommerceVinoException("status.ntfnd")));
-		sa.setOrdineAlcolico(oaR.findById(req.getId_ordine_alcolico()).orElseThrow( () -> new EcommerceVinoException("ordalc.ntfnd")));
-		
-		saR.save(sa);
+	public void create(SpedizioneAlcolicoReq req) throws Exception {
+	    SpedizioneAlcolico sa = new SpedizioneAlcolico();
+	    Optional.ofNullable(req.getId()).ifPresent(sa::setId);
+	    sa.setCantina(cR.findById(req.getId_cantina()).orElseThrow(() -> new EcommerceVinoException("cantina.ntfnd")));
+
+	    OrdineAlcolico oa = oaR.findById(req.getId_ordine_alcolico())
+	        .orElseThrow(() -> new EcommerceVinoException("ordalc.ntfnd"));
+
+	    Integer idUtente = oa.getOrdine().getUtente().getId();
+	    Integer idCliente = cliR.findIdByUtenteId(idUtente)
+	        .orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd"));
+	    sa.setCliente(cliR.getReferenceById(idCliente)); 
+
+	    sa.setCodice_tracciamento(req.getCodice_tracciamento());
+	    sa.setCorriere(req.getCorriere());
+	    sa.setStatus(sR.findById(req.getId_status()).orElseThrow(() -> new EcommerceVinoException("status.ntfnd")));
+	    sa.setOrdineAlcolico(oa);
+
+	    saR.save(sa);
 	}
 
 	@Transactional

@@ -131,7 +131,7 @@ public class OrdineTest {
 	@Test
 	@Order(6)
 	public void listOrdineTest() throws Exception {
-		ResponseEntity<?> response = oC.list(null, 50.0,null,null,null);
+		ResponseEntity<?> response = oC.list(null, 50.0,null,null,null, null);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<OrdineDTO> oS= (List<OrdineDTO>) response.getBody(); //non ho capito il warning
 		Assertions.assertThat(oS.size()).isGreaterThan(0);
@@ -144,7 +144,7 @@ public class OrdineTest {
 	public void getByIdOrdineTest() throws Exception {
 		log.debug("getByIdOrdineTest");
 		
-		ResponseEntity<Object> response = oC.getOrdineById(1);
+		ResponseEntity<Object> response = oC.getOrdineById(1,null);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		OrdineDTO dto = (OrdineDTO)response.getBody();
 		log.debug(dto.toString());

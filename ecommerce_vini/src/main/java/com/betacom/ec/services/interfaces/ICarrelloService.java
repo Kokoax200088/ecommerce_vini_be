@@ -8,4 +8,5 @@ public interface ICarrelloService {
 	List<CarrelloDTO> list();
 	CarrelloDTO getById(Integer id) throws Exception;
 	void svuota(Integer id) throws Exception;
+	void delete(Integer id) throws Exception;
 }

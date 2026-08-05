@@ -20,6 +20,7 @@ import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.dto.output.SpedizioneAlcolicoDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
+import com.betacom.ec.repository.IClienteRepository;
 import com.betacom.ec.repository.IVenditoreRepository;
 import com.betacom.ec.services.interfaces.ISpedizioneAlcolicoService;
 
@@ -33,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SpedizioneAlcolicoController {
 	private final ISpedizioneAlcolicoService saS;
 	private final IVenditoreRepository vR;
+	private final IClienteRepository cR;
 
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
@@ -68,12 +70,22 @@ public class SpedizioneAlcolicoController {
 
 		boolean isVenditore = authentication.getAuthorities().stream()
 				.anyMatch(a -> a.getAuthority().equals("ROLE_VENDITORE"));
+		boolean isCliente = authentication.getAuthorities().stream()
+				.anyMatch(a -> a.getAuthority().equals("ROLE_CLIENTE"));
 
 		Integer idVenditore = null;
 
 		if (isVenditore) {
 			String email = authentication.getName();
-			idVenditore = vR.findIdByUtenteEmail(email).orElseThrow(() -> new EcommerceVinoException("spedalc.ntfnd"));
+			idVenditore = vR.findIdByUtenteEmail(email).orElseThrow(() -> new EcommerceVinoException("utente.ntfnd"));
+		}
+
+		if (isCliente) {
+			String email = authentication.getName();
+			log.info("DEBUG isCliente=true email={}", email);
+			int id_utente = cR.findIdByUtenteEmail(email).orElseThrow(() -> new EcommerceVinoException("utenteId.ntfnd"));
+			id_cliente = cR.findIdByUtenteId(id_utente).orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd"));
+			log.info("DEBUG isCliente=true email={} id_cliente_risolto={}", email, id_cliente);
 		}
 
 		return ResponseEntity.ok(
@@ -82,9 +94,26 @@ public class SpedizioneAlcolicoController {
 	}
 
 	@GetMapping("getSpedizioneAlcolicoById")
-	public ResponseEntity<Object> getSpedizioneAlcolicoById(@RequestParam(required = true) Integer id)
-			throws Exception {
-		return ResponseEntity.ok(saS.getById(id));
-	}
+	public ResponseEntity<Object> getSpedizioneAlcolicoById(@RequestParam(required = true) Integer id,
+			Authentication authentication) throws Exception {
 
+		Object result = saS.getById(id);
+
+		boolean isCliente = authentication.getAuthorities().stream()
+				.anyMatch(a -> a.getAuthority().equals("ROLE_CLIENTE"));
+
+		if (isCliente && result instanceof SpedizioneAlcolicoDTO spedizione) {
+			String email = authentication.getName();
+			Integer idClienteAutenticato = cR.findIdByUtenteEmail(email)
+					.orElseThrow(() -> new EcommerceVinoException("spedalc.ntfnd"));
+
+			Integer idClienteSpedizione = spedizione.getCliente() != null ? spedizione.getCliente().getId() : null;
+
+			if (!idClienteAutenticato.equals(idClienteSpedizione)) {
+				throw new EcommerceVinoException("spedalc.forbidden");
+			}
+		}
+
+		return ResponseEntity.ok(result);
+	}
 }

@@ -1,5 +1,6 @@
 package com.betacom.ec.services.implementations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,12 +13,14 @@ import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.VenditoreMap;
 import com.betacom.ec.models.Alcolico;
 import com.betacom.ec.models.Cantina;
+import com.betacom.ec.models.Ordine;
 import com.betacom.ec.models.Utente;
 import com.betacom.ec.models.Venditore;
-import com.betacom.ec.repository.IUtenteRepository;
+import com.betacom.ec.repository.IOrdineRepository;
 import com.betacom.ec.repository.IVenditoreRepository;
 import com.betacom.ec.services.interfaces.IAlcolicoService;
 import com.betacom.ec.services.interfaces.ICantinaService;
+import com.betacom.ec.services.interfaces.IOrdineService;
 import com.betacom.ec.services.interfaces.IUtenteService;
 import com.betacom.ec.services.interfaces.IVenditoreService;
 
@@ -34,7 +37,9 @@ public class VenditoreImpl implements IVenditoreService{
 	private final ICantinaService cantinaService;
 	private final IAlcolicoService alcolicoService;
 	
-	private final IUtenteRepository utenteRepository;
+	private final IOrdineService ordineService;
+	private final IOrdineRepository ordineRepository;
+	
 	private final IVenditoreRepository venditoreRepository;
 	
 	private final VenditoreMap mapper;
@@ -56,26 +61,39 @@ public class VenditoreImpl implements IVenditoreService{
 	@Transactional
 	@Override
 	public void delete(Integer id) throws Exception {
-		log.debug("Delete {}", id);
-		
-		Venditore venditore = venditoreRepository.findById(id)
-								.orElseThrow(() -> new EcommerceVinoException("venditore.id_not_found"));
-		
-		if(venditore.getListCantina() != null && !venditore.getListCantina().isEmpty()) {
-			for(Cantina cantina : venditore.getListCantina()) {
-				cantinaService.delete(cantina.getId());
-			}
-		}
-		
-		if(venditore.getListAlcolico() != null && !venditore.getListAlcolico().isEmpty()) {
-			for(Alcolico alcolico : venditore.getListAlcolico()) {
-				alcolicoService.remove(alcolico.getId()); 
-			}
-		}
-		
-		utenteRepository.delete(venditore.getUtente());
-		venditoreRepository.delete(venditore);
-		
+	    log.debug("Delete {}", id);
+	    
+	    Venditore venditore = venditoreRepository.findById(id)
+	                            .orElseThrow(() -> new EcommerceVinoException("venditore.id_not_found"));
+	    
+	    if (venditore.getListCantina() != null && !venditore.getListCantina().isEmpty()) {
+	        List<Cantina> cantineDaEliminare = new ArrayList<>(venditore.getListCantina());
+	        for (Cantina cantina : cantineDaEliminare) {
+	            cantinaService.delete(cantina.getId());
+	        }
+	        venditore.getListCantina().clear();
+	    }
+	    
+	    if (venditore.getListAlcolico() != null && !venditore.getListAlcolico().isEmpty()) {
+	        List<Alcolico> alcoliciDaEliminare = new ArrayList<>(venditore.getListAlcolico());
+	        for (Alcolico alcolico : alcoliciDaEliminare) {
+	            alcolicoService.remove(alcolico.getId()); 
+	        }
+	        venditore.getListAlcolico().clear();
+	    }
+	    
+	    Utente utente = venditore.getUtente();
+	    if (utente != null) {
+	        List<Ordine> ordiniUtente = ordineRepository.findByUtente_Id(utente.getId());
+	        if (ordiniUtente != null && !ordiniUtente.isEmpty()) {
+	            for (Ordine ordine : ordiniUtente) {
+	                ordineService.delete(ordine.getId());
+	            }
+	            ordineRepository.flush();
+	        }
+	    }
+	    
+	    venditoreRepository.delete(venditore);
 	}
 	
 	@Transactional

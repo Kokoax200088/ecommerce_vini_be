@@ -21,4 +21,5 @@ public interface ISpedizioneAlcolicoRepository extends JpaRepository<SpedizioneA
 	void deleteByCantina_Id(Integer id);
 
 	void deleteByCliente_Id(Integer id);
+	
 }

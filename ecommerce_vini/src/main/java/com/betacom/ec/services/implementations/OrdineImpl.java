@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 
 import com.betacom.ec.dto.input.OrdineReq;
 import com.betacom.ec.dto.output.OrdineDTO;
+import com.betacom.ec.dto.output.SpedizioneAlcolicoDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.OrdineMap;
 import com.betacom.ec.models.Ordine;
+import com.betacom.ec.models.SpedizioneAlcolico;
 import com.betacom.ec.models.Status;
 import com.betacom.ec.models.Utente;
 import com.betacom.ec.repository.IOrdineAlcolicoRepository;
@@ -119,6 +121,17 @@ public class OrdineImpl implements IOrdineService{
 	@Transactional
 	public List<OrdineDTO>searchByVenditore(LocalDate data,Double totale,Integer id_status,Integer id_utente,String indirizzo_destinazione,Integer idVenditore){
 		List<Ordine> lO = oR.searchByVenditore(data, totale, id_status, id_utente, indirizzo_destinazione, idVenditore);
+		return mapper.buildOrdineDTOList(lO);
+	}
+	
+	@Transactional
+	public List<OrdineDTO> searchByCliente(LocalDate data,
+			Double totale,
+			Integer id_status,
+			Integer id_utente,
+			String indirizzo_destinazione,
+			Integer id_venditore) {
+		List<Ordine> lO = oR.searchByCliente(data, totale, id_status, id_utente, indirizzo_destinazione, id_venditore);
 		return mapper.buildOrdineDTOList(lO);
 	}
 /*	

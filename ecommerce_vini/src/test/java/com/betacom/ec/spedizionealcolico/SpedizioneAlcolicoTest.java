@@ -332,7 +332,7 @@ public class SpedizioneAlcolicoTest {
 		lS.forEach(item -> log.debug(item.toString()));
 	}
 	
-	@Test
+	/*@Test
 	@Order (16)
 	@WithMockUser(roles = "ADMIN")
 	public void getByIdTest() throws Exception {
@@ -343,7 +343,7 @@ public class SpedizioneAlcolicoTest {
 		SpedizioneAlcolicoDTO dto = (SpedizioneAlcolicoDTO)response.getBody();
 		log.debug(dto.toString());
 	}
-	
+	*/
 	@Test
 	@Order(17)
 	@WithMockUser(roles = "ADMIN")

@@ -51,16 +51,46 @@ public class CarrelloImpl implements ICarrelloService{
 	@Override
 	public void svuota(Integer id) throws Exception {
 		log.debug("svuota Cart {}", id);
-		Carrello cart = carR.findById(id)
-				.orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
-		paR.deleteAll(cart.getListaProdottoAlcolico());
-		pbR.deleteAll(cart.getListaProdottoBox());
-		pdR.deleteAll(cart.getListaProdottoDegustazione());
+		try {
+			Carrello cart = carR.findById(id)
+					.orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
+			paR.deleteAll(cart.getListaProdottoAlcolico());
+			pbR.deleteAll(cart.getListaProdottoBox());
+			pdR.deleteAll(cart.getListaProdottoDegustazione());
 
-		cart.getListaProdottoAlcolico().clear();
-		cart.getListaProdottoBox().clear();
-		cart.getListaProdottoDegustazione().clear();
-		cart.setTotale(0.0);
-		cart.setQuantità(0);
+			cart.getListaProdottoAlcolico().clear();
+			cart.getListaProdottoBox().clear();
+			cart.getListaProdottoDegustazione().clear();
+			cart.setTotale(0.0);
+			cart.setQuantità(0);
+		}catch (Exception e) {
+			log.error("Error while emptying cart: {}", e.getMessage());
+			throw new EcommerceVinoException("cart_empty_error");
+		}
+		
+	}
+	
+	@Transactional
+	@Override
+	public void delete(Integer id) throws Exception {
+		log.debug("delete Cart {}", id);
+		
+		try {
+			Carrello cart = carR.findById(id)
+					.orElseThrow(() -> new EcommerceVinoException("client_ntfnd"));
+
+			svuota(id);
+
+			if (cart.getCliente() != null) {
+				cart.getCliente().setCarrello(null);
+			}
+
+			carR.delete(cart);
+		}catch (Exception e) {
+			log.error("Error while deleting cart: {}", e.getMessage());
+			throw new EcommerceVinoException("cart_delete_error");
+		}
+		
+		
 	}
 }

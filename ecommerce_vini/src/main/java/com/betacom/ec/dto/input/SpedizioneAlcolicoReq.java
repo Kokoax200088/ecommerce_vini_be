@@ -19,7 +19,6 @@ public class SpedizioneAlcolicoReq {
 	private String codice_tracciamento;
 	@NotNull(groups=ValidationGroups.Create.class, message="cantina_missing")
 	private Integer id_cantina;
-	@NotNull(groups=ValidationGroups.Create.class, message="cliente_missing")
 	private Integer id_cliente;
 	@NotNull(groups=ValidationGroups.Create.class, message="status_missing")
 	private Integer id_status;

@@ -21,6 +21,7 @@ import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.OrdineDTO;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
+import com.betacom.ec.repository.IClienteRepository;
 import com.betacom.ec.repository.IVenditoreRepository;
 import com.betacom.ec.services.interfaces.IOrdineService;
 
@@ -32,47 +33,60 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/rest/api/ordine")
 public class OrdineController {
-	
-private final IOrdineService oS;
-private final IVenditoreRepository vR;
+
+	private final IOrdineService oS;
+	private final IVenditoreRepository vR;
+	private final IClienteRepository cR;
+
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
-			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) OrdineReq req) throws Exception{
-			OrdineDTO creato = oS.create(req);
-			return ResponseEntity.ok(ResponseDTO.builder()
-					.msg("created...")
-					.id(creato.getId())
-					.build());
+			@RequestBody(required = true) @Validated(ValidationGroups.Create.class) OrdineReq req) throws Exception {
+		OrdineDTO creato = oS.create(req);
+		return ResponseEntity.ok(ResponseDTO.builder()
+				.msg("created...")
+				.id(creato.getId())
+				.build());
 	}
-	
+
 	@PatchMapping("update")
 	public ResponseEntity<ResponseDTO> update(
-			@RequestBody (required = true) @Validated(ValidationGroups.Update.class) OrdineReq req) throws Exception {
-			oS.update(req);
-			return ResponseEntity.ok(ResponseDTO.builder()
-					.msg("updated...")
-					.build());
+			@RequestBody(required = true) @Validated(ValidationGroups.Update.class) OrdineReq req) throws Exception {
+		oS.update(req);
+		return ResponseEntity.ok(ResponseDTO.builder()
+				.msg("updated...")
+				.build());
 	}
-	
+
 	@DeleteMapping("delete/{id}")
 	public ResponseEntity<ResponseDTO> delete(
-			@PathVariable (required = true) Integer id
-			) throws Exception{
-			oS.delete(id);
-			return ResponseEntity.ok(ResponseDTO.builder()
-					.msg("deleted...")
-					.build());
+			@PathVariable(required = true) Integer id) throws Exception {
+		oS.delete(id);
+		return ResponseEntity.ok(ResponseDTO.builder()
+				.msg("deleted...")
+				.build());
 	}
-	
+
 	@GetMapping("list")
-	public ResponseEntity<List<OrdineDTO>> list(@RequestParam(required = false)LocalDate data, 
-			@RequestParam(required = false)Double totale, 
-			@RequestParam(required = false)Integer id_status, 
-			@RequestParam(required = false)Integer id_utente, 
-			@RequestParam(required = false)String indirizzo_destinazione) {
-		return ResponseEntity.ok(oS.listWithParameters(data,totale,id_status,id_utente,indirizzo_destinazione));
+	public ResponseEntity<List<OrdineDTO>> list(
+			@RequestParam(required = false) LocalDate data,
+			@RequestParam(required = false) Double totale,
+			@RequestParam(required = false) Integer id_status,
+			@RequestParam(required = false) Integer id_utente,
+			@RequestParam(required = false) String indirizzo_destinazione,
+			Authentication authentication) {
+
+		boolean isCliente = authentication != null && authentication.isAuthenticated()
+				&& authentication.getAuthorities().stream()
+						.anyMatch(a -> a.getAuthority().equals("ROLE_CLIENTE"));
+
+		if (isCliente) {
+			id_utente = cR.findIdByUtenteEmail(authentication.getName())
+					.orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd"));
+		}
+
+		return ResponseEntity.ok(oS.listWithParameters(data, totale, id_status, id_utente, indirizzo_destinazione));
 	}
-	
+
 	@GetMapping("searchByVenditore")
 	public ResponseEntity<List<OrdineDTO>> searchByVenditore(
 			@RequestParam(required = false) LocalDate data,
@@ -85,6 +99,15 @@ private final IVenditoreRepository vR;
 		boolean isVenditore = authentication != null && authentication.isAuthenticated()
 				&& authentication.getAuthorities().stream()
 						.anyMatch(a -> a.getAuthority().equals("ROLE_VENDITORE"));
+		boolean isCliente = authentication.getAuthorities().stream()
+				.anyMatch(a -> a.getAuthority().equals("ROLE_CLIENTE"));
+
+		if (isCliente) {
+			id_utente = cR.findIdByUtenteEmail(authentication.getName())
+					.orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd"));
+			return ResponseEntity.ok(
+					oS.listWithParameters(data, totale, id_status, id_utente, indirizzo_destinazione));
+		}
 
 		Integer idVenditore = null;
 		if (isVenditore) {
@@ -95,8 +118,29 @@ private final IVenditoreRepository vR;
 		return ResponseEntity.ok(
 				oS.searchByVenditore(data, totale, id_status, id_utente, indirizzo_destinazione, idVenditore));
 	}
+
 	@GetMapping("getOrdineById")
-	public ResponseEntity<Object> getOrdineById(@RequestParam (required = true) Integer id) throws Exception{
-		return ResponseEntity.ok(oS.getById(id)) ;
+	public ResponseEntity<Object> getOrdineById(
+			@RequestParam(required = true) Integer id,
+			Authentication authentication) throws Exception {
+
+		OrdineDTO ordine = oS.getById(id);
+
+		boolean isCliente = authentication != null && authentication.isAuthenticated()
+				&& authentication.getAuthorities().stream()
+						.anyMatch(a -> a.getAuthority().equals("ROLE_CLIENTE"));
+
+		if (isCliente) {
+			Integer idUtenteAutenticato = cR.findIdByUtenteEmail(authentication.getName())
+					.orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd"));
+
+			Integer idUtenteOrdine = ordine.getUtente() != null ? ordine.getUtente().getId() : null;
+
+			if (!idUtenteAutenticato.equals(idUtenteOrdine)) {
+				throw new EcommerceVinoException("ordine.forbidden");
+			}
+		}
+
+		return ResponseEntity.ok(ordine);
 	}
 }
