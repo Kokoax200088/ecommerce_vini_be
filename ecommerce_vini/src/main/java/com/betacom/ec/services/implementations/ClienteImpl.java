@@ -23,6 +23,7 @@ import com.betacom.ec.repository.IRatingAlcolicoRepository;
 import com.betacom.ec.repository.IRatingCantinaRepository;
 import com.betacom.ec.repository.ISpedizioneAlcolicoRepository;
 import com.betacom.ec.repository.ISpedizioneBoxRepository;
+import com.betacom.ec.repository.IUtenteRepository;
 import com.betacom.ec.services.interfaces.ICarrelloService;
 import com.betacom.ec.services.interfaces.IClienteService;
 import com.betacom.ec.services.interfaces.IOrdineService;
@@ -39,6 +40,7 @@ public class ClienteImpl implements IClienteService{
 	private final IUtenteService utenteService;
 	
 	private final IClienteRepository clienteRepository;
+	private final IUtenteRepository utenteRepository;
 	private final ICarrelloRepository carrelloRepository;
     private final ClienteMap clienteMap;
 	
@@ -129,7 +131,8 @@ public class ClienteImpl implements IClienteService{
 	public void update(ClienteRequest clienteRequest) throws Exception {
 		log.debug("Update Cliente {}", clienteRequest);
 		
-		Cliente cliente = clienteRepository.findById(clienteRequest.getId())
+		Utente utente = utenteRepository.findById(clienteRequest.getId()).orElseThrow(() -> new EcommerceVinoException("utente.id_not_found"));
+		Cliente cliente = clienteRepository.findById(utente.getCliente().getId())
 								.orElseThrow(() -> new EcommerceVinoException("cliente.id_not_found"));
 		
 		Optional.ofNullable(clienteRequest.getIndirizzo()).ifPresent(cliente::setIndirizzo);

@@ -123,8 +123,13 @@ public class OrdineImpl implements IOrdineService{
 		List<Ordine> lO = oR.searchByVenditore(data, totale, id_status, id_utente, indirizzo_destinazione, idVenditore);
 		return mapper.buildOrdineDTOList(lO);
 	}
+<<<<<<< HEAD
 	/*
 	@Transactional
+=======
+	
+	/*@Transactional
+>>>>>>> 9232ce4aa6c7c1df3e4f8fefe7c6cb825a2ea925
 	public List<OrdineDTO> searchByCliente(LocalDate data,
 			Double totale,
 			Integer id_status,
@@ -134,7 +139,11 @@ public class OrdineImpl implements IOrdineService{
 		List<Ordine> lO = oR.searchByCliente(data, totale, id_status, id_utente, indirizzo_destinazione, id_venditore);
 		return mapper.buildOrdineDTOList(lO);
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 9232ce4aa6c7c1df3e4f8fefe7c6cb825a2ea925
 	@Transactional
 	public void addListOrdineAlcolico(Integer id_ordine_alcolico,Integer id_ordine) throws Exception{
 		OrdineAlcolico oa = oaR.findById(id_ordine_alcolico).orElseThrow( () -> new EcommerceVinoException("ordalc.ntfnd"));
