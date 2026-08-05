@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -50,7 +49,7 @@ public class SpedizioneAlcolico {
 			)
 	private Status status;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "id_ordine_alcolico", referencedColumnName = "id",
 	    foreignKey = @ForeignKey(name = "fk_spedizione_ordine_alcolico"))
 	private OrdineAlcolico ordineAlcolico;
