@@ -30,6 +30,7 @@ public class OrdineBoxMap {
 				.box(boxMap.buildBoxDTO(o.getBox()))
 				.cantina(cantinaMap.buildCantinaDTO(o.getCantina()))
 				.id_ordine(o.getOrdine().getId())
+				.quantita(o.getQuantita())
 				.build();
 	}
 }
