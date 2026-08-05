@@ -40,6 +40,9 @@ public class DegustazioneImpl implements IDegustazioneService{
 	private final IProdottoDegustazioneRepository prodottoDegustazioneRepository;
 	private final DegustazioneMap mapper;
 	
+	private final IDegustazioneRepository degustazioneRepository;
+	
+	
 	@Transactional
 	public DegustazioneDTO create(DegustazioneReq req) throws Exception{
 		Degustazione d = new Degustazione();
@@ -68,26 +71,18 @@ public class DegustazioneImpl implements IDegustazioneService{
 	
 	@Transactional
 	@Override
-	public void delete(Integer id_degustazione) throws Exception {
-	    log.debug("delete degustazione: {}", id_degustazione);
+	public void delete(Integer id) throws Exception {
+	    log.debug("delete degustazione: {}", id);
 	    
-	    Degustazione d = dR.findById(id_degustazione)
-	            .orElseThrow(() -> new EcommerceVinoException("degustazione.ntfnd"));
-
-	    immagineDegustazioneRepository.deleteByDegustazione_Id(id_degustazione);
-	    ordineDegustazioneRepository.deleteByDegustazione_Id(id_degustazione);
-	    prenotazioneDegustazioneRepository.deleteByDegustazione_Id(id_degustazione);
-	    prodottoDegustazioneRepository.deleteByDegustazione_Id(id_degustazione);
-
-	    if (d.getListAlcolico() != null) {
-	        d.getListAlcolico().clear();
-	    }
-
-	    if (d.getCantina() != null) {
-	        d.getCantina().getListDegustazione().remove(d);
-	    }
-
-	    dR.delete(d);
+	    Degustazione degustazione = degustazioneRepository.findById(id)
+	            .orElseThrow(() -> new EcommerceVinoException("degustazione.not_found"));
+	    
+	    immagineDegustazioneRepository.deleteByDegustazione_Id(id);
+	    ordineDegustazioneRepository.deleteByDegustazione_Id(id);
+	    prenotazioneDegustazioneRepository.deleteByDegustazione_Id(id);
+	    prodottoDegustazioneRepository.deleteByDegustazione_Id(id);
+	   
+	    degustazioneRepository.delete(degustazione);
 	}
 	
 	@Transactional

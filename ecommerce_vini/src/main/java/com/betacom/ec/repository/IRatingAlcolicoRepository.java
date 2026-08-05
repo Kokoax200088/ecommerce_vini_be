@@ -20,4 +20,6 @@ public interface IRatingAlcolicoRepository extends JpaRepository<RatingAlcolico,
 	void deleteByAlcolico_Id(Integer id_alcolico);
 
 	void deleteByCliente_Id(Integer id);
+
+	void deleteByCantina_Id(Integer id);
 }

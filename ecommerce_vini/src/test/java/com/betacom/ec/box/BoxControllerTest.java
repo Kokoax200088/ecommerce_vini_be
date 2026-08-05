@@ -64,7 +64,7 @@ public class BoxControllerTest {
     public void setupDatabase() throws Exception {
         log.debug("{} - Setup DB inizio per BoxController",this.getClass().getName());
         
-    	RuoloRequest rUser = new RuoloRequest();
+        RuoloRequest rUser = new RuoloRequest();
         rUser.setNome("user");
         rUser.setCanBuy(true);
         rUser.setCanManage(false);
@@ -83,14 +83,14 @@ public class BoxControllerTest {
         log.debug("Creazione cliente: {}", clienteReq);
         clienteC.create(clienteReq);
 
-		RuoloRequest rSeller = new RuoloRequest();
-		rSeller.setNome("seller");
-		rSeller.setCanManage(false);
-		rSeller.setCanBuy(false);
-		rSeller.setCanSell(true);
-				log.debug("Creazione ruolo seller: {}", rSeller);
-		ruoloC.create(rSeller);
-		
+        RuoloRequest rSeller = new RuoloRequest();
+        rSeller.setNome("seller");
+        rSeller.setCanManage(false);
+        rSeller.setCanBuy(false);
+        rSeller.setCanSell(true);
+        log.debug("Creazione ruolo seller: {}", rSeller);
+        ruoloC.create(rSeller);
+        
         VenditoreRequest vendReq = new VenditoreRequest();
         vendReq.setNome("Caio");
         vendReq.setCognome("Ilario");
@@ -104,7 +104,8 @@ public class BoxControllerTest {
         
         CantinaReq cantinaReq = new CantinaReq();
         cantinaReq.setNome("Cantina di Prova Service");
-        //cantinaReq.setVenditoreId(venditoreRepo.findByEmail("c.maio.service@gmail.com").getId());
+        // RECUPERO DINAMICO DEL VENDITORE APPENA CREATO
+        cantinaReq.setVenditoreId(venditoreRepo.findAll().getFirst().getId());
         cantinaReq.setPosizione("posizione");
         log.debug("Creazione cantina: {}", cantinaReq);
         cantinaC.create(cantinaReq);
@@ -114,24 +115,25 @@ public class BoxControllerTest {
         boxReq.setNome("Box Degustazione Lusso");
         boxReq.setSconto(15.0);
         boxReq.setCantinaId(cantinaRepo.searchByFilter("Cantina di Prova Service", null).getFirst().getId());
-    	
-    	MvcResult result = mockMvc.perform(post("/rest/api/box/create")
+        
+        MvcResult result = mockMvc.perform(post("/rest/api/box/create")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(boxReq)))
                 .andDo(log())
                 .andReturn(); 
         
         int statusCode = result.getResponse().getStatus();
-        assertEquals(201,result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
+        assertEquals(201, result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
             
         log.debug("Setup DB completo per BoxController");
     }
 
     @Test
     public void updateBox() throws Exception {
-    	
         log.debug("Test: updateBox");
         BoxReq req = new BoxReq();
+        
+        req.setId(boxRepo.searchByFilter("Box Degustazione Lusso", null).getFirst().getId());
         req.setNome("Box Degustazione Lusso Aggiornato");
         req.setSconto(25.0);
         req.setCantinaId(cantinaRepo.searchByFilter("Cantina di Prova Service", null).getFirst().getId());
@@ -143,19 +145,19 @@ public class BoxControllerTest {
                 .andReturn(); 
         
         int statusCode = result.getResponse().getStatus();
-        assertEquals(200,result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
+        assertEquals(200, result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
     }
 
     @Test
     public void getBoxById() throws Exception {
-    	log.debug("Test: getBoxById");    	
-    	MvcResult result = mockMvc.perform(
-    			get("/rest/api/box/get/{id}",boxRepo.searchByFilter("Box Degustazione Lusso", null).getFirst().getId()))
+        log.debug("Test: getBoxById");      
+        MvcResult result = mockMvc.perform(
+                get("/rest/api/box/get/{id}", boxRepo.searchByFilter("Box Degustazione Lusso", null).getFirst().getId()))
                 .andDo(log())
                 .andReturn(); 
         
         int statusCode = result.getResponse().getStatus();
-        assertEquals(200,result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
+        assertEquals(200, result.getResponse().getStatus(), "Codice HTTP  " + statusCode);
     }
 
     @Test
@@ -173,10 +175,12 @@ public class BoxControllerTest {
     @Test
     public void listBoxFiltered() throws Exception {
         log.debug("Test: listBox (con filtri param)");
+        
+        String cantinaId = String.valueOf(cantinaRepo.searchByFilter("Cantina di Prova Service", null).getFirst().getId());
 
         MvcResult result = mockMvc.perform(get("/rest/api/box/list")
                 .param("nome", "Lusso")
-                .param("idCantina", "1"))
+                .param("idCantina", cantinaId))
                 .andDo(log())
                 .andReturn();
                 
@@ -188,7 +192,7 @@ public class BoxControllerTest {
     public void deleteBox() throws Exception {
         log.debug("Test: deleteBox");
         
-        MvcResult result = mockMvc.perform(delete("/rest/api/box/delete/{id}",boxRepo.searchByFilter("Box Degustazione Lusso", null).getFirst().getId()))
+        MvcResult result = mockMvc.perform(delete("/rest/api/box/delete/{id}", boxRepo.searchByFilter("Box Degustazione Lusso", null).getFirst().getId()))
                 .andDo(log())
                 .andReturn();
                 

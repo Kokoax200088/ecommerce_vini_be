@@ -46,7 +46,6 @@ public class SpedizioneAlcolicoImpl implements ISpedizioneAlcolicoService{
 	    Integer idUtente = oa.getOrdine().getUtente().getId();
 	    Integer idCliente = cliR.findIdByUtenteId(idUtente)
 	        .orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd"));
-
 	    sa.setCliente(cliR.getReferenceById(idCliente)); 
 
 	    sa.setCodice_tracciamento(req.getCodice_tracciamento());
@@ -100,17 +99,5 @@ public class SpedizioneAlcolicoImpl implements ISpedizioneAlcolicoService{
 		SpedizioneAlcolico sa = saR.findById(id_spedizione)
 				.orElseThrow(()-> new EcommerceVinoException("status.ntfnd"));
 		return mapper.buildSpedizioneAlcolicoDTO(sa);
-	}
-	
-	@Transactional
-	public List<SpedizioneAlcolicoDTO> searchByCliente(String corriere,
-			String codice_tracciamento,
-			Integer id_cantina,
-			Integer id_ordine_alcolico,
-			Integer id_status,
-			Integer id_cliente,
-			Integer id_venditore) {
-		List<SpedizioneAlcolico> lS = saR.searchByCliente(corriere, codice_tracciamento, id_cantina, id_ordine_alcolico, id_status, id_cliente, id_venditore);
-		return mapper.buildSpedizioneAlcolicoDTOList(lS);
 	}
 }

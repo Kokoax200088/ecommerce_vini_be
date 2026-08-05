@@ -22,13 +22,4 @@ public interface ISpedizioneAlcolicoRepository extends JpaRepository<SpedizioneA
 
 	void deleteByCliente_Id(Integer id);
 	
-	@Query(name = "spedizioneAlcolico.searchByCliente")
-	List<SpedizioneAlcolico> searchByCliente(
-			@Param("corriere") String corriere,
-			@Param("codice_tracciamento") String codice_tracciamento,
-			@Param("id_cantina") Integer id_cantina,
-			@Param("id_ordine_alcolico") Integer id_ordine_alcolico,
-			@Param("id_status") Integer id_status,
-			@Param("id_cliente") Integer id_cliente,
-			@Param("id_venditore") Integer id_venditore);
 }
