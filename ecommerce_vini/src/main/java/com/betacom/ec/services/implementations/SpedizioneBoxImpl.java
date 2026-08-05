@@ -9,6 +9,10 @@ import com.betacom.ec.dto.input.SpedizioneBoxReq;
 import com.betacom.ec.dto.output.SpedizioneBoxDTO;
 import com.betacom.ec.exception.EcommerceVinoException;
 import com.betacom.ec.mapping.SpedizioneBoxMap;
+<<<<<<< HEAD
+=======
+import com.betacom.ec.models.OrdineAlcolico;
+>>>>>>> main
 import com.betacom.ec.models.OrdineBox;
 import com.betacom.ec.models.SpedizioneBox;
 import com.betacom.ec.repository.ICantinaRepository;
@@ -38,6 +42,7 @@ public class SpedizioneBoxImpl implements ISpedizioneBoxService{
 	@Transactional
 	public void create(SpedizioneBoxReq req) throws Exception{
 		SpedizioneBox sb = new SpedizioneBox();
+<<<<<<< HEAD
 		//Optional.ofNullable(req.getId()).ifPresent(sb::setId);
 		sb.setCantina(cR.findById(req.getId_cantina()).orElseThrow( () -> new EcommerceVinoException("cantina.ntfnd")));
 		
@@ -49,10 +54,19 @@ public class SpedizioneBoxImpl implements ISpedizioneBoxService{
 					.orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd"));
 		
 		sb.setCliente(cliR.findById(idCliente).orElseThrow( () -> new EcommerceVinoException("cliente.ntfnd")));
+=======
+		sb.setCantina(cR.findById(req.getId_cantina()).orElseThrow( () -> new EcommerceVinoException("cantina.ntfnd")));
+		OrdineBox ob = obR.findById(req.getId_ordbox())
+		        .orElseThrow(() -> new EcommerceVinoException("ordalc.ntfnd"));
+		Integer idUtente = ob.getOrdine().getUtente().getId();
+		    Integer idCliente = cliR.findIdByUtenteId(idUtente)
+		        .orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd"));
+		    sb.setCliente(cliR.getReferenceById(idCliente)); 
+>>>>>>> main
 		sb.setCodice_tracciamento(req.getCodice_tracciamento());
 		sb.setCorriere(req.getCorriere());
 		sb.setStatus(sR.findById(req.getId_status()).orElseThrow( () -> new EcommerceVinoException("status.ntfnd")));
-		sb.setOrdineBox(obR.findById(req.getId_ordbox()).orElseThrow( () -> new EcommerceVinoException("ordbox.ntfnd")));
+		sb.setOrdineBox(ob);
 		sbR.save(sb);
 	}
 
@@ -63,9 +77,6 @@ public class SpedizioneBoxImpl implements ISpedizioneBoxService{
 		Optional.ofNullable(req.getId_cantina())
         .map(id -> cR.findById(id).orElseThrow(() -> new EcommerceVinoException("cantina.ntfnd")))
         .ifPresent(sb::setCantina);
-		Optional.ofNullable(req.getId_cliente())
-        .map(id -> cliR.findById(id).orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd")))
-        .ifPresent(sb::setCliente);
 		Optional.ofNullable(req.getCorriere()).ifPresent(sb::setCorriere);
 		Optional.ofNullable(req.getCodice_tracciamento()).ifPresent(sb::setCodice_tracciamento);
 		Optional.ofNullable(req.getId_status())
