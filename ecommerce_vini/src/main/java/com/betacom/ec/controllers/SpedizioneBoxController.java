@@ -3,6 +3,7 @@ package com.betacom.ec.controllers;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,8 @@ import com.betacom.ec.dto.input.SpedizioneBoxReq;
 import com.betacom.ec.dto.input.ValidationGroups;
 import com.betacom.ec.dto.output.ResponseDTO;
 import com.betacom.ec.dto.output.SpedizioneBoxDTO;
+import com.betacom.ec.exception.EcommerceVinoException;
+import com.betacom.ec.repository.IClienteRepository;
 import com.betacom.ec.services.interfaces.ISpedizioneBoxService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SpedizioneBoxController {
 	
 	private final ISpedizioneBoxService sbS;
-	
+	private final IClienteRepository cR;
 	@PostMapping("create")
 	public ResponseEntity<ResponseDTO> create(
 			@RequestBody (required = true) @Validated(ValidationGroups.Create.class) SpedizioneBoxReq req) throws Exception{
@@ -63,10 +66,24 @@ public class SpedizioneBoxController {
 	public ResponseEntity<List<SpedizioneBoxDTO>> list(@RequestParam(required = false)String corriere,
 			@RequestParam(required = false)String codice_tracciamento,
 			@RequestParam(required = false)Integer id_cantina, 
-			@RequestParam(required = false)Integer id_ordine_alcolico,
+			@RequestParam(required = false)Integer id_ordine_box,
 			@RequestParam(required = false)Integer id_cliente,
-			@RequestParam(required = false)Integer id_status) {
-		return ResponseEntity.ok(sbS.listWithParameters(corriere,codice_tracciamento,id_cantina,id_ordine_alcolico,id_cliente,id_status));
+			@RequestParam(required = false)Integer id_status,
+			Authentication authentication) {
+
+		boolean isCliente = authentication.getAuthorities().stream()
+				.anyMatch(a -> a.getAuthority().equals("ROLE_CLIENTE"));
+
+		if (isCliente) {
+			String email = authentication.getName();
+			log.info("DEBUG isCliente=true email={}", email);
+			int id_utente = cR.findIdByUtenteEmail(email).orElseThrow(() -> new EcommerceVinoException("utenteId.ntfnd"));
+			id_cliente = cR.findIdByUtenteId(id_utente).orElseThrow(() -> new EcommerceVinoException("cliente.ntfnd"));
+			log.info("DEBUG isCliente=true email={} id_cliente_risolto={}", email, id_cliente);
+		}
+
+		return ResponseEntity.ok(
+				sbS.listWithParameters(corriere, codice_tracciamento, id_cantina, id_ordine_box, id_cliente, id_status));
 	}
 	@GetMapping("getSpedizioneBoxById")
 	public ResponseEntity<Object> getSpedizioneBoxById(@RequestParam (required = true) Integer id) throws Exception{
