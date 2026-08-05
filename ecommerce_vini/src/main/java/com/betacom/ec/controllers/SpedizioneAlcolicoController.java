@@ -64,7 +64,6 @@ public class SpedizioneAlcolicoController {
 			@RequestParam(required = false) String codice_tracciamento,
 			@RequestParam(required = false) Integer id_cantina,
 			@RequestParam(required = false) Integer id_ordine_alcolico,
-			@RequestParam(required = false) Integer id_cliente,
 			@RequestParam(required = false) Integer id_status,
 			Authentication authentication) {
 
@@ -74,7 +73,7 @@ public class SpedizioneAlcolicoController {
 				.anyMatch(a -> a.getAuthority().equals("ROLE_CLIENTE"));
 
 		Integer idVenditore = null;
-
+		Integer id_cliente = null;
 		if (isVenditore) {
 			String email = authentication.getName();
 			idVenditore = vR.findIdByUtenteEmail(email).orElseThrow(() -> new EcommerceVinoException("utente.ntfnd"));

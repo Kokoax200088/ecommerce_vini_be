@@ -267,7 +267,7 @@ public class SpedizioneBoxTest {
 	@Test
 	@Order(12)
 	public void listSpedizioneBoxTest() throws Exception {
-		ResponseEntity<?> response = sbC.list(null,"UPDATE",null,null,null,null);
+		ResponseEntity<?> response = sbC.list(null,"UPDATE",null,null,null,null,null);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<SpedizioneBoxDTO> lS= (List<SpedizioneBoxDTO>) response.getBody(); //non ho capito il warning
 		Assertions.assertThat(lS.size()).isGreaterThan(0);

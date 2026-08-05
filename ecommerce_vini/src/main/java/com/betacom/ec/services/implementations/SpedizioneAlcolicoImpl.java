@@ -37,7 +37,6 @@ public class SpedizioneAlcolicoImpl implements ISpedizioneAlcolicoService{
 	@Transactional
 	public void create(SpedizioneAlcolicoReq req) throws Exception {
 	    SpedizioneAlcolico sa = new SpedizioneAlcolico();
-	    Optional.ofNullable(req.getId()).ifPresent(sa::setId);
 	    sa.setCantina(cR.findById(req.getId_cantina()).orElseThrow(() -> new EcommerceVinoException("cantina.ntfnd")));
 
 	    OrdineAlcolico oa = oaR.findById(req.getId_ordine_alcolico())
